@@ -18,7 +18,7 @@
 
 第一步：迁移后台，完成完整的商城管理系统，目前基本已经完成，至于有bug大家可以直接issue或者进群交流（后面会打出来的(⊙o⊙)？！！），
 功能大概包括：商品管理，商品多规格属性管理，商品分类，商品品牌，商品订单，会员信息等等。
-涉及到技术：springboot+Thymeleaf+mybatis
+涉及到技术： **springboot+Thymeleaf+mybatis** 
 
 大致效果如下：
 <table>
@@ -40,7 +40,7 @@
     
 
 第二步：迁移小程序API，此步骤刚刚启动，大家别慌，但是项目里我已经把API该有的已经封装在了系统了
-涉及到技术：springboot+mybatis-plus+jwt+mapstruct+lombok+redis+swagger
+涉及到技术： **springboot+mybatis-plus+jwt+mapstruct+lombok+redis+swagger** 
 大致如下效果：
 1、http://localhost:8009/auth/login 登陆授权
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0627/110842_45244c28_477893.png "微信截图_20190627110826.png")
@@ -52,7 +52,7 @@
 大致效果如下：
 <table>
     <tr>
-        <td><img src="https://images.gitee.com/uploads/images/2019/0830/181113_1b7f255a_477893.jpeg"/></td>
+        <td><img  src="https://images.gitee.com/uploads/images/2019/0830/181113_1b7f255a_477893.jpeg"/></td>
         <td><img src="https://images.gitee.com/uploads/images/2019/0830/181123_0c86c94c_477893.jpeg"/></td>
     </tr>
     <tr>
@@ -69,6 +69,7 @@
 
 
 **学习交流** 
+
 qq群:907721261
 
 ****Requirement:****  
