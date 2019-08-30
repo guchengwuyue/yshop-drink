@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.app.common.persistence.dao.StoreOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.app.common.persistence.model.StoreOrder">
+        <id column="order_id" property="orderId" />
+        <result column="store_id" property="storeId" />
+        <result column="order_sn" property="orderSn" />
+        <result column="user_id" property="userId" />
+        <result column="order_status" property="orderStatus" />
+        <result column="shipping_status" property="shippingStatus" />
+        <result column="pay_status" property="payStatus" />
+        <result column="consignee" property="consignee" />
+        <result column="country" property="country" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="district" property="district" />
+        <result column="twon" property="twon" />
+        <result column="city_info" property="cityInfo" />
+        <result column="address" property="address" />
+        <result column="zipcode" property="zipcode" />
+        <result column="mobile" property="mobile" />
+        <result column="email" property="email" />
+        <result column="receive_type" property="receiveType" />
+        <result column="shipping_code" property="shippingCode" />
+        <result column="shipping_name" property="shippingName" />
+        <result column="pay_code" property="payCode" />
+        <result column="pay_method" property="payMethod" />
+        <result column="recharge_id" property="rechargeId" />
+        <result column="pay_name" property="payName" />
+        <result column="invoice_title" property="invoiceTitle" />
+        <result column="taxpayer" property="taxpayer" />
+        <result column="goods_price" property="goodsPrice" />
+        <result column="shipping_price" property="shippingPrice" />
+        <result column="user_money" property="userMoney" />
+        <result column="coupon_price" property="couponPrice" />
+        <result column="red_price" property="redPrice" />
+        <result column="red_id" property="redId" />
+        <result column="integral" property="integral" />
+        <result column="integral_money" property="integralMoney" />
+        <result column="order_amount" property="orderAmount" />
+        <result column="total_amount" property="totalAmount" />
+        <result column="add_time" property="addTime" />
+        <result column="shipping_time" property="shippingTime" />
+        <result column="confirm_time" property="confirmTime" />
+        <result column="pay_time" property="payTime" />
+        <result column="transaction_id" property="transactionId" />
+        <result column="prom_id" property="promId" />
+        <result column="prom_type" property="promType" />
+        <result column="order_prom_id" property="orderPromId" />
+        <result column="order_prom_amount" property="orderPromAmount" />
+        <result column="edit_money" property="editMoney" />
+        <result column="discount" property="discount" />
+        <result column="user_note" property="userNote" />
+        <result column="admin_note" property="adminNote" />
+        <result column="parent_sn" property="parentSn" />
+        <result column="is_distribut" property="isDistribut" />
+        <result column="paid_money" property="paidMoney" />
+        <result column="deleted_time" property="deletedTime" />
+        <result column="deleted" property="deleted" />
+        <result column="is_checkout" property="isCheckout" />
+        <result column="give_points" property="givePoints" />
+        <result column="unique_number" property="uniqueNumber" />
+        <result column="store_type" property="storeType" />
+        <result column="unique_qrcode" property="uniqueQrcode" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增商品规格(独立)')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-spec-add">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">商品模型：</label>
+                <div class="col-sm-8">
+                    <select class="form-control" name="typeId" id="selectObj">
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">规格名称：</label>
+                <div class="col-sm-8">
+                    <input name="name" class="form-control" type="text" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">规格项：</label>
+                <div class="col-sm-8">
+                    <textarea required rows="3" type="text" name="specItem" class="form-control" placeholder="一行为一个规格项，多个规格项用换行输入"></textarea>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "shop/spec"
+        $("#form-spec-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-spec-add').serialize());
+            }
+        }
+
+        $(document).ready(function (){
+            var options = [];
+            var selectObj = $("#selectObj");
+            var optionValue = 0;
+            var optionName = '';
+            var row = null;
+            var optionStr = '';
+            var config = {
+                url: "/shop/type/list",
+                type: "post",
+                dataType: "json",
+                data: {pageSize:100},
+                success: function(data) {
+                    for (var i = 0;i < data.total;i++) {
+                        row = data.rows[i];
+                        optionValue = row.id;
+                        optionName = row.name;
+                        options.push("<option value="+optionValue+">"+optionName+"</option>");
+                    }
+                    optionStr = options.join('');
+
+                    selectObj.html(optionStr);
+                }
+            };
+            $.ajax(config)
+        })
+    </script>
+</body>
+</html>

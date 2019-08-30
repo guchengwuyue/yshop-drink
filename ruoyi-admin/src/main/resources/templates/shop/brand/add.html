@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增产品品牌')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-brand-add">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">品牌logo</label>
+                <div class="col-sm-8">
+                    <input name="brandLogo" id="imgUrl" class="form-control" type="hidden">
+                    <input id="fileinput-demo-1" name="file" type="file" multiple>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品品牌名称：</label>
+                <div class="col-sm-8">
+                    <input name="brandTitle" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品品牌描述：</label>
+                <div class="col-sm-8">
+                    <input name="brandDesc" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: bootstrap-fileinput-css" />
+    <th:block th:include="include :: bootstrap-fileinput-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "shop/brand"
+        $("#form-brand-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-brand-add').serialize());
+            }
+        }
+        $(document).ready(function () {
+            $("#fileinput-demo-1").fileinput({
+                'theme': 'explorer-fas',
+                'uploadUrl': '/common/upload',
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                initialPreview: [
+                    //"/img/profile.jpg"
+                ]
+            });
+
+            $("#fileinput-demo-1").on("fileuploaded", function (event, data, previewId, index) {
+                console.log(data.response);
+                if(data.response.code == 0){
+                    $('#imgUrl').val(data.response.url);
+                }
+            })
+        });
+    </script>
+</body>
+</html>

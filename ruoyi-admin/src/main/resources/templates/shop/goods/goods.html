@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('商品主列表')" />
+    <th:block th:include="include :: layout-latest-css" />
+    <th:block th:include="include :: ztree-css" />
+</head>
+<body class="gray-bg">
+    <div class="ui-layout-west">
+    <div class="box box-main">
+        <div class="box-header">
+            <div class="box-title">
+                <i class="fa icon-grid"></i> 所属分类
+            </div>
+            <div class="box-tools pull-right">
+<!--                <a type="button" class="btn btn-box-tool" href="#" onclick="dept()" title="管理部门"><i class="fa fa-edit"></i></a>-->
+                <button type="button" class="btn btn-box-tool" id="btnExpand" title="展开" style="display:none;"><i class="fa fa-chevron-up"></i></button>
+                <button type="button" class="btn btn-box-tool" id="btnCollapse" title="折叠"><i class="fa fa-chevron-down"></i></button>
+                <button type="button" class="btn btn-box-tool" id="btnRefresh" title="刷新部门"><i class="fa fa-refresh"></i></button>
+            </div>
+        </div>
+        <div class="ui-layout-content">
+            <div id="tree" class="ztree"></div>
+        </div>
+    </div>
+</div>
+
+    <div class="ui-layout-center">
+         <div class="container-div">
+            <div class="row">
+                <div class="col-sm-12 search-collapse">
+                    <form id="formId">
+                        <input type="hidden" id="parentId" name="parentId">
+                        <input type="hidden" id="cateId" name="cateId">
+                        <div class="select-list">
+                            <ul>
+                                <li>
+                                    <p>商品编号：</p>
+                                    <input type="text" name="goodsSn"/>
+                                </li>
+                                <li>
+                                    <p>商品名称：</p>
+                                    <input type="text" name="goodsName"/>
+                                </li>
+                                <li>
+                                    <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                    <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="btn-group-sm" id="toolbar" role="group">
+                    <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="shop:goods:add">
+                        <i class="fa fa-plus"></i> 添加
+                    </a>
+                    <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="shop:goods:edit">
+                        <i class="fa fa-edit"></i> 修改
+                    </a>
+                    <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="shop:goods:remove">
+                        <i class="fa fa-remove"></i> 删除
+                    </a>
+                    <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="shop:goods:export">
+                        <i class="fa fa-download"></i> 导出
+                     </a>
+                </div>
+                <div class="col-sm-12 select-table table-striped">
+                    <table id="bootstrap-table" data-mobile-responsive="true"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: layout-latest-js" />
+    <th:block th:include="include :: ztree-js" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('shop:goods:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('shop:goods:remove')}]];
+        var prefix = ctx + "shop/goods";
+
+        $(function() {
+            var panehHidden = false;
+            if ($(this).width() < 769) {
+                panehHidden = true;
+            }
+            $('body').layout({ initClosed: panehHidden, west__size: 185 });
+            queryGoodsList();
+            queryCateTree();
+        });
+
+        function queryGoodsList(){
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                updateSpecUrl: prefix + "/editSpec/{id}/{type_id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "商品",
+                columns: [{
+                    checkbox: true
+                },
+                    {
+                        field : 'goodsId',
+                        title : '商品',
+                        visible: false
+                    },
+                    {
+                        field : 'cateId',
+                        title : '分类',
+                        visible: false
+                    },
+                    {
+                        field : 'goodsSn',
+                        title : '商品编号'
+                    },
+                    {
+                        field : 'goodsName',
+                        title : '商品名称'
+                    },
+                    {
+                        field : 'brandName',
+                        title : '品牌'
+                    },
+                    {
+                        field : 'storeCount',
+                        title : '库存'
+                    },
+                    {
+                        field : 'marketPrice',
+                        title : '市场价(零售价)'
+                    },
+                    {
+                        field : 'shopPrice',
+                        title : '本店价(供货价)'
+                    },
+                    // {
+                    //     field : 'isOnSale',
+                    //     title : '是否上架',
+                    //     formatter: function(value, row, index){
+                    //         return value == 1 ? '销售中' : '未上架';
+                    //     }
+                    // },
+                    {
+                        //visible: editFlag == 'hidden' ? false : true,
+                        title: '是否上架',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            return statusTools(row,1);
+                        }
+                    },
+                    {
+                        field : 'sort',
+                        title : '商品排序'
+                    },
+                    // {
+                    //     field : 'isRecommend',
+                    //     title : '是否推荐',
+                    //     formatter: function(value, row, index){
+                    //         return value == 1 ? '已推荐' : '未推荐';
+                    //     }
+                    // },
+                    {
+                        //visible: editFlag == 'hidden' ? false : true,
+                        title: '是否推荐',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            return statusTools(row,2);
+                        }
+                    },
+                    // {
+                    //     field : 'isNew',
+                    //     title : '是否新品',
+                    //     formatter: function(value, row, index){
+                    //         return value == 1 ? '是' : '不是';
+                    //     }
+                    // },
+                    {
+                        //visible: editFlag == 'hidden' ? false : true,
+                        title: '是否新品',
+                        align: 'center',
+                        formatter: function (value, row, index) {
+                            return statusTools(row,3);
+                        }
+                    },
+                    {
+                        title: '操作',
+                        align: 'center',
+                        formatter: function(value, row, index) {
+                            var actions = [];
+                            actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.editSpec(\'' + row.goodsId + '\',\'' + row.goodsType + '\')"><i class="fa fa-edit"></i>规格属性</a> ');
+                            actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.goodsId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                            actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.goodsId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                            return actions.join('');
+                        }
+                    }]
+            };
+            $.table.init(options);
+        }
+
+        function queryCateTree(){
+            var url = ctx + "shop/cate/treeData";
+            var options = {
+                url: url,
+                expandLevel: 2,
+                onClick : zOnClick
+            };
+            $.tree.init(options);
+
+            function zOnClick(event, treeId, treeNode) {
+                $("#cateId").val(treeNode.id);
+                $("#parentId").val(treeNode.pId);
+                $.table.search();
+            }
+        }
+
+        $('#btnExpand').click(function() {
+            $._tree.expandAll(true);
+            $(this).hide();
+            $('#btnCollapse').show();
+        });
+
+        $('#btnCollapse').click(function() {
+            $._tree.expandAll(false);
+            $(this).hide();
+            $('#btnExpand').show();
+        });
+
+        $('#btnRefresh').click(function() {
+            queryCateTree();
+        });
+
+        function statusTools(row,type) {
+            //上架
+            if(type == 1){
+                if (row.isOnSale == 0) {
+                    return '<i class=\"fa fa-toggle-off text-info fa-2x\" onclick="enable(\'' + row.goodsId + '\',1)"></i> ';
+                } else {
+                    return '<i class=\"fa fa-toggle-on text-info fa-2x\" onclick="disable(\'' + row.goodsId + '\',1)"></i> ';
+                }
+            }
+
+            //推荐
+            if(type == 2){
+                if (row.isRecommend == 0) {
+                    return '<i class=\"fa fa-toggle-off text-info fa-2x\" onclick="enable(\'' + row.goodsId + '\',2)"></i> ';
+                } else {
+                    return '<i class=\"fa fa-toggle-on text-info fa-2x\" onclick="disable(\'' + row.goodsId + '\',2)"></i> ';
+                }
+            }
+
+            //新品
+            if(type == 3){
+                if (row.isNew == 0) {
+                    return '<i class=\"fa fa-toggle-off text-info fa-2x\" onclick="enable(\'' + row.goodsId + '\',3)"></i> ';
+                } else {
+                    return '<i class=\"fa fa-toggle-on text-info fa-2x\" onclick="disable(\'' + row.goodsId + '\',3)"></i> ';
+                }
+            }
+
+        }
+
+
+        function disable(goodsId,type) {
+            if(type == 1){
+                $.modal.confirm("确认要下架吗？", function() {
+                    $.operate.post(prefix + "/changeStatus", { "goodsId": goodsId, "isOnSale": 0 });
+                })
+            }
+
+            if(type == 2){
+                $.modal.confirm("确认要取消推荐吗？", function() {
+                    $.operate.post(prefix + "/changeStatus", { "goodsId": goodsId, "isRecommend": 0 });
+                })
+            }
+
+            if(type == 3){
+                $.modal.confirm("确认要取消新品吗？", function() {
+                    $.operate.post(prefix + "/changeStatus", { "goodsId": goodsId, "isNew": 0 });
+                })
+            }
+
+        }
+
+
+        function enable(goodsId,type) {
+            if(type == 1){
+                $.modal.confirm("确认要上架吗？", function() {
+                    $.operate.post(prefix + "/changeStatus", { "goodsId": goodsId, "isOnSale": 1 });
+                })
+            }
+
+            if(type == 2){
+                $.modal.confirm("确认要推荐吗？", function() {
+                    $.operate.post(prefix + "/changeStatus", { "goodsId": goodsId, "isRecommend": 1 });
+                })
+            }
+
+            if(type == 3){
+                $.modal.confirm("确认要设置新品吗？", function() {
+                    $.operate.post(prefix + "/changeStatus", { "goodsId": goodsId, "isNew": 1 });
+                })
+            }
+
+        }
+
+        $(function() {
+
+        });
+    </script>
+</body>
+</html>

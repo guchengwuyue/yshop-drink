@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改商城会员信息')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-member-edit" th:object="${storeMember}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">会员手机号：</label>
+                <div class="col-sm-8">
+                    <input name="phone" th:field="*{phone}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">会员昵称：</label>
+                <div class="col-sm-8">
+                    <input name="nickname" th:field="*{nickname}" class="form-control" type="text">
+                </div>
+            </div>
+<!--            <div class="form-group">    -->
+<!--                <label class="col-sm-3 control-label">会员级别：</label>-->
+<!--                <div class="col-sm-8">-->
+<!--                    <input name="level" th:field="*{level}" class="form-control" type="text">-->
+<!--                </div>-->
+<!--            </div>-->
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "shop/member";
+        $("#form-member-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-member-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

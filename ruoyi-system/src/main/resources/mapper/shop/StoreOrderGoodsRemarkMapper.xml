@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.StoreOrderGoodsRemarkMapper">
+    
+    <resultMap type="StoreOrderGoodsRemark" id="StoreOrderGoodsRemarkResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectStoreOrderGoodsRemarkVo">
+        select id, order_id, goods_id, remark from store_order_goods_remark
+    </sql>
+
+    <select id="selectStoreOrderGoodsRemarkList" parameterType="StoreOrderGoodsRemark" resultMap="StoreOrderGoodsRemarkResult">
+        <include refid="selectStoreOrderGoodsRemarkVo"/>
+        <where>  
+            <if test="orderId != null "> and order_id = #{orderId}</if>
+            <if test="goodsId != null "> and goods_id = #{goodsId}</if>
+        </where>
+    </select>
+    
+    <select id="selectStoreOrderGoodsRemarkById" parameterType="Integer" resultMap="StoreOrderGoodsRemarkResult">
+        <include refid="selectStoreOrderGoodsRemarkVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStoreOrderGoodsRemark" parameterType="StoreOrderGoodsRemark" useGeneratedKeys="true" keyProperty="id">
+        insert into store_order_goods_remark
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null ">order_id,</if>
+            <if test="goodsId != null ">goods_id,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null ">#{orderId},</if>
+            <if test="goodsId != null ">#{goodsId},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStoreOrderGoodsRemark" parameterType="StoreOrderGoodsRemark">
+        update store_order_goods_remark
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null ">order_id = #{orderId},</if>
+            <if test="goodsId != null ">goods_id = #{goodsId},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStoreOrderGoodsRemarkById" parameterType="Integer">
+        delete from store_order_goods_remark where id = #{id}
+    </delete>
+
+    <delete id="deleteStoreOrderGoodsRemarkByIds" parameterType="String">
+        delete from store_order_goods_remark where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增商品')" />
+    <th:block th:include="include :: summernote-css" />
+    <style>
+        .hidden-xs {
+            display: inline !important;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-goods-add">
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><span style="color: red; ">*</span>分类：</label>
+                <div class="col-sm-10">
+                    <div class="input-group">
+                        <input id="treeId" name="cateId" type="hidden" th:value="0"/>
+                        <input  onclick="selectCateTree()" id="treeName" type="text" placeholder="请选择分类" class="form-control" required>
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">品牌：</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="brandId" id="selectObj2">
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-2 control-label">商品编号：</label>
+                <div class="col-sm-10">
+                    <input name="goodsSn" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-2 control-label">商品名称：</label>
+                <div class="col-sm-10">
+                    <input name="goodsName" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">主图: </label>
+                <div class="col-sm-10">
+                    <input name="goodsLogo" id="imgUrl" class="form-control" type="hidden">
+                    <input id="fileinput-demo-1" name="file" type="file" multiple>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-2 control-label">市场价(零售价)：</label>
+                <div class="col-sm-10">
+                    <input name="marketPrice" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-2 control-label">本店价(供货价)：</label>
+                <div class="col-sm-10">
+                    <input name="shopPrice" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-2 control-label">商品关键词：</label>
+                <div class="col-sm-10">
+                    <input name="keywords" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">商品描述：</label>
+                <div class="col-sm-10">
+                    <textarea name="goodsRemark" class="form-control" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">商品详情：</label>
+                <div class="col-sm-10">
+                    <input id="goodsContent" name="goodsContent" type="hidden">
+                    <div class="summernote"></div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-2 control-label">商品排序：</label>
+                <div class="col-sm-10">
+                    <input name="sort" class="form-control" type="text" required>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: bootstrap-fileinput-css" />
+    <th:block th:include="include :: bootstrap-fileinput-js" />
+    <th:block th:include="include :: summernote-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "shop/goods"
+        $("#form-goods-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-goods-add').serialize());
+            }
+        }
+
+        function selectCateTree() {
+            var options = {
+                title: '商城商品分类选择',
+                width: "380",
+                url:  "/shop/cate/selectCateTree/" + $("#treeId").val(),
+                callBack: doSubmit
+            };
+            $.modal.openOptions(options);
+        }
+        function doSubmit(index, layero){
+            var body = layer.getChildFrame('body', index);
+            $("#treeId").val(body.find('#treeId').val());
+            $("#treeName").val(body.find('#treeName').val());
+            layer.close(index);
+        }
+
+        $('.summernote').summernote({
+            placeholder: '请输入内容',
+            height : 192,
+            lang : 'zh-CN',
+            followingToolbar: false,
+            callbacks: {
+                onImageUpload: function (files) {
+                    sendFile(files[0], this);
+                }
+            }
+        });
+
+        // 上传文件
+        function sendFile(file, obj) {
+            var data = new FormData();
+            data.append("file", file);
+            $.ajax({
+                type: "POST",
+                url: ctx + "common/upload",
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function(result) {
+                    if (result.code == web_status.SUCCESS) {
+                        $(obj).summernote('editor.insertImage', result.url, result.fileName);
+                    } else {
+                        $.modal.alertError(result.msg);
+                    }
+                },
+                error: function(error) {
+                    $.modal.alertWarning("图片上传失败。");
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $("#fileinput-demo-1").fileinput({
+                'theme': 'explorer-fas',
+                'uploadUrl': '/common/upload',
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                initialPreview: [
+                    //"/img/profile.jpg"
+                ]
+            });
+
+            $("#fileinput-demo-1").on("fileuploaded", function (event, data, previewId, index) {
+                console.log(data.response);
+                if(data.response.code == 0){
+                    $('#imgUrl').val(data.response.url);
+                }
+            });
+
+
+            //品牌
+            var options2 = [];
+            var selectObj2 = $("#selectObj2");
+            var optionValue2 = 0;
+            var optionName2 = '';
+            var row2 = null;
+            var optionStr2 = '';
+            var config2 = {
+                url: "/shop/brand/list",
+                type: "post",
+                dataType: "json",
+                data: {pageSize:100},
+                success: function(data) {
+                    for (var i = 0;i < data.total;i++) {
+                        row2 = data.rows[i];
+                        optionValue2 = row2.id;
+                        optionName2 = row2.brandTitle;
+                        options2.push("<option value="+optionValue2+">"+optionName2+"</option>");
+                    }
+                    optionStr2 = options2.join('');
+
+                    selectObj2.html(optionStr2);
+                }
+            };
+            $.ajax(config2)
+
+        });
+    </script>
+
+</body>
+</html>

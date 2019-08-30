@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.StoreCouponMapper">
+    
+    <resultMap type="StoreCoupon" id="StoreCouponResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="money"    column="money"    />
+        <result property="condition"    column="condition"    />
+        <result property="createnum"    column="createnum"    />
+        <result property="sendNum"    column="send_num"    />
+        <result property="useNum"    column="use_num"    />
+        <result property="sendStartTime"    column="send_start_time"    />
+        <result property="sendEndTime"    column="send_end_time"    />
+        <result property="useStartTime"    column="use_start_time"    />
+        <result property="useEndTime"    column="use_end_time"    />
+        <result property="addTime"    column="add_time"    />
+        <result property="status"    column="status"    />
+        <result property="useType"    column="use_type"    />
+    </resultMap>
+
+    <sql id="selectStoreCouponVo">
+        select id, `name`, `type`, money, `condition`, createnum, send_num, use_num, send_start_time, send_end_time, use_start_time, use_end_time, add_time, `status`, use_type from store_coupon
+    </sql>
+
+    <select id="selectStoreCouponList" parameterType="StoreCoupon" resultMap="StoreCouponResult">
+        <include refid="selectStoreCouponVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and `name` like concat('%', #{name}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectStoreCouponById" parameterType="Integer" resultMap="StoreCouponResult">
+        <include refid="selectStoreCouponVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStoreCoupon" parameterType="StoreCoupon" useGeneratedKeys="true" keyProperty="id">
+        insert into store_coupon
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">`name`,</if>
+            <if test="type != null ">`type`,</if>
+            <if test="money != null ">money,</if>
+            <if test="condition != null ">`condition`,</if>
+            <if test="createnum != null ">createnum,</if>
+            <if test="sendNum != null ">send_num,</if>
+            <if test="useNum != null ">use_num,</if>
+            <if test="sendStartTime != null ">send_start_time,</if>
+            <if test="sendEndTime != null ">send_end_time,</if>
+            <if test="useStartTime != null ">use_start_time,</if>
+            <if test="useEndTime != null ">use_end_time,</if>
+            <if test="addTime != null ">add_time,</if>
+            <if test="status != null ">`status`,</if>
+            <if test="useType != null ">use_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="type != null ">#{type},</if>
+            <if test="money != null ">#{money},</if>
+            <if test="condition != null ">#{condition},</if>
+            <if test="createnum != null ">#{createnum},</if>
+            <if test="sendNum != null ">#{sendNum},</if>
+            <if test="useNum != null ">#{useNum},</if>
+            <if test="sendStartTime != null ">#{sendStartTime},</if>
+            <if test="sendEndTime != null ">#{sendEndTime},</if>
+            <if test="useStartTime != null ">#{useStartTime},</if>
+            <if test="useEndTime != null ">#{useEndTime},</if>
+            <if test="addTime != null ">#{addTime},</if>
+            <if test="status != null ">#{status},</if>
+            <if test="useType != null ">#{useType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStoreCoupon" parameterType="StoreCoupon">
+        update store_coupon
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">`name` = #{name},</if>
+            <if test="type != null ">`type` = #{type},</if>
+            <if test="money != null ">money = #{money},</if>
+            <if test="condition != null ">`condition` = #{condition},</if>
+            <if test="createnum != null ">createnum = #{createnum},</if>
+            <if test="sendNum != null ">send_num = #{sendNum},</if>
+            <if test="useNum != null ">use_num = #{useNum},</if>
+            <if test="sendStartTime != null ">send_start_time = #{sendStartTime},</if>
+            <if test="sendEndTime != null ">send_end_time = #{sendEndTime},</if>
+            <if test="useStartTime != null ">use_start_time = #{useStartTime},</if>
+            <if test="useEndTime != null ">use_end_time = #{useEndTime},</if>
+            <if test="addTime != null ">add_time = #{addTime},</if>
+            <if test="status != null ">`status` = #{status},</if>
+            <if test="useType != null ">use_type = #{useType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStoreCouponById" parameterType="Integer">
+        delete from store_coupon where id = #{id}
+    </delete>
+
+    <delete id="deleteStoreCouponByIds" parameterType="String">
+        delete from store_coupon where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

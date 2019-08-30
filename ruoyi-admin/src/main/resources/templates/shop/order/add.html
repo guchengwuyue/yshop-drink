@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增订单主')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-order-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">用户id：</label>
+                <div class="col-sm-8">
+                    <input name="userId" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">订单状态 0-未确认 1-已确认(已收货） 2-已评价：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box">
+                        <input type="radio" name="orderStatus" value="" required>
+                        <label th:for="orderStatus" th:text="未知"></label>
+                    </div>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">发货状态 0-未发货 1-已发货 2-退货中 3-退货完成：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box">
+                        <input type="radio" name="shippingStatus" value="" required>
+                        <label th:for="shippingStatus" th:text="未知"></label>
+                    </div>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付状态 0-未支付 1-已支付：</label>
+                <div class="col-sm-8">
+                    <div class="radio-box">
+                        <input type="radio" name="payStatus" value="" required>
+                        <label th:for="payStatus" th:text="未知"></label>
+                    </div>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收货人：</label>
+                <div class="col-sm-8">
+                    <input name="consignee" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">国家：</label>
+                <div class="col-sm-8">
+                    <input name="country" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">省份：</label>
+                <div class="col-sm-8">
+                    <input name="province" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">城市：</label>
+                <div class="col-sm-8">
+                    <input name="city" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">县区：</label>
+                <div class="col-sm-8">
+                    <input name="district" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">乡镇：</label>
+                <div class="col-sm-8">
+                    <input name="twon" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">地区地址：</label>
+                <div class="col-sm-8">
+                    <input name="cityInfo" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">地址详细地址：</label>
+                <div class="col-sm-8">
+                    <input name="address" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">手机：</label>
+                <div class="col-sm-8">
+                    <input name="mobile" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">物流code 单号：</label>
+                <div class="col-sm-8">
+                    <input name="shippingCode" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">物流名称：</label>
+                <div class="col-sm-8">
+                    <input name="shippingName" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">支付方式1-微信2-余额3-转账：</label>
+                <div class="col-sm-8">
+                    <input name="payMethod" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品总价：</label>
+                <div class="col-sm-8">
+                    <input name="goodsPrice" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付款金额：</label>
+                <div class="col-sm-8">
+                    <input name="orderAmount" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">订单总价：</label>
+                <div class="col-sm-8">
+                    <input name="totalAmount" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">价格调整：</label>
+                <div class="col-sm-8">
+                    <input name="discount" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">管理后台修改变动的价格：</label>
+                <div class="col-sm-8">
+                    <input name="editMoney" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "shop/order"
+        $("#form-order-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-order-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

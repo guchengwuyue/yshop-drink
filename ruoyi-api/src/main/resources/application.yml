@@ -1,0 +1,104 @@
+server:
+  port: 8009
+light-security:
+  # 权限规则配置：表示用{http-method}方法请求的{path}路径必须具备什么{expression}
+  spec-list:
+    - http-method: ANY
+      path: /auth/login
+      expression: "anon()"
+    - http-method: get
+      path: /doc.html
+      expression: "anon()"
+    - http-method: get
+      path: /webjars/**
+      expression: "anon()"
+    - http-method: get
+      path: /swagger-resources/**
+      expression: "anon()"
+    - http-method: GET
+      path: /user/info
+      expression: "hasAnyRoles('user')"
+    - http-method: ANY
+      path: /user/super
+      expression: "hasAllRoles('user','admin')"
+    - http-method: ANY
+      path: /**
+      expression: "hasLogin()"
+  jwt:
+    # jwt sign算法
+    algorithm: hs512
+    # jwt secret
+    secret: 86def2a732f5c304999c4cd766380f0a44622214639de1ba4268f5bbedab2ebc029a8064263065510d359adade883aca947029171601399fc3f1c866b0b0bed2
+    # jwt 有效时间
+    expiration-in-second: 1209600
+
+
+mybatis-plus:
+  mapper-locations: classpath*:com/ruoyi/app/common/persistence/dao/mapping/*.xml
+  typeAliasesPackage: com.ruoyi.app.common.persistence.model
+  global-config:
+    id-type: 0  #0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
+    db-column-underline: false
+    refresh-mapper: true
+  configuration:
+    map-underscore-to-camel-case: false
+    cache-enabled: true #配置的缓存的全局开关
+    lazyLoadingEnabled: true #延时加载的开关
+    multipleResultSetsEnabled: true #开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句,调试用
+
+spring:
+  #DATABASE CONFIG
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/tours?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=UTC
+    type: com.alibaba.druid.pool.DruidDataSource   #这里是配置druid连接池，以下都是druid的配置信息
+    filters: stat,wall,log4j
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+    connection-properties: druid.stat.merggSql=ture;druid.stat.slowSqlMillis=5000
+  #redis 配置
+  redis:
+    database: 0
+    host: 127.0.0.1
+    lettuce:
+      pool:
+        max-active: 8   #最大连接数据库连接数,设 0 为没有限制
+        max-idle: 8     #最大等待连接中的数量,设 0 为没有限制
+        max-wait: -1ms  #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
+        min-idle: 0     #最小等待连接中的数量,设 0 为没有限制
+      shutdown-timeout: 100ms
+    password: ''
+    port: 6379
+  swagger:
+    enabled: true
+    title: 标题
+    description: 描述信息
+    version: 1.0
+    contact:
+      name: 维护者信息
+    #base-package: swagger扫描的基础包，默认：全扫描(分组情况下此处可不配置)
+    #全局参数,比如Token之类的验证信息可以全局话配置
+    global-operation-parameters:
+      - description: 'Token信息,必填项'
+        modelRef: 'string'
+        name: 'Authorization'
+        parameter-type: 'header'
+        required: true
+    groups:
+      basic-group:
+        base-package: com.battcn.controller.basic
+      system-group:
+        base-package: com.battcn.controller.system

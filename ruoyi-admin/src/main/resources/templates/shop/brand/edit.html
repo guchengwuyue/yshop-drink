@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改产品品牌')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-brand-edit" th:object="${storeGoodsBrand}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">品牌logo</label>
+                <div class="col-sm-8">
+                    <input name="brandLogo" id="imgUrl" class="form-control" th:field="*{brandLogo}" type="hidden">
+                    <input id="fileinput-demo-1" name="file" type="file" multiple>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品品牌名称：</label>
+                <div class="col-sm-8">
+                    <input name="brandTitle" th:field="*{brandTitle}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品品牌描述：</label>
+                <div class="col-sm-8">
+                    <input name="brandDesc" th:field="*{brandDesc}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: bootstrap-fileinput-css" />
+    <th:block th:include="include :: bootstrap-fileinput-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "shop/brand";
+        $("#form-brand-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-brand-edit').serialize());
+            }
+        }
+        $(document).ready(function () {
+            $("#fileinput-demo-1").fileinput({
+                'theme': 'explorer-fas',
+                'uploadUrl': '/common/upload',
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                initialPreview: [
+                    //"/img/profile.jpg"
+                    [[${storeGoodsBrand.brandLogo}]]
+                ]
+            });
+
+            $("#fileinput-demo-1").on("fileuploaded", function (event, data, previewId, index) {
+                console.log(data.response);
+                if(data.response.code == 0){
+                    $('#imgUrl').val(data.response.url);
+                }
+            })
+        });
+    </script>
+</body>
+</html>

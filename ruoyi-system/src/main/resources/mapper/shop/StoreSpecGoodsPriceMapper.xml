@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.shop.mapper.StoreSpecGoodsPriceMapper">
+    
+    <resultMap type="StoreSpecGoodsPrice" id="StoreSpecGoodsPriceResult">
+        <result property="itemId"    column="item_id"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="key"    column="key"    />
+        <result property="keyName"    column="key_name"    />
+        <result property="price"    column="price"    />
+        <result property="marketPrice"    column="market_price"    />
+        <result property="storeCount"    column="store_count"    />
+        <result property="barCode"    column="bar_code"    />
+        <result property="sku"    column="sku"    />
+        <result property="specImg"    column="spec_img"    />
+        <result property="promId"    column="prom_id"    />
+        <result property="promType"    column="prom_type"    />
+    </resultMap>
+
+    <sql id="selectStoreSpecGoodsPriceVo">
+        select item_id, goods_id, `key`, key_name, price, market_price, store_count, bar_code, sku, spec_img, prom_id, prom_type from store_spec_goods_price
+    </sql>
+
+    <select id="selectStoreSpecGoodsPriceList" parameterType="StoreSpecGoodsPrice" resultMap="StoreSpecGoodsPriceResult">
+        <include refid="selectStoreSpecGoodsPriceVo"/>
+        <where>  
+            <if test="goodsId != null "> and goods_id = #{goodsId}</if>
+            <if test="key != null  and key != ''"> and `key` = #{key}</if>
+            <if test="keyName != null  and keyName != ''"> and key_name like concat('%', #{keyName}, '%')</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="marketPrice != null "> and market_price = #{marketPrice}</if>
+            <if test="storeCount != null "> and store_count = #{storeCount}</if>
+            <if test="barCode != null  and barCode != ''"> and bar_code = #{barCode}</if>
+            <if test="sku != null  and sku != ''"> and sku = #{sku}</if>
+            <if test="specImg != null  and specImg != ''"> and spec_img = #{specImg}</if>
+            <if test="promId != null "> and prom_id = #{promId}</if>
+            <if test="promType != null "> and prom_type = #{promType}</if>
+        </where>
+    </select>
+
+    <select id="selectStoreSpecGoodsPriceItemStr" parameterType="Long" resultType="string">
+        select GROUP_CONCAT(`key` SEPARATOR '_') AS items_id from store_spec_goods_price
+        where goods_id = #{goodsId}
+    </select>
+    
+    <select id="selectStoreSpecGoodsPriceById" parameterType="Long" resultMap="StoreSpecGoodsPriceResult">
+        <include refid="selectStoreSpecGoodsPriceVo"/>
+        where item_id = #{itemId}
+    </select>
+        
+    <insert id="insertStoreSpecGoodsPrice" parameterType="StoreSpecGoodsPrice" useGeneratedKeys="true" keyProperty="itemId">
+        insert into store_spec_goods_price
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null ">goods_id,</if>
+            <if test="key != null  and key != ''">`key`,</if>
+            <if test="keyName != null  and keyName != ''">key_name,</if>
+            <if test="price != null ">price,</if>
+            <if test="marketPrice != null ">market_price,</if>
+            <if test="storeCount != null ">store_count,</if>
+            <if test="barCode != null  and barCode != ''">bar_code,</if>
+            <if test="sku != null  and sku != ''">sku,</if>
+            <if test="specImg != null  and specImg != ''">spec_img,</if>
+            <if test="promId != null ">prom_id,</if>
+            <if test="promType != null ">prom_type,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null ">#{goodsId},</if>
+            <if test="key != null  and key != ''">#{key},</if>
+            <if test="keyName != null  and keyName != ''">#{keyName},</if>
+            <if test="price != null ">#{price},</if>
+            <if test="marketPrice != null ">#{marketPrice},</if>
+            <if test="storeCount != null ">#{storeCount},</if>
+            <if test="barCode != null  and barCode != ''">#{barCode},</if>
+            <if test="sku != null  and sku != ''">#{sku},</if>
+            <if test="specImg != null  and specImg != ''">#{specImg},</if>
+            <if test="promId != null ">#{promId},</if>
+            <if test="promType != null ">#{promType},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStoreSpecGoodsPrice" parameterType="StoreSpecGoodsPrice">
+        update store_spec_goods_price
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodsId != null ">goods_id = #{goodsId},</if>
+            <if test="key != null  and key != ''">`key` = #{key},</if>
+            <if test="keyName != null  and keyName != ''">key_name = #{keyName},</if>
+            <if test="price != null ">price = #{price},</if>
+            <if test="marketPrice != null ">market_price = #{marketPrice},</if>
+            <if test="storeCount != null ">store_count = #{storeCount},</if>
+            <if test="barCode != null  and barCode != ''">bar_code = #{barCode},</if>
+            <if test="sku != null  and sku != ''">sku = #{sku},</if>
+            <if test="specImg != null  and specImg != ''">spec_img = #{specImg},</if>
+            <if test="promId != null ">prom_id = #{promId},</if>
+            <if test="promType != null ">prom_type = #{promType},</if>
+        </trim>
+        where item_id = #{itemId}
+    </update>
+
+    <delete id="deleteStoreSpecGoodsPriceById" parameterType="Long">
+        delete from store_spec_goods_price where item_id = #{itemId}
+    </delete>
+
+    <delete id="deleteStoreSpecGoodsPriceByIds" parameterType="String">
+        delete from store_spec_goods_price where item_id in 
+        <foreach item="itemId" collection="array" open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改订单主')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-order-edit" th:object="${storeOrder}">
+            <input name="orderId" th:field="*{orderId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收货人：</label>
+                <div class="col-sm-8">
+                    <input name="consignee" disabled th:field="*{consignee}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">地区地址：</label>
+                <div class="col-sm-8">
+                    <input name="cityInfo" disabled th:field="*{cityInfo}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">地址详细地址：</label>
+                <div class="col-sm-8">
+                    <input name="address" disabled th:field="*{address}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">手机：</label>
+                <div class="col-sm-8">
+                    <input name="mobile" disabled th:field="*{mobile}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">商品总价：</label>
+                <div class="col-sm-8">
+                    <input name="goodsPrice" disabled th:field="*{goodsPrice}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">应付款金额：</label>
+                <div class="col-sm-8">
+                    <input name="orderAmount" disabled th:field="*{orderAmount}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">订单总价：</label>
+                <div class="col-sm-8">
+                    <input name="totalAmount" disabled th:field="*{totalAmount}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">物流code 单号：</label>
+                <div class="col-sm-8">
+                    <input name="shippingCode" th:field="*{shippingCode}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">物流名称：</label>
+                <div class="col-sm-8">
+                    <input name="shippingName" th:field="*{shippingName}" class="form-control" type="text">
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "shop/order";
+        $("#form-order-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-order-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>
