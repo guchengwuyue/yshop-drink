@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.app.common.persistence.dao.StoreGoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.app.common.persistence.model.StoreGoods">
+        <id column="goods_id" property="goodsId" />
+        <result column="cate_id" property="cateId" />
+        <result column="extend_cat_id" property="extendCatId" />
+        <result column="goods_sn" property="goodsSn" />
+        <result column="goods_name" property="goodsName" />
+        <result column="click_count" property="clickCount" />
+        <result column="brand_id" property="brandId" />
+        <result column="store_count" property="storeCount" />
+        <result column="comment_count" property="commentCount" />
+        <result column="weight" property="weight" />
+        <result column="volume" property="volume" />
+        <result column="market_price" property="marketPrice" />
+        <result column="shop_price" property="shopPrice" />
+        <result column="cost_price" property="costPrice" />
+        <result column="price_ladder" property="priceLadder" />
+        <result column="keywords" property="keywords" />
+        <result column="goods_remark" property="goodsRemark" />
+        <result column="goods_content" property="goodsContent" />
+        <result column="mobile_content" property="mobileContent" />
+        <result column="goods_logo" property="goodsLogo" />
+        <result column="is_virtual" property="isVirtual" />
+        <result column="virtual_indate" property="virtualIndate" />
+        <result column="virtual_limit" property="virtualLimit" />
+        <result column="virtual_refund" property="virtualRefund" />
+        <result column="is_on_sale" property="isOnSale" />
+        <result column="is_free_shipping" property="isFreeShipping" />
+        <result column="on_time" property="onTime" />
+        <result column="sort" property="sort" />
+        <result column="is_recommend" property="isRecommend" />
+        <result column="is_new" property="isNew" />
+        <result column="is_hot" property="isHot" />
+        <result column="last_update" property="lastUpdate" />
+        <result column="goods_type" property="goodsType" />
+        <result column="spec_type" property="specType" />
+        <result column="give_integral" property="giveIntegral" />
+        <result column="exchange_integral" property="exchangeIntegral" />
+        <result column="suppliers_id" property="suppliersId" />
+        <result column="sales_sum" property="salesSum" />
+        <result column="prom_type" property="promType" />
+        <result column="prom_id" property="promId" />
+        <result column="commission" property="commission" />
+        <result column="spu" property="spu" />
+        <result column="sku" property="sku" />
+        <result column="template_id" property="templateId" />
+        <result column="goods_video" property="goodsVideo" />
+    </resultMap>
+
+</mapper>

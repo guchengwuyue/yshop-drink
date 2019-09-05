@@ -5,18 +5,12 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.ruoyi.app.common.persistence.model.StoreMember">
         <id column="id" property="id" />
-        <result column="store_id" property="storeId" />
         <result column="vip_no" property="vipNo" />
         <result column="openid" property="openid" />
-        <result column="seller_openid" property="sellerOpenid" />
-        <result column="wx_openid" property="wxOpenid" />
-        <result column="unionid" property="unionid" />
         <result column="phone" property="phone" />
         <result column="password" property="password" />
-        <result column="pay_password" property="payPassword" />
         <result column="nickname" property="nickname" />
         <result column="headimg" property="headimg" />
-        <result column="user_type" property="userType" />
         <result column="sex" property="sex" />
         <result column="level" property="level" />
         <result column="total_amount" property="totalAmount" />
@@ -25,21 +19,12 @@
         <result column="frozen_money" property="frozenMoney" />
         <result column="underling_number" property="underlingNumber" />
         <result column="pay_points" property="payPoints" />
-        <result column="frozen_points" property="frozenPoints" />
         <result column="address_id" property="addressId" />
         <result column="remark" property="remark" />
         <result column="status" property="status" />
         <result column="create_time" property="createTime" />
         <result column="create_at" property="createAt" />
         <result column="status_time" property="statusTime" />
-        <result column="login_at" property="loginAt" />
-        <result column="login_num" property="loginNum" />
-        <result column="is_distribut" property="isDistribut" />
-        <result column="first_leader" property="firstLeader" />
-        <result column="second_leader" property="secondLeader" />
-        <result column="third_leader" property="thirdLeader" />
-        <result column="is_super" property="isSuper" />
-        <result column="spread_qrcode" property="spreadQrcode" />
     </resultMap>
 
 </mapper>

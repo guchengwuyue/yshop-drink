@@ -3,7 +3,7 @@ package com.ruoyi.app.modular.member.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ruoyi.app.common.persistence.dao.StoreMemberDao;
+import com.ruoyi.app.common.persistence.dao.StoreMemberMapper;
 import com.ruoyi.app.common.persistence.model.StoreMember;
 import com.ruoyi.app.modular.member.service.IMemberService;
 import com.ruoyi.app.modular.member.service.dto.MemberDTO;
@@ -15,10 +15,10 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class MemberServiceImpl extends ServiceImpl<StoreMemberDao,StoreMember>  implements IMemberService {
+public class MemberServiceImpl extends ServiceImpl<StoreMemberMapper,StoreMember>  implements IMemberService {
 
     @Autowired
-    private StoreMemberDao storeMemberMapper;
+    private StoreMemberMapper storeMemberMapper;
 
     @Autowired
     private MemberMapper memberMapper;

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.app.common.persistence.dao.WechatNewsArticleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.app.common.persistence.model.WechatNewsArticle">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="local_url" property="localUrl" />
+        <result column="show_cover_pic" property="showCoverPic" />
+        <result column="author" property="author" />
+        <result column="digest" property="digest" />
+        <result column="content" property="content" />
+        <result column="content_source_url" property="contentSourceUrl" />
+        <result column="create_at" property="createAt" />
+        <result column="create_by" property="createBy" />
+    </resultMap>
+
+</mapper>

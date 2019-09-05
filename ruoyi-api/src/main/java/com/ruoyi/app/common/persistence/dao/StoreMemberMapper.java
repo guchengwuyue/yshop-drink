@@ -6,6 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 
 @Mapper
-public interface StoreMemberDao extends BaseMapper<StoreMember> {
+public interface StoreMemberMapper extends BaseMapper<StoreMember> {
 	
 }
