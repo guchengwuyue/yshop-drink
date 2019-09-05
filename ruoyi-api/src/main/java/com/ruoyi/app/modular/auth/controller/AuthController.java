@@ -22,7 +22,7 @@ import java.util.HashMap;
  * @Author hupeng <610796224@qq.com>
  * @Date 2019/6/27
  **/
-@RequestMapping(value = "/auth")
+//@RequestMapping(value = "/")
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 //@Api(value = "认证授权模块", tags = "认证授权模块", description = "认证授权模块")
@@ -36,7 +36,7 @@ public class AuthController {
      *
      * @return 用户信息
      */
-    @GetMapping("/user")
+    @GetMapping("/get/user")
     //@ApiOperation(value = "获取用户信息",notes = "获取用户信息")
     public User user() {
         return userOperator.getUser();
@@ -44,14 +44,20 @@ public class AuthController {
 
 
     /**
-     * 模拟登录，颁发token
+     * 小程序登陆，颁发token，暂时模拟openid
      *
      * @return token字符串
      */
-    @PostMapping("/login")
+    @PostMapping("/oauth/access_token")
    // @ApiOperation(value = "获取token",notes = "获取token")
     public R loginReturnToken(@Validated @RequestBody LoginVO loginVO) {
-        String openid = "oqwKL5Zm8oINt29qiXdbtgYA9EDo";
+        Boolean isProduct = false;
+        String openid = null;
+        if(isProduct){
+            //todo 此处结合小程序API
+        }else{
+            openid = "orIMY4xGhMmipwFZoSL1vOhUNFZ0";
+        }
         StoreMember member = memberService.login(openid);
         if(member == null){
             R.error(401,"用户登陆失败");
@@ -59,11 +65,11 @@ public class AuthController {
         User user = User.builder()
                 .id(member.getId().intValue())
                 .username(member.getNickname())
-                .roles(Arrays.asList("user", "admin"))
+                //.roles(Arrays.asList("user", "admin"))
                 .build();
         String token = operator.generateToken(user);
         HashMap<String,String> map = new HashMap<>();
-        map.put("token",token);
+        map.put("access_token",token);
         return R.success(map);
     }
 }

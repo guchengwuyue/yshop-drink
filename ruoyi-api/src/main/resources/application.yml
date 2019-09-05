@@ -4,7 +4,7 @@ light-security:
   # 权限规则配置：表示用{http-method}方法请求的{path}路径必须具备什么{expression}
   spec-list:
     - http-method: ANY
-      path: /auth/login
+      path: /oauth/access_token
       expression: "anon()"
     - http-method: get
       path: /doc.html
@@ -15,9 +15,9 @@ light-security:
     - http-method: get
       path: /swagger-resources/**
       expression: "anon()"
-    - http-method: GET
-      path: /user/info
-      expression: "hasAnyRoles('user')"
+#    - http-method: GET
+#      path: /user/info
+#      expression: "hasAnyRoles('user')"
     - http-method: ANY
       path: /user/super
       expression: "hasAllRoles('user','admin')"
@@ -53,7 +53,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: root
-    url: jdbc:mysql://localhost:3306/tours?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/ruoyi?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=UTC
     type: com.alibaba.druid.pool.DruidDataSource   #这里是配置druid连接池，以下都是druid的配置信息
     filters: stat,wall,log4j
     maxActive: 20

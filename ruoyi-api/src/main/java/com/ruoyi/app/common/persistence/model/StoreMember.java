@@ -26,11 +26,7 @@ public class StoreMember extends Model<StoreMember> {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-    /**
-     * 店铺ID
-     */
-    @TableField("store_id")
-    private Integer storeId;
+
     /**
      * vip编号
      */
@@ -40,20 +36,8 @@ public class StoreMember extends Model<StoreMember> {
      * 会员微信OPENID
      */
     private String openid;
-    /**
-     * 商家版小程序openid
-     */
-    @TableField("seller_openid")
-    private String sellerOpenid;
-    /**
-     * 公众号openid
-     */
-    @TableField("wx_openid")
-    private String wxOpenid;
-    /**
-     * unionid唯一标识
-     */
-    private String unionid;
+
+
     /**
      * 会员手机号
      */
@@ -62,11 +46,7 @@ public class StoreMember extends Model<StoreMember> {
      * 登录密码
      */
     private String password;
-    /**
-     * 余额支付密码
-     */
-    @TableField("pay_password")
-    private String payPassword;
+
     /**
      * 会员昵称
      */
@@ -75,11 +55,7 @@ public class StoreMember extends Model<StoreMember> {
      * 会员头像
      */
     private String headimg;
-    /**
-     * 用户类型 1-普通用户 2-商家用户
-     */
-    @TableField("user_type")
-    private Integer userType;
+
     /**
      * 性别
      */
@@ -118,11 +94,7 @@ public class StoreMember extends Model<StoreMember> {
      */
     @TableField("pay_points")
     private Integer payPoints;
-    /**
-     * 冻结积分
-     */
-    @TableField("frozen_points")
-    private Integer frozenPoints;
+
     /**
      * 默认收货地址
      */
@@ -136,8 +108,9 @@ public class StoreMember extends Model<StoreMember> {
      * 会员状态0待审核 1-已审核 2-已拒绝
      */
     private Integer status;
+
     @TableField("create_time")
-    private Long createTime;
+    private Date createTime;
     /**
      * 创建时间
      */
@@ -148,43 +121,7 @@ public class StoreMember extends Model<StoreMember> {
      */
     @TableField("status_time")
     private Long statusTime;
-    @TableField("login_at")
-    private Date loginAt;
-    /**
-     * 登录次数
-     */
-    @TableField("login_num")
-    private Integer loginNum;
-    /**
-     * 是否为分销商 0 否 1 是
-     */
-    @TableField("is_distribut")
-    private Integer isDistribut;
-    /**
-     * 第一个上级
-     */
-    @TableField("first_leader")
-    private Long firstLeader;
-    /**
-     * 第二个上级
-     */
-    @TableField("second_leader")
-    private Long secondLeader;
-    /**
-     * 第三个上级
-     */
-    @TableField("third_leader")
-    private Long thirdLeader;
-    /**
-     * 是否是超管 1-是 0不是
-     */
-    @TableField("is_super")
-    private Integer isSuper;
-    /**
-     * 分销推广二维码图片
-     */
-    @TableField("spread_qrcode")
-    private String spreadQrcode;
+
 
 
     public Long getId() {
@@ -195,13 +132,6 @@ public class StoreMember extends Model<StoreMember> {
         this.id = id;
     }
 
-    public Integer getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(Integer storeId) {
-        this.storeId = storeId;
-    }
 
     public String getVipNo() {
         return vipNo;
@@ -217,30 +147,6 @@ public class StoreMember extends Model<StoreMember> {
 
     public void setOpenid(String openid) {
         this.openid = openid;
-    }
-
-    public String getSellerOpenid() {
-        return sellerOpenid;
-    }
-
-    public void setSellerOpenid(String sellerOpenid) {
-        this.sellerOpenid = sellerOpenid;
-    }
-
-    public String getWxOpenid() {
-        return wxOpenid;
-    }
-
-    public void setWxOpenid(String wxOpenid) {
-        this.wxOpenid = wxOpenid;
-    }
-
-    public String getUnionid() {
-        return unionid;
-    }
-
-    public void setUnionid(String unionid) {
-        this.unionid = unionid;
     }
 
     public String getPhone() {
@@ -259,13 +165,6 @@ public class StoreMember extends Model<StoreMember> {
         this.password = password;
     }
 
-    public String getPayPassword() {
-        return payPassword;
-    }
-
-    public void setPayPassword(String payPassword) {
-        this.payPassword = payPassword;
-    }
 
     public String getNickname() {
         return nickname;
@@ -283,13 +182,6 @@ public class StoreMember extends Model<StoreMember> {
         this.headimg = headimg;
     }
 
-    public Integer getUserType() {
-        return userType;
-    }
-
-    public void setUserType(Integer userType) {
-        this.userType = userType;
-    }
 
     public String getSex() {
         return sex;
@@ -355,13 +247,6 @@ public class StoreMember extends Model<StoreMember> {
         this.payPoints = payPoints;
     }
 
-    public Integer getFrozenPoints() {
-        return frozenPoints;
-    }
-
-    public void setFrozenPoints(Integer frozenPoints) {
-        this.frozenPoints = frozenPoints;
-    }
 
     public Integer getAddressId() {
         return addressId;
@@ -387,11 +272,11 @@ public class StoreMember extends Model<StoreMember> {
         this.status = status;
     }
 
-    public Long getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Long createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
@@ -411,69 +296,7 @@ public class StoreMember extends Model<StoreMember> {
         this.statusTime = statusTime;
     }
 
-    public Date getLoginAt() {
-        return loginAt;
-    }
 
-    public void setLoginAt(Date loginAt) {
-        this.loginAt = loginAt;
-    }
-
-    public Integer getLoginNum() {
-        return loginNum;
-    }
-
-    public void setLoginNum(Integer loginNum) {
-        this.loginNum = loginNum;
-    }
-
-    public Integer getIsDistribut() {
-        return isDistribut;
-    }
-
-    public void setIsDistribut(Integer isDistribut) {
-        this.isDistribut = isDistribut;
-    }
-
-    public Long getFirstLeader() {
-        return firstLeader;
-    }
-
-    public void setFirstLeader(Long firstLeader) {
-        this.firstLeader = firstLeader;
-    }
-
-    public Long getSecondLeader() {
-        return secondLeader;
-    }
-
-    public void setSecondLeader(Long secondLeader) {
-        this.secondLeader = secondLeader;
-    }
-
-    public Long getThirdLeader() {
-        return thirdLeader;
-    }
-
-    public void setThirdLeader(Long thirdLeader) {
-        this.thirdLeader = thirdLeader;
-    }
-
-    public Integer getIsSuper() {
-        return isSuper;
-    }
-
-    public void setIsSuper(Integer isSuper) {
-        this.isSuper = isSuper;
-    }
-
-    public String getSpreadQrcode() {
-        return spreadQrcode;
-    }
-
-    public void setSpreadQrcode(String spreadQrcode) {
-        this.spreadQrcode = spreadQrcode;
-    }
 
     @Override
     protected Serializable pkVal() {
@@ -484,18 +307,12 @@ public class StoreMember extends Model<StoreMember> {
     public String toString() {
         return "StoreMember{" +
         "id=" + id +
-        ", storeId=" + storeId +
         ", vipNo=" + vipNo +
         ", openid=" + openid +
-        ", sellerOpenid=" + sellerOpenid +
-        ", wxOpenid=" + wxOpenid +
-        ", unionid=" + unionid +
         ", phone=" + phone +
         ", password=" + password +
-        ", payPassword=" + payPassword +
         ", nickname=" + nickname +
         ", headimg=" + headimg +
-        ", userType=" + userType +
         ", sex=" + sex +
         ", level=" + level +
         ", totalAmount=" + totalAmount +
@@ -504,21 +321,12 @@ public class StoreMember extends Model<StoreMember> {
         ", frozenMoney=" + frozenMoney +
         ", underlingNumber=" + underlingNumber +
         ", payPoints=" + payPoints +
-        ", frozenPoints=" + frozenPoints +
         ", addressId=" + addressId +
         ", remark=" + remark +
         ", status=" + status +
         ", createTime=" + createTime +
         ", createAt=" + createAt +
         ", statusTime=" + statusTime +
-        ", loginAt=" + loginAt +
-        ", loginNum=" + loginNum +
-        ", isDistribut=" + isDistribut +
-        ", firstLeader=" + firstLeader +
-        ", secondLeader=" + secondLeader +
-        ", thirdLeader=" + thirdLeader +
-        ", isSuper=" + isSuper +
-        ", spreadQrcode=" + spreadQrcode +
         "}";
     }
 }
