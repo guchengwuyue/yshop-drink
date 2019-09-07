@@ -2,6 +2,7 @@ package com.ruoyi.generator;
 
 
 import com.baomidou.mybatisplus.generator.AutoGenerator;
+import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
@@ -57,7 +58,7 @@ public class EntityGenerator {
         StrategyConfig strategy = new StrategyConfig();
         //strategy.setTablePrefix(new String[]{"_"});// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        strategy.setInclude(new String[]{"store_goods","wechat_news_article"});
+        strategy.setInclude(new String[]{"store_goods_collect","store_spec","store_spec_goods_price","store_spec_item"});
         mpg.setStrategy(strategy);
 
         // 包配置

@@ -1,19 +1,19 @@
 package com.ruoyi.app.common.persistence.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ruoyi.app.common.persistence.model.StoreGoods;
+import com.ruoyi.app.common.persistence.model.StoreGoodsCollect;
 import org.apache.ibatis.annotations.Mapper;
 
 
 /**
  * <p>
- * 商品主表 Mapper 接口
+ * 商品收藏表 Mapper 接口
  * </p>
  *
  * @author hupeng
- * @since 2019-09-05
+ * @since 2019-09-07
  */
 @Mapper
-public interface StoreGoodsMapper extends BaseMapper<StoreGoods> {
+public interface StoreGoodsCollectMapper extends BaseMapper<StoreGoodsCollect> {
 
 }

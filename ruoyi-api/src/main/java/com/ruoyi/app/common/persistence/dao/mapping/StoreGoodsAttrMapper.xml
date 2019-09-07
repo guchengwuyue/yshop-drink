@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.app.common.persistence.dao.StoreGoodsAttrMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ruoyi.app.common.persistence.model.StoreGoodsAttr">
+        <id column="goods_attr_id" property="goodsAttrId" />
+        <result column="goods_id" property="goodsId" />
+        <result column="attr_id" property="attrId" />
+        <result column="attr_value" property="attrValue" />
+        <result column="attr_price" property="attrPrice" />
+    </resultMap>
+
+</mapper>
