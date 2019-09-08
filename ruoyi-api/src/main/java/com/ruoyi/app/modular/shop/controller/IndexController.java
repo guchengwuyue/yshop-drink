@@ -9,9 +9,14 @@ import com.ruoyi.app.modular.shop.service.dto.NewsDTO;
 import com.ruoyi.app.modular.shop.service.impl.AdServiceImpl;
 import com.ruoyi.app.modular.shop.service.impl.GoodsServiceImpl;
 import com.ruoyi.app.modular.shop.service.impl.NewsServiceImpl;
+import com.ruoyi.app.modular.shop.service.vo.PageVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -27,13 +32,16 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Api(value = "首页模块", tags = "首页模块", description = "首页模块")
 public class IndexController {
     private final UserOperator userOperator;
     private final GoodsServiceImpl goodsService;
     private final NewsServiceImpl newsService;
     private final AdServiceImpl adService;
 
+
     @GetMapping("/shop/index-list")
+    @ApiOperation(value = "首页信息",notes = "首页信息")
     public R index(){
         int userId = userOperator.getUser().getId();
 
@@ -50,5 +58,13 @@ public class IndexController {
 
         return R.success(map);
         //return null;
+    }
+
+    @GetMapping("/shop/news-lists")
+    public R news(@Validated @RequestBody PageVO pageVO){
+
+        List<NewsDTO> newsList = newsService.getList(pageVO.getPage(),pageVO.getLimit());
+
+        return R.success(newsList);
     }
 }

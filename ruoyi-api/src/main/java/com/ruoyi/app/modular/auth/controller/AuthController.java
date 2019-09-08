@@ -9,6 +9,8 @@ import com.ruoyi.app.common.persistence.model.StoreMember;
 import com.ruoyi.app.modular.member.service.IMemberService;
 import com.ruoyi.app.modular.member.service.vo.LoginVO;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -25,7 +27,7 @@ import java.util.HashMap;
 //@RequestMapping(value = "/")
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-//@Api(value = "认证授权模块", tags = "认证授权模块", description = "认证授权模块")
+@Api(value = "认证授权模块", tags = "认证授权模块", description = "认证授权模块")
 public class AuthController {
     private final UserOperator userOperator;
     private final JwtOperator operator;
@@ -49,7 +51,7 @@ public class AuthController {
      * @return token字符串
      */
     @PostMapping("/oauth/access_token")
-   // @ApiOperation(value = "获取token",notes = "获取token")
+    @ApiOperation(value = "获取token",notes = "获取token")
     public R loginReturnToken(@Validated @RequestBody LoginVO loginVO) {
         Boolean isProduct = false;
         String openid = null;
