@@ -42,11 +42,7 @@
 第二步：迁移小程序API，此步骤刚刚启动，大家别慌，但是项目里我已经把API该有的已经封装在了系统了
 涉及到技术： **springboot+mybatis-plus+jwt+mapstruct+lombok+redis+swagger** 
 大致如下效果：
-1、http://localhost:8009/auth/login 登陆授权
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0627/110842_45244c28_477893.png "微信截图_20190627110826.png")
-
-2、http://localhost:8009/user/info  获取用户信息
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0627/111118_91611de3_477893.png "_20190627110917.png")
+ ![输入图片说明](https://images.gitee.com/uploads/images/2019/0908/175343_9d8241d9_477893.png "微信截图_20190908174954.png")
 
 第三步：迁移小程序，小程序主要是用 **mpvue** 框架开发，这里就不说它的好处。（最近很多人问小程序代码，可以加群(后面有)看公告）
 大致效果如下：
