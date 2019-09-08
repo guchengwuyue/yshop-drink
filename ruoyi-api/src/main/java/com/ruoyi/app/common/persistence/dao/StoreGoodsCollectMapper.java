@@ -1,8 +1,15 @@
 package com.ruoyi.app.common.persistence.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ruoyi.app.common.persistence.model.StoreGoods;
 import com.ruoyi.app.common.persistence.model.StoreGoodsCollect;
+import com.ruoyi.app.modular.shop.service.dto.GoodsDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 
 /**
@@ -15,5 +22,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface StoreGoodsCollectMapper extends BaseMapper<StoreGoodsCollect> {
+
 
 }

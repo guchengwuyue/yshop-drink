@@ -32,6 +32,7 @@ public class GoodsServiceImpl extends ServiceImpl<StoreGoodsMapper, StoreGoods> 
     private final StoreGoodsMapper storeGoodsMapper;
     private final StoreGoodsCollectMapper storeGoodsCollectMapper;
 
+
     /**
      * 商品列表
      * @param cateId
@@ -91,5 +92,15 @@ public class GoodsServiceImpl extends ServiceImpl<StoreGoodsMapper, StoreGoods> 
         StoreGoodsCollect goodsCollect = storeGoodsCollectMapper.selectOne(wrapper);
         if(ObjectUtil.isNotNull(goodsCollect)) return true;
         return false;
+    }
+
+
+    @Override
+    public List<StoreGoods> collectGoods(int page,int limit,int userId) {
+        System.out.println("userId"+userId);
+        Page<StoreGoods> pageModel = new Page<>(page, limit);
+        List<StoreGoods> list = baseMapper.collectGoods(pageModel,userId);
+        //System.out.println(list);
+        return list;
     }
 }

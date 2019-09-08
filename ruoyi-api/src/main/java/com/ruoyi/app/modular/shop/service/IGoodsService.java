@@ -15,4 +15,6 @@ public interface IGoodsService extends IService<StoreGoods> {
                                   int userId,String keywords,int order);
 
     public boolean isCollect(int goodsId,int userId);
+
+    public List<StoreGoods> collectGoods(int page,int limit,int userId);
 }

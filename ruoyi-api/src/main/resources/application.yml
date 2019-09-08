@@ -50,10 +50,12 @@ mybatis-plus:
 spring:
   #DATABASE CONFIG
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    #driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
     username: root
     password: root
-    url: jdbc:mysql://localhost:3306/ruoyi?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=UTC
+    url: jdbc:p6spy:mysql://localhost:3306/ruoyi?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=UTC
+    #url: jdbc:mysql://localhost:3306/ruoyi?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=UTC
     type: com.alibaba.druid.pool.DruidDataSource   #这里是配置druid连接池，以下都是druid的配置信息
     filters: stat,wall,log4j
     maxActive: 20
@@ -102,3 +104,7 @@ spring:
         base-package: com.battcn.controller.basic
       system-group:
         base-package: com.battcn.controller.system
+
+logging:
+  level:
+    com.ruoyi.app.modular: debug

@@ -2,6 +2,7 @@ package com.ruoyi.app.modular.shop.controller;
 
 import com.itmuch.lightsecurity.jwt.UserOperator;
 import com.ruoyi.app.common.R;
+import com.ruoyi.app.common.persistence.model.WechatNewsArticle;
 import com.ruoyi.app.modular.member.service.IMemberService;
 import com.ruoyi.app.modular.shop.service.dto.AdsDTO;
 import com.ruoyi.app.modular.shop.service.dto.GoodsDTO;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -61,10 +63,20 @@ public class IndexController {
     }
 
     @GetMapping("/shop/news-lists")
+    @ApiOperation(value = "新闻列表",notes = "新闻列表")
     public R news(@Validated @RequestBody PageVO pageVO){
 
         List<NewsDTO> newsList = newsService.getList(pageVO.getPage(),pageVO.getLimit());
 
         return R.success(newsList);
     }
+
+    @GetMapping("/shop/news-detail")
+    @ApiOperation(value = "新闻详情",notes = "新闻详情")
+    public R newsDetail(@RequestParam(value = "id",defaultValue = "0") int id){
+        WechatNewsArticle newsArticle = newsService.getById(id);
+        return R.success(newsArticle);
+    }
+
+
 }
