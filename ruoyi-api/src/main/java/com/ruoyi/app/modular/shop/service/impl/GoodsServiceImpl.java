@@ -97,7 +97,6 @@ public class GoodsServiceImpl extends ServiceImpl<StoreGoodsMapper, StoreGoods> 
 
     @Override
     public List<StoreGoods> collectGoods(int page,int limit,int userId) {
-        System.out.println("userId"+userId);
         Page<StoreGoods> pageModel = new Page<>(page, limit);
         List<StoreGoods> list = baseMapper.collectGoods(pageModel,userId);
         //System.out.println(list);
