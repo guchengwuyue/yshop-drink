@@ -2,21 +2,22 @@ package com.ruoyi.app.modular.shop.controller;
 
 import com.itmuch.lightsecurity.jwt.UserOperator;
 import com.ruoyi.app.common.R;
+import com.ruoyi.app.common.exception.BadRequestException;
+import com.ruoyi.app.common.persistence.model.StoreSpecGoodsPrice;
 import com.ruoyi.app.modular.shop.service.dto.CateDTO;
 import com.ruoyi.app.modular.shop.service.dto.GoodsDTO;
+import com.ruoyi.app.modular.shop.service.dto.SpecItemDTO;
 import com.ruoyi.app.modular.shop.service.impl.CateServiceImpl;
 import com.ruoyi.app.modular.shop.service.impl.GoodsServiceImpl;
 import com.ruoyi.app.modular.shop.service.mapper.GoodsMapper;
+import com.ruoyi.app.modular.shop.service.vo.CollectVO;
 import com.ruoyi.app.modular.shop.service.vo.PageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -71,5 +72,28 @@ public class MallController {
         Map<String,Object> map = new HashMap<>();
         map.put("list",goods);
         return R.success(map);
+    }
+
+    @GetMapping("/shop/mall-goods-detail")
+    @ApiOperation(value = "商品详情",notes = "商品详情")
+    public R goodsDetail(@RequestParam(value = "goods_id",defaultValue = "0") int goodsId){
+        Map<String, StoreSpecGoodsPrice> specPrice = goodsService.goodsSpecPrice(goodsId);
+        GoodsDTO goodsDetail = goodsMapper.toDto(goodsService.getById(goodsId));
+        Map<String, SpecItemDTO> specs = goodsService.goodsSpec(goodsId);
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("detail",goodsDetail);
+        map.put("spec_price",specPrice);
+        map.put("specs",specs);
+        return R.success(map);
+    }
+
+    @PostMapping("/shop/mall-add-collect")
+    public R addCollect(@Validated @RequestBody CollectVO collectVO){
+        int userId = userOperator.getUser().getId();
+        //throw new BadRequestException("已经收藏过");
+        goodsService.addOrCancelCollect(collectVO.getGoodsId(),userId,1);
+
+        return null;
     }
 }

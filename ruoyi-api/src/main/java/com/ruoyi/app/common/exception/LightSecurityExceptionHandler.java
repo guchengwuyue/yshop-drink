@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * @ClassName 全局异常处理
@@ -27,11 +30,21 @@ public class LightSecurityExceptionHandler {
      * @return 发生异常时的返回
      */
     @ExceptionHandler(value = {LightSecurityException.class})
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    //@ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
-    public R error(LightSecurityException exception) {
-        return R.error(401,"授权失败");
+    public R error(HttpServletRequest request, LightSecurityException exception, HttpServletResponse response) {
+        //System.out.println(request.getMethod());
+        //System.out.println(exception.getMessage());
+        String str1 = "com.itmuch.lightsecurity.exception.LightSecurityException: 没有找到名为Authorization的header";
+        String str2 = "com.itmuch.lightsecurity.exception.LightSecurityException: Token invalided.";
+        if (exception.getMessage().equals(str1) || exception.getMessage().equals(str2)) {
+            response.setStatus(401);
+            return R.error(401, "授权失败");
+        }
+        return R.error(4000, exception.getMessage());
+
     }
+
 
 
     @ExceptionHandler(value = {Exception.class})

@@ -5,9 +5,11 @@ package com.ruoyi.app.modular.shop.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.app.common.persistence.model.StoreGoods;
+import com.ruoyi.app.common.persistence.model.StoreSpecGoodsPrice;
 import com.ruoyi.app.modular.shop.service.dto.GoodsDTO;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface IGoodsService extends IService<StoreGoods> {
@@ -17,4 +19,8 @@ public interface IGoodsService extends IService<StoreGoods> {
     public boolean isCollect(int goodsId,int userId);
 
     public List<StoreGoods> collectGoods(int page,int limit,int userId);
+
+    public Map<String,StoreSpecGoodsPrice> goodsSpecPrice(int goodsId);
+
+    public boolean addOrCancelCollect(int goodsId,int userId,int type);
 }

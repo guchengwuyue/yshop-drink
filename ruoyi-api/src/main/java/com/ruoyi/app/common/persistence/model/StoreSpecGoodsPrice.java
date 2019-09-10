@@ -35,6 +35,7 @@ public class StoreSpecGoodsPrice extends Model<StoreSpecGoodsPrice> {
     /**
      * 规格键名
      */
+    @TableField("`key`")
     private String key;
     /**
      * 规格键名中文
