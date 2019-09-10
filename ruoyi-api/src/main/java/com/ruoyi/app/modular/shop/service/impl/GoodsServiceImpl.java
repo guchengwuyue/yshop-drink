@@ -142,13 +142,29 @@ public class GoodsServiceImpl extends ServiceImpl<StoreGoodsMapper, StoreGoods> 
     }
 
 
+    /**
+     * 添加或者取消收藏
+     * @param goodsId
+     * @param userId
+     * @param type
+     * @return
+     */
     @Override
     public boolean addOrCancelCollect(int goodsId, int userId, int type) {
         if(type == 1){//1-添加 2-取消
             boolean isCollect = isCollect(goodsId,userId);
             if(isCollect)  throw new LightSecurityException("已经收藏过");
-            System.out.println("======");
+            StoreGoodsCollect storeGoodsCollect = new StoreGoodsCollect();
+            storeGoodsCollect.setGoodsId(goodsId);
+            storeGoodsCollect.setUserId(userId);
+            storeGoodsCollectMapper.insert(storeGoodsCollect);
+            return true;
+        }else{
+            QueryWrapper<StoreGoodsCollect> wrapper = new QueryWrapper<>();
+            wrapper.eq("goods_id",goodsId).eq("user_id",userId);
+            int result = storeGoodsCollectMapper.delete(wrapper);
+            if(result > 0) return true;
+            return false;
         }
-        return false;
     }
 }

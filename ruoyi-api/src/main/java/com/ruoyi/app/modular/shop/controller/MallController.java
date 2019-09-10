@@ -89,11 +89,28 @@ public class MallController {
     }
 
     @PostMapping("/shop/mall-add-collect")
+    @ApiOperation(value = "添加商品收藏",notes = "添加商品收藏")
     public R addCollect(@Validated @RequestBody CollectVO collectVO){
         int userId = userOperator.getUser().getId();
-        //throw new BadRequestException("已经收藏过");
-        goodsService.addOrCancelCollect(collectVO.getGoodsId(),userId,1);
+        boolean result = goodsService.addOrCancelCollect(collectVO.getGoodsId(),userId,1);
 
-        return null;
+        if(result){
+            return R.success("操作成功");
+        }else{
+            return R.error(4000,"操作失败");
+        }
     }
+
+    @PostMapping("/shop/mall-cancel-collect")
+    @ApiOperation(value = "取消商品收藏",notes = "取消商品收藏")
+    public R cancelCollect(@Validated @RequestBody CollectVO collectVO){
+        int userId = userOperator.getUser().getId();
+        boolean result = goodsService.addOrCancelCollect(collectVO.getGoodsId(),userId,2);
+        if(result){
+            return R.success("操作成功");
+        }else{
+            return R.error(4000,"操作失败");
+        }
+    }
+
 }

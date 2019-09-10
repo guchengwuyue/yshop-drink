@@ -33,8 +33,6 @@ public class LightSecurityExceptionHandler {
     //@ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public R error(HttpServletRequest request, LightSecurityException exception, HttpServletResponse response) {
-        //System.out.println(request.getMethod());
-        //System.out.println(exception.getMessage());
         String str1 = "com.itmuch.lightsecurity.exception.LightSecurityException: 没有找到名为Authorization的header";
         String str2 = "com.itmuch.lightsecurity.exception.LightSecurityException: Token invalided.";
         if (exception.getMessage().equals(str1) || exception.getMessage().equals(str2)) {

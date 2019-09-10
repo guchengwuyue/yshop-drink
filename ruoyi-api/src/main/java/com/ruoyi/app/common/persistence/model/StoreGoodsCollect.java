@@ -1,11 +1,9 @@
 package com.ruoyi.app.common.persistence.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -38,8 +36,8 @@ public class StoreGoodsCollect extends Model<StoreGoodsCollect> {
     /**
      * 添加时间
      */
-    @TableField("add_time")
-    private Integer addTime;
+    @TableField(value = "add_time",fill = FieldFill.INSERT)
+    private Date addTime;
 
 
     public Integer getCollectId() {
@@ -66,11 +64,11 @@ public class StoreGoodsCollect extends Model<StoreGoodsCollect> {
         this.goodsId = goodsId;
     }
 
-    public Integer getAddTime() {
+    public Date getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Integer addTime) {
+    public void setAddTime(Date addTime) {
         this.addTime = addTime;
     }
 
