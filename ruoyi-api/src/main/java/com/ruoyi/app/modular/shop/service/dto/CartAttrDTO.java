@@ -6,23 +6,18 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Data
-public class CartDTO implements Serializable {
+public class CartAttrDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer goodsId;
-
-    private String goodsName;
+    private Integer id;
 
     private BigDecimal goodsPrice;
 
-    private String goodsSn;
+    private int goodsNum;
 
-    private String goodsLogo;
-
-    private List<CartAttrDTO> specList;
+    private String specKeyName;
 
 }

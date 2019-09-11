@@ -6,8 +6,10 @@ package com.ruoyi.app.modular.shop.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.app.common.persistence.model.StoreGoods;
 import com.ruoyi.app.common.persistence.model.StoreSpecGoodsPrice;
+import com.ruoyi.app.modular.shop.service.dto.CartDTO;
 import com.ruoyi.app.modular.shop.service.dto.GoodsDTO;
 import com.ruoyi.app.modular.shop.service.vo.CartVO;
+import com.ruoyi.app.modular.shop.service.vo.PageVO;
 
 import java.util.List;
 import java.util.Map;
@@ -26,4 +28,8 @@ public interface IGoodsService extends IService<StoreGoods> {
     public boolean addOrCancelCollect(int goodsId,int userId,int type);
 
     public boolean addCart(CartVO cartVO,int userId);
+
+    public boolean delCart(String goodsIds,int userId);
+
+    public List<CartDTO> cartList(PageVO pageVO,int userId);
 }

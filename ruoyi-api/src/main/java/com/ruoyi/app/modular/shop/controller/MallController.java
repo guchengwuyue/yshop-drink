@@ -1,5 +1,6 @@
 package com.ruoyi.app.modular.shop.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.itmuch.lightsecurity.jwt.UserOperator;
 import com.ruoyi.app.common.R;
 import com.ruoyi.app.common.exception.BadRequestException;
@@ -125,6 +126,31 @@ public class MallController {
             return R.error(4000,"操作失败");
         }
 
+    }
+
+    @GetMapping("/shop/mall-cart-del")
+    @ApiOperation(value = "删除购物车",notes = "删除购物车")
+    public R delCart(@RequestParam(value = "goods_ids",defaultValue = "") String goodsIds){
+        int userId = userOperator.getUser().getId();
+        if(StrUtil.isEmpty(goodsIds)){
+            return R.error(4000,"参数缺失");
+        }
+        boolean result = goodsService.delCart(goodsIds,userId);
+        if(result){
+            return R.success("操作成功");
+        }else{
+            return R.error(4000,"操作失败");
+        }
+
+    }
+
+
+    @GetMapping("/shop/mall-cart-list")
+    @ApiOperation(value = "获取购物车列表",notes = "获取购物车列表")
+    public R cartList(@Validated @RequestBody PageVO pageVO){
+        int userId = userOperator.getUser().getId();
+        //goodsService.cartList(pageVO,userId);
+        return R.success(goodsService.cartList(pageVO,userId));
     }
 
 }

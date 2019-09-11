@@ -20,13 +20,16 @@ import com.ruoyi.app.common.persistence.model.StoreGoods;
 import com.ruoyi.app.common.persistence.model.StoreGoodsCollect;
 import com.ruoyi.app.common.persistence.model.StoreSpecGoodsPrice;
 import com.ruoyi.app.modular.shop.service.IGoodsService;
+import com.ruoyi.app.modular.shop.service.dto.CartDTO;
 import com.ruoyi.app.modular.shop.service.dto.GoodsDTO;
 import com.ruoyi.app.modular.shop.service.dto.ItemDTO;
 import com.ruoyi.app.modular.shop.service.dto.SpecItemDTO;
+import com.ruoyi.app.modular.shop.service.mapper.CartMapper;
 import com.ruoyi.app.modular.shop.service.mapper.CateMapper;
 import com.ruoyi.app.modular.shop.service.mapper.GoodsMapper;
 import com.ruoyi.app.modular.shop.service.vo.CartAttrVO;
 import com.ruoyi.app.modular.shop.service.vo.CartVO;
+import com.ruoyi.app.modular.shop.service.vo.PageVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +47,7 @@ public class GoodsServiceImpl extends ServiceImpl<StoreGoodsMapper, StoreGoods> 
     private final StoreGoodsCollectMapper storeGoodsCollectMapper;
     private final StoreSpecGoodsPriceMapper storeSpecGoodsPriceMapper;
     private final StoreCartMapper storeCartMapper;
+    private final CartMapper cartMapper;
 
 
     /**
@@ -172,6 +176,12 @@ public class GoodsServiceImpl extends ServiceImpl<StoreGoodsMapper, StoreGoods> 
     }
 
 
+    /**
+     * 添加购物车
+     * @param cartVO
+     * @param userId
+     * @return
+     */
     @Override
     public boolean addCart(CartVO cartVO,int userId) {
         StoreGoods storeGoods = getById(cartVO.getGoodsId());
@@ -208,5 +218,47 @@ public class GoodsServiceImpl extends ServiceImpl<StoreGoodsMapper, StoreGoods> 
 
 
         return true;
+    }
+
+
+    @Override
+    public boolean delCart(String goodsIds,int userId) {
+        String[] goodsArr = goodsIds.split(",");
+        QueryWrapper<StoreCart> cartQueryWrapper = new QueryWrapper<>();
+        cartQueryWrapper.in("goods_id",Arrays.asList(goodsArr)).eq("user_id",userId);
+        int result = storeCartMapper.delete(cartQueryWrapper);
+        if(result > 0) return true;
+        return false;
+    }
+
+
+    /**
+     * 购物车列表
+     * @param pageVO
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<CartDTO> cartList(PageVO pageVO,int userId) {
+        QueryWrapper<StoreCart> cartQueryWrapper = new QueryWrapper<>();
+        cartQueryWrapper.eq("user_id",userId).groupBy("goods_id");
+        Page<StoreCart> pageModel = new Page<>(pageVO.getPage(), pageVO.getLimit());
+        IPage<StoreCart> storeCarts = storeCartMapper
+                .selectPage(pageModel,cartQueryWrapper);
+        List<StoreCart> storeCartList = storeCarts.getRecords();
+        List<CartDTO> carts = new ArrayList<>();
+        CartDTO cartDTO = new CartDTO();
+        for (StoreCart storeCart : storeCartList) {
+            StoreGoods storeGoods = getById(storeCart.getGoodsId());
+            cartDTO.setGoodsId(storeCart.getGoodsId());
+            cartDTO.setGoodsName(storeGoods.getGoodsName());
+            cartDTO.setGoodsSn(storeGoods.getGoodsSn());
+            cartDTO.setGoodsLogo(storeGoods.getGoodsLogo());
+            QueryWrapper<StoreCart> wrapper = new QueryWrapper<>();
+            wrapper.eq("user_id",userId).eq("goods_id",storeCart.getGoodsId());
+            cartDTO.setSpecList(cartMapper.toDto(storeCartMapper.selectList(wrapper)));
+            carts.add(cartDTO);
+        }
+        return carts;
     }
 }
