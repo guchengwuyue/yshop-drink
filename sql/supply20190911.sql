@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 30/08/2019 17:03:51
+ Date: 11/09/2019 18:52:23
 */
 
 SET NAMES utf8mb4;
@@ -448,7 +448,7 @@ CREATE TABLE `qrtz_scheduler_state`  (
 -- ----------------------------
 -- Records of qrtz_scheduler_state
 -- ----------------------------
-INSERT INTO `qrtz_scheduler_state` VALUES ('RuoyiScheduler', 'DESKTOP-GCTSJEJ1567153907559', 1567155832041, 15000);
+INSERT INTO `qrtz_scheduler_state` VALUES ('RuoyiScheduler', 'DESKTOP-GCTSJEJ1567153907559', 1567161824117, 15000);
 
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
@@ -561,7 +561,7 @@ CREATE TABLE `store_cart`  (
   `spec_key_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '商品规格组合名称',
   `bar_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '商品条码',
   `selected` tinyint(1) NULL DEFAULT 1 COMMENT '购物车选中状态',
-  `add_time` int(11) NULL DEFAULT 0 COMMENT '加入购物车的时间',
+  `add_time` datetime(0) NULL DEFAULT NULL COMMENT '加入购物车的时间',
   `prom_type` tinyint(1) NULL DEFAULT 0 COMMENT '0 普通订单,1 限时抢购, 2 团购 , 3 促销优惠',
   `prom_id` int(11) NULL DEFAULT 0 COMMENT '活动id',
   `sku` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT 'sku',
@@ -570,17 +570,13 @@ CREATE TABLE `store_cart`  (
   INDEX `user_id`(`user_id`) USING BTREE,
   INDEX `goods_id`(`goods_id`) USING BTREE,
   INDEX `spec_key`(`spec_key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 98 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '购物车表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 109 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '购物车表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of store_cart
 -- ----------------------------
-INSERT INTO `store_cart` VALUES (24, 1, '', 5, '#10086', '枕芯产品', 0.00, 110.00, 0.00, 1, '6_10', '尺寸:150*120cm 颜色:红色', '', 1, 1537062212, 0, 0, '');
-INSERT INTO `store_cart` VALUES (25, 1, '', 5, '#10086', '枕芯产品', 0.00, 101.00, 0.00, 1, '7_10', '尺寸:200*230cm 颜色:红色', '', 1, 1537062212, 0, 0, '');
-INSERT INTO `store_cart` VALUES (32, 4, '', 4, '#10078', '布料标题', 0.00, 80.00, 0.00, 1, '8_11', '尺寸:300*500cm 颜色:黑色', '', 1, 1537170916, 0, 0, '');
-INSERT INTO `store_cart` VALUES (95, 7, '', 4, '#10078', '小米8青春', 0.00, 80.00, 0.00, 1, '8_11', '尺寸:300*500cm 颜色:黑色', '', 1, 1539242208, 0, 0, '');
-INSERT INTO `store_cart` VALUES (96, 5, '', 4, '#10078', '小米8青春', 0.00, 80.00, 0.00, 1, '8_11', '尺寸:300*500cm 颜色:黑色', '', 1, 1540268780, 0, 0, '');
-INSERT INTO `store_cart` VALUES (97, 5, '', 4, '#10078', '小米8青春', 0.00, 90.00, 0.00, 1, '8_12', '尺寸:300*500cm 颜色:紫色', '', 1, 1540268780, 0, 0, '');
+INSERT INTO `store_cart` VALUES (107, 3, '', 4, '#10078', '小米8青春', 0.00, 80.00, 0.00, 2, '8_11', '尺寸:300*500cm 颜色:黑色', '', 1, '2019-09-11 10:22:08', 0, 0, '');
+INSERT INTO `store_cart` VALUES (108, 3, '', 4, '#10078', '小米8青春', 0.00, 90.00, 0.00, 3, '8_12', '尺寸:300*500cm 颜色:紫色', '', 1, '2019-09-11 10:22:08', 0, 0, '');
 
 -- ----------------------------
 -- Table structure for store_code
@@ -1067,26 +1063,25 @@ CREATE TABLE `store_goods_collect`  (
   `collect_id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '表id',
   `user_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户id',
   `goods_id` mediumint(8) UNSIGNED NOT NULL DEFAULT 0 COMMENT '商品id',
-  `add_time` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '添加时间',
+  `add_time` datetime(0) NULL DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`collect_id`) USING BTREE,
   INDEX `user_id`(`user_id`) USING BTREE,
   INDEX `goods_id`(`goods_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 416 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品收藏表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 421 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品收藏表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of store_goods_collect
 -- ----------------------------
-INSERT INTO `store_goods_collect` VALUES (342, 3, 6, 1537269491);
-INSERT INTO `store_goods_collect` VALUES (352, 2, 5, 1537756223);
-INSERT INTO `store_goods_collect` VALUES (361, 5, 4, 1537861390);
-INSERT INTO `store_goods_collect` VALUES (398, 3, 5, 1538125477);
-INSERT INTO `store_goods_collect` VALUES (399, 3, 4, 1538125680);
-INSERT INTO `store_goods_collect` VALUES (400, 3, 4, 1538125689);
-INSERT INTO `store_goods_collect` VALUES (406, 2, 4, 1539013949);
-INSERT INTO `store_goods_collect` VALUES (410, 7, 4, 1539049917);
-INSERT INTO `store_goods_collect` VALUES (412, 7, 5, 1539239412);
-INSERT INTO `store_goods_collect` VALUES (414, 7, 6, 1539239437);
-INSERT INTO `store_goods_collect` VALUES (415, 7, 7, 1539239442);
+INSERT INTO `store_goods_collect` VALUES (342, 3, 6, '0000-00-00 00:00:00');
+INSERT INTO `store_goods_collect` VALUES (352, 2, 5, '0000-00-00 00:00:00');
+INSERT INTO `store_goods_collect` VALUES (361, 5, 4, '0000-00-00 00:00:00');
+INSERT INTO `store_goods_collect` VALUES (398, 3, 5, '0000-00-00 00:00:00');
+INSERT INTO `store_goods_collect` VALUES (406, 2, 4, '0000-00-00 00:00:00');
+INSERT INTO `store_goods_collect` VALUES (410, 7, 4, '0000-00-00 00:00:00');
+INSERT INTO `store_goods_collect` VALUES (412, 7, 5, '0000-00-00 00:00:00');
+INSERT INTO `store_goods_collect` VALUES (414, 7, 6, '0000-00-00 00:00:00');
+INSERT INTO `store_goods_collect` VALUES (415, 7, 7, '0000-00-00 00:00:00');
+INSERT INTO `store_goods_collect` VALUES (420, 3, 4, '2019-09-10 07:06:18');
 
 -- ----------------------------
 -- Table structure for store_goods_consult
@@ -2660,7 +2655,7 @@ CREATE TABLE `sys_logininfor`  (
   `msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '提示消息',
   `login_time` datetime(0) NULL DEFAULT NULL COMMENT '访问时间',
   PRIMARY KEY (`info_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 425 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 426 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -2990,6 +2985,7 @@ INSERT INTO `sys_logininfor` VALUES (421, 'admin', '127.0.0.1', '内网IP', 'Chr
 INSERT INTO `sys_logininfor` VALUES (422, 'admin', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10', '0', '登录成功', '2019-08-30 16:18:13');
 INSERT INTO `sys_logininfor` VALUES (423, 'admin', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10', '0', '登录成功', '2019-08-30 16:30:59');
 INSERT INTO `sys_logininfor` VALUES (424, 'admin', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10', '0', '登录成功', '2019-08-30 16:32:07');
+INSERT INTO `sys_logininfor` VALUES (425, 'admin', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10', '0', '登录成功', '2019-08-30 17:21:30');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -3451,7 +3447,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 103, 'admin', '供货商城', '00', 'ry@163.com', '15888888888', '1', '', '29c67a30398638269fe600f73a054934', '111111', '0', '0', '127.0.0.1', '2019-08-30 16:32:08', 'admin', '2018-03-16 11:33:00', 'ry', '2019-08-30 16:32:07', '管理员');
+INSERT INTO `sys_user` VALUES (1, 103, 'admin', '供货商城', '00', 'ry@163.com', '15888888888', '1', '', '29c67a30398638269fe600f73a054934', '111111', '0', '0', '127.0.0.1', '2019-08-30 17:21:31', 'admin', '2018-03-16 11:33:00', 'ry', '2019-08-30 17:21:30', '管理员');
 INSERT INTO `sys_user` VALUES (2, 105, 'ry', '若依', '00', 'ry@qq.com', '15666666666', '1', '', '8e6d98b90472783cc73c17047ddccf36', '222222', '0', '0', '127.0.0.1', '2018-03-16 11:33:00', 'admin', '2018-03-16 11:33:00', 'ry', '2018-03-16 11:33:00', '测试员');
 
 -- ----------------------------
@@ -3472,11 +3468,6 @@ CREATE TABLE `sys_user_online`  (
   `expire_time` int(5) NULL DEFAULT 0 COMMENT '超时时间，单位为分钟',
   PRIMARY KEY (`sessionId`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '在线用户记录' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_user_online
--- ----------------------------
-INSERT INTO `sys_user_online` VALUES ('73d335c3-76cd-4ad2-8aef-462f0b6e2989', 'admin', '研发部门', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10', 'on_line', '2019-08-30 15:45:10', '2019-08-30 16:47:51', 1800000);
 
 -- ----------------------------
 -- Table structure for sys_user_post
