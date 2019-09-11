@@ -11,6 +11,8 @@ import com.ruoyi.app.modular.member.service.dto.MemberDTO;
 import com.ruoyi.app.modular.member.service.mapper.MemberMapper;
 //import io.swagger.annotations.Api;
 //import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,15 +30,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/user")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-//@Api(value = "个人中心", tags = "个人中心模块", description = "个人中心")
+@Api(value = "个人中心", tags = "个人中心模块", description = "个人中心")
 public class UserController {
     private final UserOperator userOperator;
     private final IMemberService memberService;
     private final MemberMapper memberMapper;
 
     @GetMapping(value = "/info")
-    @PreAuthorize("hasAllRoles('user')")
-    //@ApiOperation(value = "获取个人信息",notes = "获取个人信息")
+    //@PreAuthorize("hasAllRoles('user')")
+    @ApiOperation(value = "获取个人信息",notes = "获取个人信息")
     public R userInfo(){
         //redis测试
         //StringHandler stringHandler = RedisUtil.getStringHandler();
@@ -49,7 +51,7 @@ public class UserController {
 
     @GetMapping(value = "/super")
     @PreAuthorize("hasAllRoles('user','admin')")
-    //@ApiOperation(value = "超管测试信息",notes = "超管测试信息")
+    @ApiOperation(value = "超管测试信息",notes = "超管测试信息")
     public R superInfo(){
         return R.success("超级管理员才可以访问的权限");
     }
