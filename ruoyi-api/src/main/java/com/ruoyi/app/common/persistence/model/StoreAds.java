@@ -27,18 +27,27 @@ public class StoreAds extends Model<StoreAds> {
      */
     @TableField("video_url")
     private String videoUrl;
+
     /**
      * 轮播图片地址
      */
     private String url;
+
+
+
     /**
      * 类型1-视频 2-图片
      */
     private Integer type;
+
+
+
     /**
      * 序号
      */
     private Integer sort;
+
+
     /**
      * 创建时间
      */

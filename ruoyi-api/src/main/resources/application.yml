@@ -37,40 +37,72 @@ mybatis-plus:
   mapper-locations: classpath*:com/ruoyi/app/common/persistence/dao/mapping/*.xml
   typeAliasesPackage: com.ruoyi.app.common.persistence.model
   global-config:
-    id-type: 0  #0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
-    db-column-underline: false
-    refresh-mapper: true
-  configuration:
-    map-underscore-to-camel-case: false
-    cache-enabled: true #配置的缓存的全局开关
-    lazyLoadingEnabled: true #延时加载的开关
-    multipleResultSetsEnabled: true #开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句,调试用
+    banner: false
+    db-config:
+      # 主键类型 0:数据库ID自增 1.未定义 2.用户输入 3 id_worker 4.uuid 5.id_worker字符串表示
+      id-type: AUTO
+      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+      field-strategy: NOT_NULL
+      # 默认数据库表下划线命名
+      table-underline: true
+#  configuration:
+#    map-underscore-to-camel-case: false
+#    cache-enabled: true #配置的缓存的全局开关
+#    lazyLoadingEnabled: true #延时加载的开关
+#    multipleResultSetsEnabled: true #开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
+##    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句,调试用
 
 spring:
   #DATABASE CONFIG
   datasource:
     #driver-class-name: com.mysql.jdbc.Driver
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    #driverClassName: com.mysql.cj.jdbc.Driver
     username: root
     password: root
     url: jdbc:p6spy:mysql://localhost:3306/ruoyi?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=UTC
     #url: jdbc:mysql://localhost:3306/ruoyi?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=UTC
     type: com.alibaba.druid.pool.DruidDataSource   #这里是配置druid连接池，以下都是druid的配置信息
-    filters: stat,wall,log4j
-    maxActive: 20
-    initialSize: 1
-    maxWait: 60000
-    minIdle: 1
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    validationQuery: select 'x'
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: true
-    maxOpenPreparedStatements: 20
-    connection-properties: druid.stat.merggSql=ture;druid.stat.slowSqlMillis=5000
+    druid:
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      testWhileIdle: true
+      validationQuery: SELECT 1 FROM DUAL
+      testOnBorrow: false
+      testOnReturn: false
+      webStatFilter:
+        enabled: true
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码
+        login-username:
+        login-password:
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
   #redis 配置
   redis:
     database: 0

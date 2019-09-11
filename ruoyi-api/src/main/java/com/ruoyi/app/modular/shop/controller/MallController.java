@@ -10,6 +10,7 @@ import com.ruoyi.app.modular.shop.service.dto.SpecItemDTO;
 import com.ruoyi.app.modular.shop.service.impl.CateServiceImpl;
 import com.ruoyi.app.modular.shop.service.impl.GoodsServiceImpl;
 import com.ruoyi.app.modular.shop.service.mapper.GoodsMapper;
+import com.ruoyi.app.modular.shop.service.vo.CartVO;
 import com.ruoyi.app.modular.shop.service.vo.CollectVO;
 import com.ruoyi.app.modular.shop.service.vo.PageVO;
 import io.swagger.annotations.Api;
@@ -111,6 +112,19 @@ public class MallController {
         }else{
             return R.error(4000,"操作失败");
         }
+    }
+
+    @PostMapping("/shop/mall-add-cart")
+    @ApiOperation(value = "添加购物车",notes = "添加购物车")
+    public R addCart(@Validated @RequestBody CartVO cartVO){
+        int userId = userOperator.getUser().getId();
+        boolean result = goodsService.addCart(cartVO,userId);
+        if(result){
+            return R.success("操作成功");
+        }else{
+            return R.error(4000,"操作失败");
+        }
+
     }
 
 }
