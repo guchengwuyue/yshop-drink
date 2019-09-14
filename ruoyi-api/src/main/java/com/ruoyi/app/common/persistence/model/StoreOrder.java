@@ -1,12 +1,11 @@
 package com.ruoyi.app.common.persistence.model;
 
-import com.baomidou.mybatisplus.enums.IdType;
 import java.math.BigDecimal;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableName;
+
+import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -194,8 +193,8 @@ public class StoreOrder extends Model<StoreOrder> {
     /**
      * 下单时间
      */
-    @TableField("add_time")
-    private Integer addTime;
+    @TableField(value = "add_time",fill = FieldFill.INSERT)
+    private Date addTime;
     /**
      * 最后新发货时间
      */
@@ -599,11 +598,11 @@ public class StoreOrder extends Model<StoreOrder> {
         this.totalAmount = totalAmount;
     }
 
-    public Integer getAddTime() {
+    public Date getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Integer addTime) {
+    public void setAddTime(Date addTime) {
         this.addTime = addTime;
     }
 

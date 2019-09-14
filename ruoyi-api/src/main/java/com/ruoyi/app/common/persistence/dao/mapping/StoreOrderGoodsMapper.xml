@@ -21,12 +21,9 @@
         <result column="is_comment" property="isComment" />
         <result column="prom_type" property="promType" />
         <result column="prom_id" property="promId" />
-        <result column="pay_status" property="payStatus" />
         <result column="is_send" property="isSend" />
         <result column="delivery_id" property="deliveryId" />
         <result column="sku" property="sku" />
-        <result column="start_time" property="startTime" />
-        <result column="end_time" property="endTime" />
     </resultMap>
 
 </mapper>

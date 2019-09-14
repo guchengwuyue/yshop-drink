@@ -3,16 +3,17 @@ package com.ruoyi.app.modular.shop.controller;
 import cn.hutool.core.util.StrUtil;
 import com.itmuch.lightsecurity.jwt.UserOperator;
 import com.ruoyi.app.common.R;
-import com.ruoyi.app.common.exception.BadRequestException;
 import com.ruoyi.app.common.persistence.model.StoreSpecGoodsPrice;
 import com.ruoyi.app.modular.shop.service.dto.CateDTO;
 import com.ruoyi.app.modular.shop.service.dto.GoodsDTO;
 import com.ruoyi.app.modular.shop.service.dto.SpecItemDTO;
 import com.ruoyi.app.modular.shop.service.impl.CateServiceImpl;
 import com.ruoyi.app.modular.shop.service.impl.GoodsServiceImpl;
+import com.ruoyi.app.modular.shop.service.impl.OrderServiceImpl;
 import com.ruoyi.app.modular.shop.service.mapper.GoodsMapper;
 import com.ruoyi.app.modular.shop.service.vo.CartVO;
 import com.ruoyi.app.modular.shop.service.vo.CollectVO;
+import com.ruoyi.app.modular.shop.service.vo.OrderVo;
 import com.ruoyi.app.modular.shop.service.vo.PageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,6 +40,7 @@ public class MallController {
     private final GoodsServiceImpl goodsService;
     private final UserOperator userOperator;
     private final GoodsMapper goodsMapper;
+    private final OrderServiceImpl orderervice;
 
     @GetMapping("/shop/mall-lists")
     @ApiOperation(value = "商品分类模块列表",notes = "商品分类模块列表")
@@ -152,5 +154,22 @@ public class MallController {
         //goodsService.cartList(pageVO,userId);
         return R.success(goodsService.cartList(pageVO,userId));
     }
+
+    @PostMapping("/shop/mall-order-submit")
+    @ApiOperation(value = "提交订单",notes = "提交订单")
+    public R submitOrder(@Validated @RequestBody OrderVo orderVo){
+        int userId = userOperator.getUser().getId();
+        String orderSn = "";
+        if(Integer.valueOf(orderVo.getOrderFrom()) == 1){
+            orderSn = orderervice.addOrderOfOne(orderVo,userId);
+        }else{
+            orderSn = orderervice.addOrderOfTwo(orderVo,userId);
+        }
+
+        HashMap<String,String> map = new HashMap<>();
+        map.put("orderSn",orderSn);
+        return R.success(map);
+    }
+
 
 }
