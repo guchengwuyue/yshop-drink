@@ -39,10 +39,17 @@
 
     
 
-第二步：迁移小程序API，目前mall模块基本完成，已经开始进入user模块迁移中，莫慌....
+第二步：迁移小程序API，目前API模块已经基本完成
 涉及到技术： **springboot+mybatis-plus+jwt+mapstruct+lombok+redis+swagger** 
 大致如下效果：
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0914/145813_85d0bdc7_477893.png "微信截图_20190914145711.png")
+
+<table>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2019/0914/145813_85d0bdc7_477893.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2019/0916/164354_34a2cf90_477893.png"/></td>
+    </tr>	 
+</table>
+
 
 
 第三步：迁移小程序，小程序主要是用 **mpvue** 框架开发，这里就不说它的好处。（最近很多人问小程序代码，可以加群(后面有)看公告）
