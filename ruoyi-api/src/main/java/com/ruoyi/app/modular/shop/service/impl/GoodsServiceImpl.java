@@ -210,6 +210,7 @@ public class GoodsServiceImpl extends ServiceImpl<StoreGoodsMapper, StoreGoods> 
             cart.setGoodsName(storeGoods.getGoodsName());
             cart.setSpecKey(attrVO.getSpecKey());
             cart.setSpecKeyName(storeSpecGoodsPrice.getKeyName());
+            cart.setGoodsLogo(storeGoods.getGoodsLogo());
 
             int result =  storeCartMapper.insert(cart);
             if(result == 0) return false;

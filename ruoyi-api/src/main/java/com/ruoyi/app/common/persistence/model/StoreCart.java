@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.Data;
 
-import javax.xml.crypto.Data;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,6 +18,7 @@ import java.util.Date;
  * @since 2019-09-10
  */
 @TableName("store_cart")
+@Data
 public class StoreCart extends Model<StoreCart> {
 
     private static final long serialVersionUID = 1L;
@@ -52,6 +53,9 @@ public class StoreCart extends Model<StoreCart> {
      */
     @TableField("goods_name")
     private String goodsName;
+
+    @TableField("goods_logo")
+    private String goodsLogo;
     /**
      * 零售价
      */
@@ -112,176 +116,5 @@ public class StoreCart extends Model<StoreCart> {
     private String sku;
 
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
-
-    public Integer getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(Integer goodsId) {
-        this.goodsId = goodsId;
-    }
-
-    public String getGoodsSn() {
-        return goodsSn;
-    }
-
-    public void setGoodsSn(String goodsSn) {
-        this.goodsSn = goodsSn;
-    }
-
-    public String getGoodsName() {
-        return goodsName;
-    }
-
-    public void setGoodsName(String goodsName) {
-        this.goodsName = goodsName;
-    }
-
-    public BigDecimal getMarketPrice() {
-        return marketPrice;
-    }
-
-    public void setMarketPrice(BigDecimal marketPrice) {
-        this.marketPrice = marketPrice;
-    }
-
-    public BigDecimal getGoodsPrice() {
-        return goodsPrice;
-    }
-
-    public void setGoodsPrice(BigDecimal goodsPrice) {
-        this.goodsPrice = goodsPrice;
-    }
-
-    public BigDecimal getMemberGoodsPrice() {
-        return memberGoodsPrice;
-    }
-
-    public void setMemberGoodsPrice(BigDecimal memberGoodsPrice) {
-        this.memberGoodsPrice = memberGoodsPrice;
-    }
-
-    public Integer getGoodsNum() {
-        return goodsNum;
-    }
-
-    public void setGoodsNum(Integer goodsNum) {
-        this.goodsNum = goodsNum;
-    }
-
-    public String getSpecKey() {
-        return specKey;
-    }
-
-    public void setSpecKey(String specKey) {
-        this.specKey = specKey;
-    }
-
-    public String getSpecKeyName() {
-        return specKeyName;
-    }
-
-    public void setSpecKeyName(String specKeyName) {
-        this.specKeyName = specKeyName;
-    }
-
-    public String getBarCode() {
-        return barCode;
-    }
-
-    public void setBarCode(String barCode) {
-        this.barCode = barCode;
-    }
-
-    public Integer getSelected() {
-        return selected;
-    }
-
-    public void setSelected(Integer selected) {
-        this.selected = selected;
-    }
-
-    public Date getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
-    }
-
-    public Integer getPromType() {
-        return promType;
-    }
-
-    public void setPromType(Integer promType) {
-        this.promType = promType;
-    }
-
-    public Integer getPromId() {
-        return promId;
-    }
-
-    public void setPromId(Integer promId) {
-        this.promId = promId;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public void setSku(String sku) {
-        this.sku = sku;
-    }
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
-
-    @Override
-    public String toString() {
-        return "StoreCart{" +
-        ", id=" + id +
-        ", userId=" + userId +
-        ", sessionId=" + sessionId +
-        ", goodsId=" + goodsId +
-        ", goodsSn=" + goodsSn +
-        ", goodsName=" + goodsName +
-        ", marketPrice=" + marketPrice +
-        ", goodsPrice=" + goodsPrice +
-        ", memberGoodsPrice=" + memberGoodsPrice +
-        ", goodsNum=" + goodsNum +
-        ", specKey=" + specKey +
-        ", specKeyName=" + specKeyName +
-        ", barCode=" + barCode +
-        ", selected=" + selected +
-        ", addTime=" + addTime +
-        ", promType=" + promType +
-        ", promId=" + promId +
-        ", sku=" + sku +
-        "}";
-    }
 }

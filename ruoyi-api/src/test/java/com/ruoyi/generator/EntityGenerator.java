@@ -58,7 +58,7 @@ public class EntityGenerator {
         StrategyConfig strategy = new StrategyConfig();
         //strategy.setTablePrefix(new String[]{"_"});// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-        strategy.setInclude(new String[]{"store_points_money_log","store_comment"});
+        strategy.setInclude(new String[]{"store_order",});
         mpg.setStrategy(strategy);
 
         // 包配置

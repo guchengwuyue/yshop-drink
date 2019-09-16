@@ -5,9 +5,12 @@ package com.ruoyi.app.modular.shop.service.impl;
 
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itmuch.lightsecurity.exception.LightSecurityException;
 import com.ruoyi.app.common.persistence.dao.*;
@@ -15,9 +18,14 @@ import com.ruoyi.app.common.persistence.model.*;
 import com.ruoyi.app.common.utils.OrderUtil;
 import com.ruoyi.app.modular.shop.service.IOrderService;
 import com.ruoyi.app.modular.shop.service.dto.CouponDTO;
+import com.ruoyi.app.modular.shop.service.dto.GoodsDTO;
+import com.ruoyi.app.modular.shop.service.dto.OrderDTO;
+import com.ruoyi.app.modular.shop.service.mapper.GoodsMapper;
+import com.ruoyi.app.modular.shop.service.mapper.OrderMapper;
 import com.ruoyi.app.modular.shop.service.vo.CartAttrVO;
 import com.ruoyi.app.modular.shop.service.vo.CartVO;
 import com.ruoyi.app.modular.shop.service.vo.OrderVo;
+import com.ruoyi.app.modular.shop.service.vo.PageVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +49,9 @@ public class OrderServiceImpl extends ServiceImpl<StoreOrderMapper, StoreOrder> 
     private final StoreCouponListMapper storeCouponListMapper;
     private final OrderGoodsServiceImpl orderGoodsService;
     private final GoodsServiceImpl goodsService;
+    private final StoreOrderGoodsMapper storeOrderGoodsMapper;
+    private final OrderMapper orderMapper;
+    private final StorePointsMoneyLogMapper storePointsMoneyLogMapper;
 
     /**
      * 购物车提交
@@ -124,6 +135,7 @@ public class OrderServiceImpl extends ServiceImpl<StoreOrderMapper, StoreOrder> 
             orderGoods.setGoodsNum(cart.getGoodsNum());
             orderGoods.setSpecKey(cart.getSpecKey());
             orderGoods.setSpecKeyName(cart.getSpecKeyName());
+            orderGoods.setGoodsLogo(cart.getGoodsLogo());
 
             orderGoodsList.add(orderGoods);
         }
@@ -228,6 +240,7 @@ public class OrderServiceImpl extends ServiceImpl<StoreOrderMapper, StoreOrder> 
             orderGoods.setGoodsNum(attrVO.getGoodsNum());
             orderGoods.setSpecKey(attrVO.getSpecKey());
             orderGoods.setSpecKeyName(specGoodsPrice.getKeyName());
+            orderGoods.setGoodsLogo(storeGoods.getGoodsLogo());
 
             orderGoodsList.add(orderGoods);
 
@@ -256,5 +269,153 @@ public class OrderServiceImpl extends ServiceImpl<StoreOrderMapper, StoreOrder> 
         storeCouponList.setStatus(1);
         storeCouponListMapper.updateById(storeCouponList);
         storeCouponMapper.incUserNum(id);
+    }
+
+
+    /**
+     * 订单列表
+     * @param status
+     * @param userId
+     * @param page
+     * @param limit
+     * @return
+     */
+    @Override
+    public List<OrderDTO> orderList(int status, int userId, int page,int limit) {
+        QueryWrapper<StoreOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("deleted",0).eq("user_id",userId);
+        // 0-全部 1-待付款 2-待发货 3-待收货 4-待评价
+        switch (status){
+            case 1:
+                wrapper.eq("pay_status",0);
+                break;
+            case 2:
+                wrapper.eq("pay_status",1).eq("shipping_status",0).eq("order_status",0);
+                break;
+            case 3:
+                wrapper.eq("shipping_status",1);
+                break;
+            case 4:
+                wrapper.eq("order_status",1);
+                break;
+        }
+
+        Page<StoreOrder> pageModel = new Page<>(page, limit);
+        IPage<StoreOrder> pageList = baseMapper.selectPage(pageModel,wrapper);
+        List<StoreOrder> list = pageList.getRecords();
+
+
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+        for (StoreOrder storeOrder : list) {
+            QueryWrapper<StoreOrderGoods> wrapperGoods = new QueryWrapper<>();
+            wrapperGoods.eq("order_id",storeOrder.getOrderId());
+            List<StoreOrderGoods> storeGoods = storeOrderGoodsMapper.selectList(wrapperGoods);
+            OrderDTO orderDTO = orderMapper.toDto(storeOrder);
+            orderDTO.setGoodsList(storeGoods);
+            //处理订单状态
+            orderDTO.setStatus(OrderUtil.orderStatus(storeOrder.getPayStatus(),
+                    storeOrder.getShippingStatus(),storeOrder.getOrderStatus()));
+
+            orderDTOList.add(orderDTO);
+
+        }
+
+        return orderDTOList;
+    }
+
+
+    /**
+     * 订单详情
+     * @param orderId
+     * @param userId
+     * @return
+     */
+    @Override
+    public OrderDTO orderDetail(String orderId,int userId) {
+        QueryWrapper<StoreOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("deleted",0).eq("user_id",userId).and(
+                i->i.eq("order_id",orderId).or().eq("order_sn",orderId));
+        StoreOrder storeOrder = baseMapper.selectOne(wrapper);
+
+        QueryWrapper<StoreOrderGoods> wrapperGoods = new QueryWrapper<>();
+        wrapperGoods.eq("order_id",storeOrder.getOrderId());
+        List<StoreOrderGoods> orderGoodsList = storeOrderGoodsMapper
+                .selectList(wrapperGoods);
+        OrderDTO orderDTO = orderMapper.toDto(storeOrder);
+        orderDTO.setGoodsList(orderGoodsList);
+        //处理订单状态
+        orderDTO.setStatus(OrderUtil.orderStatus(storeOrder.getPayStatus(),
+                storeOrder.getShippingStatus(),storeOrder.getOrderStatus()));
+
+        return orderDTO;
+    }
+
+    /**
+     * 操作订单
+     * @param orderId
+     * @param type 操作类型 1-取消订单 2-确认收货 3-退货
+     */
+    @Override
+    @Transactional
+    public void orderHandle(int orderId, int type,int userId) {
+        QueryWrapper<StoreOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("deleted",0).eq("user_id",userId).eq("order_id",orderId);
+        StoreOrder storeOrder = baseMapper.selectOne(wrapper);
+        if(ObjectUtil.isNull(storeOrder)){
+            throw new LightSecurityException("订单不存在");
+        }
+
+        StoreOrder order = new StoreOrder();
+        order.setOrderId(orderId);
+        switch (type){
+            case 1:
+                if(storeOrder.getPayStatus() != 0){
+                    throw new LightSecurityException("只有未付款订单才能取消");
+                }
+                order.setDeleted(1);
+                order.setDeletedTime(OrderUtil.getSecondTimestampTwo());
+                break;
+            case 2:
+                if(storeOrder.getShippingStatus() != 1){
+                    throw new LightSecurityException("只能操作已经发货订单");
+                }
+                order.setOrderStatus(1);
+                order.setConfirmTime(OrderUtil.getSecondTimestampTwo());
+                break;
+            case 3:
+                if(storeOrder.getShippingStatus() == 1 && storeOrder.getOrderStatus() == 0){
+                    throw new LightSecurityException("已发货订单才能操作退货");
+                }
+                order.setShippingStatus(2);
+                break;
+        }
+
+        baseMapper.updateById(order);
+
+
+    }
+
+    /**
+     *
+     * @param type 1-积分 2-余额
+     * @param userId
+     * @param page
+     * @param limit
+     * @return
+     */
+    @Override
+    public List<StorePointsMoneyLog> pointsMoneyLogs(int type, int userId, int page, int limit) {
+        QueryWrapper<StorePointsMoneyLog> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id",userId).orderByDesc("create_time");
+        if(type == 1){
+            wrapper.gt("points_number",0);
+        }else{
+            wrapper.gt("money_number",0);
+        }
+        Page<StorePointsMoneyLog> pageModel = new Page<>(page, limit);
+        IPage<StorePointsMoneyLog> pageList = storePointsMoneyLogMapper.selectPage(pageModel,wrapper);
+        List<StorePointsMoneyLog> list = pageList.getRecords();
+
+        return list;
     }
 }
