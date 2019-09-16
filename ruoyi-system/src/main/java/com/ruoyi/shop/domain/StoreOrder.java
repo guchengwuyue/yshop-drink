@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -144,7 +145,7 @@ public class StoreOrder extends BaseEntity
 
     /** 下单时间 */
     @Excel(name = "下单时间")
-    private Integer addTime;
+    private Date addTime;
 
     /** 最后新发货时间 */
     @Excel(name = "最后新发货时间")
@@ -542,12 +543,12 @@ public class StoreOrder extends BaseEntity
     {
         return totalAmount;
     }
-    public void setAddTime(Integer addTime) 
+    public void setAddTime(Date addTime)
     {
         this.addTime = addTime;
     }
 
-    public Integer getAddTime() 
+    public Date getAddTime()
     {
         return addTime;
     }
