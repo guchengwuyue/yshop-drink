@@ -64,9 +64,10 @@ public class IndexController {
 
     @GetMapping("/shop/news-lists")
     @ApiOperation(value = "新闻列表",notes = "新闻列表")
-    public R news(@Validated @RequestBody PageVO pageVO){
+    public R news(@RequestParam(value = "page",defaultValue = "0") int page,
+                  @RequestParam(value = "limit",defaultValue = "10") int limit){
 
-        List<NewsDTO> newsList = newsService.getList(pageVO.getPage(),pageVO.getLimit());
+        List<NewsDTO> newsList = newsService.getList(page,limit);
 
         return R.success(newsList);
     }

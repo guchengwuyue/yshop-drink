@@ -32,10 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -417,5 +414,39 @@ public class OrderServiceImpl extends ServiceImpl<StoreOrderMapper, StoreOrder> 
         List<StorePointsMoneyLog> list = pageList.getRecords();
 
         return list;
+    }
+
+    @Override
+    public Map<String, Integer> countInfo(int userId) {
+        QueryWrapper<StoreOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("deleted",0).eq("user_id",userId).eq("pay_status",0);
+        int unpayCount  = count(wrapper);
+
+        QueryWrapper<StoreOrder> wrapper1 = new QueryWrapper<>();
+        wrapper1.eq("deleted",0).eq("user_id",userId)
+                .eq("pay_status",1).eq("shipping_status",0);
+        int undeliverCount  = count(wrapper1);
+
+        QueryWrapper<StoreOrder> wrapper2 = new QueryWrapper<>();
+        wrapper2.eq("deleted",0).eq("user_id",userId)
+                .eq("shipping_status",1).eq("order_status",0);
+        int deliveringCount  = count(wrapper2);
+
+        QueryWrapper<StoreOrder> wrapper3 = new QueryWrapper<>();
+        wrapper3.eq("deleted",0).eq("user_id",userId)
+                .eq("shipping_status",1).eq("order_status",1);
+        int unevalCount  = count(wrapper3);
+
+        QueryWrapper<StoreOrder> wrapper4 = new QueryWrapper<>();
+        wrapper4.eq("deleted",0).eq("user_id",userId).gt("shipping_status",1);
+        int returnCount  = count(wrapper4);
+
+        Map<String,Integer> map = new HashMap<>();
+        map.put("unpayCount",unpayCount);
+        map.put("undeliverCount",undeliverCount);
+        map.put("deliveringCount",deliveringCount);
+        map.put("unevalCount",unevalCount);
+        map.put("returnCount",returnCount);
+        return map;
     }
 }

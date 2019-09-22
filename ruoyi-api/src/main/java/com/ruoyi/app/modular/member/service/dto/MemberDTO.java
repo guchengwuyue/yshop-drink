@@ -6,6 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 
 
 @Data
@@ -73,6 +74,8 @@ public class MemberDTO implements Serializable  {
      * 会员状态0待审核 1-已审核 2-已拒绝
      */
     private Integer status;
+
+    private Map<String,Integer> countInfo;
 
 
 

@@ -44,15 +44,15 @@ public class MallController {
 
     @GetMapping("/shop/mall-lists")
     @ApiOperation(value = "商品分类模块列表",notes = "商品分类模块列表")
-    public R lists(@Validated @RequestBody PageVO pageVO){
+    public R lists(@RequestParam(value = "page",defaultValue = "0") int page,
+                   @RequestParam(value = "limit",defaultValue = "10") int limit){
         int userId = userOperator.getUser().getId();
         List<CateDTO> goodsCates = cateService.getList();
         List<GoodsDTO> recommedGoods = goodsService.getList(0,
-                pageVO.getPage(),pageVO.getLimit(),userId,"",1);
-        List<GoodsDTO> newGoods = goodsService.getList(0,pageVO.getPage(),
-                pageVO.getLimit(),userId,"",2);
+                page,limit,userId,"",1);
+        List<GoodsDTO> newGoods = goodsService.getList(0,page,limit,userId,"",2);
 
-        List<GoodsDTO> collectGoods = goodsMapper.toDto(goodsService.collectGoods(pageVO.getPage(),pageVO.getLimit(),userId));
+        List<GoodsDTO> collectGoods = goodsMapper.toDto(goodsService.collectGoods(page,limit,userId));
 
         Map<String,Object> map = new HashMap<>();
         map.put("goodsCates",goodsCates);
@@ -149,9 +149,13 @@ public class MallController {
 
     @GetMapping("/shop/mall-cart-list")
     @ApiOperation(value = "获取购物车列表",notes = "获取购物车列表")
-    public R cartList(@Validated @RequestBody PageVO pageVO){
+    public R cartList(@RequestParam(value = "page",defaultValue = "0") int page,
+                      @RequestParam(value = "limit",defaultValue = "10") int limit){
         int userId = userOperator.getUser().getId();
         //goodsService.cartList(pageVO,userId);
+        PageVO pageVO = new PageVO();
+        pageVO.setPage(page);
+        pageVO.setLimit(limit);
         return R.success(goodsService.cartList(pageVO,userId));
     }
 

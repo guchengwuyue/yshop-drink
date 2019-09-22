@@ -23,6 +23,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 //import wiki.xsx.core.handler.StringHandler;
 //import wiki.xsx.core.util.RedisUtil;
 
@@ -53,13 +56,19 @@ public class UserController {
         User user = userOperator.getUser();
         StoreMember member = memberService.getById(user.getId());
         MemberDTO memberDTO = memberMapper.toDto(member);
+        Map<String,Integer> mapCount = orderService.countInfo(user.getId());
+        memberDTO.setCountInfo(mapCount);
         return R.success(memberDTO);
     }
 
     @GetMapping(value = "/shop/user-my-address")
     @ApiOperation(value = "我的地址列表",notes = "我的地址列表")
-    public R addressList(@Validated @RequestBody PageVO pageVO){
+    public R addressList(@RequestParam(value = "page",defaultValue = "0") int page,
+                         @RequestParam(value = "limit",defaultValue = "10") int limit){
         int userId = userOperator.getUser().getId();
+        PageVO pageVO = new PageVO();
+        pageVO.setPage(page);
+        pageVO.setLimit(limit);
         return R.success(addressService.getList(pageVO,userId));
     }
 
@@ -97,8 +106,12 @@ public class UserController {
 
     @GetMapping(value = "/shop/user-my-collects")
     @ApiOperation(value = "我的收藏列表",notes = "我的收藏列表")
-    public R myCollect(@Validated @RequestBody PageVO pageVO){
+    public R myCollect(@RequestParam(value = "page",defaultValue = "0") int page,
+                       @RequestParam(value = "limit",defaultValue = "10") int limit){
         int userId = userOperator.getUser().getId();
+        PageVO pageVO = new PageVO();
+        pageVO.setPage(page);
+        pageVO.setLimit(limit);
         return R.success(goodsMapper.toDto(goodsService
                 .collectGoods(pageVO.getPage(),pageVO.getLimit(),userId)));
     }

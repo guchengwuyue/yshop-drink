@@ -12,6 +12,7 @@ import com.ruoyi.app.modular.shop.service.vo.PageVO;
 
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface IOrderService extends IService<StoreOrder> {
@@ -31,5 +32,7 @@ public interface IOrderService extends IService<StoreOrder> {
     public void orderHandle(int orderId,int type,int userId);
 
     public List<StorePointsMoneyLog> pointsMoneyLogs(int type, int userId, int page,int limit);
+
+    public Map<String,Integer> countInfo(int userId);
 
 }
