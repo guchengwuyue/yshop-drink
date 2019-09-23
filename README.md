@@ -39,8 +39,9 @@
 
     
 
-第二步：迁移小程序API，目前API模块已经基本完成
+第二步：迁移小程序API，目前API模块已经基本完成,
 涉及到技术： **springboot+mybatis-plus+jwt+mapstruct+lombok+redis+swagger** 
+
 大致如下效果：
 
 <table>
@@ -52,7 +53,26 @@
 
 
 
-第三步：迁移小程序，小程序主要是用 **mpvue** 框架开发，这里就不说它的好处。（最近很多人问小程序代码，可以加群(后面有)看公告）
+第三步：迁移小程序，小程序主要是用 **mpvue** 框架开发，这里就不说它的好处。
+
+ mpvue 小程序运行步骤：
+
+1、安装node环境
+     node 是8版本
+
+2、设置npm淘宝镜像
+
+npm set registry https://registry.npm.taobao.org/
+
+3、npm install
+
+4、npm run dev
+
+5、用ide打开小程序源码，修改src/api/apj.js请求url
+
+
+
+（最近很多人问小程序代码，可以加群(后面有)看公告）
 大致效果如下：
 <table>
     <tr>
