@@ -50,25 +50,30 @@ public class StoreGoodsServiceImpl implements IStoreGoodsService
         StoreSpecGoodsPrice goodsPriceDomain = new StoreSpecGoodsPrice();
         storeSpecGoodsPrice.setGoodsId(Long.valueOf(goodsId));
         goodsPriceDomain.setGoodsId(Long.valueOf(goodsId));
+        storeSpecGoodsPriceMapper.delStoreSpecGoodsPriceByGoodsId(Integer.valueOf(goodsId));
+
         for(Map.Entry<String, Map<String,String>> entry : specDataMap.entrySet()){
             String mapKey = entry.getKey();
             Map map = entry.getValue();
-            System.out.println(mapKey+":"+map);
+            //System.out.println(mapKey+":"+map);
             storeSpecGoodsPrice.setKey(mapKey);
-            List<StoreSpecGoodsPrice> storeSpecGoodsPrices = storeSpecGoodsPriceService
-                    .selectStoreSpecGoodsPriceList(storeSpecGoodsPrice);
+//            List<StoreSpecGoodsPrice> storeSpecGoodsPrices = storeSpecGoodsPriceService
+//                    .selectStoreSpecGoodsPriceList(storeSpecGoodsPrice);
 
             goodsPriceDomain.setKey(mapKey);
             goodsPriceDomain.setPrice(Double.valueOf(map.get("price").toString()));
             goodsPriceDomain.setMarketPrice(Double.valueOf(map.get("market_price").toString()));
             goodsPriceDomain.setStoreCount(Long.valueOf(map.get("store_count").toString()));
-            if(storeSpecGoodsPrices.isEmpty()){
-                goodsPriceDomain.setKeyName(map.get("key_name").toString());
-                storeSpecGoodsPriceService.insertStoreSpecGoodsPrice(goodsPriceDomain);
-            }else{
-                goodsPriceDomain.setItemId(storeSpecGoodsPrices.get(0).getItemId());
-                storeSpecGoodsPriceService.updateStoreSpecGoodsPrice(goodsPriceDomain);
-            }
+            goodsPriceDomain.setKeyName(map.get("key_name").toString());
+            storeSpecGoodsPriceService.insertStoreSpecGoodsPrice(goodsPriceDomain);
+
+//            if(storeSpecGoodsPrices.isEmpty()){
+//                goodsPriceDomain.setKeyName(map.get("key_name").toString());
+//                storeSpecGoodsPriceService.insertStoreSpecGoodsPrice(goodsPriceDomain);
+//            }else{
+//                goodsPriceDomain.setItemId(storeSpecGoodsPrices.get(0).getItemId());
+//                storeSpecGoodsPriceService.updateStoreSpecGoodsPrice(goodsPriceDomain);
+//            }
             //System.out.println(mapKey+":"+map);
 
         }

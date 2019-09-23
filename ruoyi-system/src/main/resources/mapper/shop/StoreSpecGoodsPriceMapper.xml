@@ -102,6 +102,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from store_spec_goods_price where item_id = #{itemId}
     </delete>
 
+    <delete id="delStoreSpecGoodsPriceByGoodsId" parameterType="int">
+        delete from store_spec_goods_price where goods_id = #{goodsId}
+    </delete>
+
     <delete id="deleteStoreSpecGoodsPriceByIds" parameterType="String">
         delete from store_spec_goods_price where item_id in 
         <foreach item="itemId" collection="array" open="(" separator="," close=")">

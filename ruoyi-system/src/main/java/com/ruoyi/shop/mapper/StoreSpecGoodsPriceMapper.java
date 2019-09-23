@@ -60,4 +60,6 @@ public interface StoreSpecGoodsPriceMapper
      * @return 结果
      */
     public int deleteStoreSpecGoodsPriceByIds(String[] itemIds);
+
+    public int delStoreSpecGoodsPriceByGoodsId(int goodsId);
 }

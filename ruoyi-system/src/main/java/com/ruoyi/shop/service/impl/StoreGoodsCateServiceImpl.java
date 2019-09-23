@@ -3,6 +3,7 @@ package com.ruoyi.shop.service.impl;
 import java.util.List;
 import java.util.ArrayList;
 import com.ruoyi.common.core.domain.Ztree;
+import com.ruoyi.common.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.shop.mapper.StoreGoodsCateMapper;
@@ -90,6 +91,11 @@ public class StoreGoodsCateServiceImpl implements IStoreGoodsCateService
      */
     public int deleteStoreGoodsCateById(Long id)
     {
+        StoreGoodsCate goodsCate = new StoreGoodsCate();
+        goodsCate.setPid(id);
+        List<StoreGoodsCate> goodsCates = storeGoodsCateMapper
+                .selectStoreGoodsCateList(goodsCate);
+        if(!goodsCates.isEmpty())  throw new BusinessException("请先删除子分类");
         return storeGoodsCateMapper.deleteStoreGoodsCateById(id);
     }
 
