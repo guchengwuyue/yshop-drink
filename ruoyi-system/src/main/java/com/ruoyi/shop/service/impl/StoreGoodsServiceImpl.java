@@ -55,7 +55,6 @@ public class StoreGoodsServiceImpl implements IStoreGoodsService
         for(Map.Entry<String, Map<String,String>> entry : specDataMap.entrySet()){
             String mapKey = entry.getKey();
             Map map = entry.getValue();
-            //System.out.println(mapKey+":"+map);
             storeSpecGoodsPrice.setKey(mapKey);
 //            List<StoreSpecGoodsPrice> storeSpecGoodsPrices = storeSpecGoodsPriceService
 //                    .selectStoreSpecGoodsPriceList(storeSpecGoodsPrice);

@@ -133,18 +133,28 @@ public class GoodsServiceImpl extends ServiceImpl<StoreGoodsMapper, StoreGoods> 
         return listMap;
     }
 
-    public Map<String, SpecItemDTO> goodsSpec(int goodsId){
+    public Map<String, List<SpecItemDTO>> goodsSpec(int goodsId){
 
         String keys = storeSpecGoodsPriceMapper.goodsSpecKey(goodsId);
         String[] strArr = keys.split("_");
-        Map<String,SpecItemDTO> itemMap = new HashMap<>();
-        List<ItemDTO> items =  storeSpecGoodsPriceMapper.goodsSpec(Arrays.asList(strArr));
+        Map<String,List<SpecItemDTO>> itemMap = new HashMap<>();
+        List<ItemDTO> items =  storeSpecGoodsPriceMapper
+                .goodsSpec(Arrays.asList(strArr));
+
+        List<SpecItemDTO> listItem = null;
         for (ItemDTO itemDTO : items) {
             SpecItemDTO specItemDTO = new SpecItemDTO();
             specItemDTO.setItemId(itemDTO.getId());
             specItemDTO.setItem(itemDTO.getItem());
-            itemMap.put(itemDTO.getName(),specItemDTO);
+
+            if(!itemMap.containsKey(itemDTO.getName())){
+                listItem = new ArrayList<>();
+            }
+            listItem.add(specItemDTO);
+
+            itemMap.put(itemDTO.getName(),listItem);
         }
+        System.out.println(itemMap);
         return itemMap;
     }
 

@@ -81,14 +81,17 @@ public class MallController {
     @GetMapping("/shop/mall-goods-detail")
     @ApiOperation(value = "商品详情",notes = "商品详情")
     public R goodsDetail(@RequestParam(value = "goods_id",defaultValue = "0") int goodsId){
+        int userId = userOperator.getUser().getId();
         Map<String, StoreSpecGoodsPrice> specPrice = goodsService.goodsSpecPrice(goodsId);
         GoodsDTO goodsDetail = goodsMapper.toDto(goodsService.getById(goodsId));
-        Map<String, SpecItemDTO> specs = goodsService.goodsSpec(goodsId);
+        Map<String, List<SpecItemDTO>> specs = goodsService.goodsSpec(goodsId);
+        boolean isCollect = goodsService.isCollect(goodsId,userId);
 
         Map<String,Object> map = new HashMap<>();
         map.put("detail",goodsDetail);
         map.put("spec_price",specPrice);
         map.put("specs",specs);
+        map.put("isCollect",isCollect);
         return R.success(map);
     }
 
