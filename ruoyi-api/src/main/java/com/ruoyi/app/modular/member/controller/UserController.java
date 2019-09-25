@@ -1,6 +1,7 @@
 package com.ruoyi.app.modular.member.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import com.itmuch.lightsecurity.annotation.PreAuthorize;
 import com.itmuch.lightsecurity.jwt.User;
 import com.itmuch.lightsecurity.jwt.UserOperator;
@@ -86,8 +87,8 @@ public class UserController {
 
     @PostMapping(value = "/shop/user-address-del")
     @ApiOperation(value = "删除地址",notes = "删除地址")
-    public R delAddress(@RequestParam(value = "address_id",defaultValue = "0") int addressId){
-
+    public R delAddress(@Validated @RequestBody String jsonStr){
+        int addressId = Integer.valueOf(JSON.parseObject(jsonStr).get("address_id").toString());
         boolean result = addressService.removeById(addressId);
         if(result){
             return R.success("操作成功");

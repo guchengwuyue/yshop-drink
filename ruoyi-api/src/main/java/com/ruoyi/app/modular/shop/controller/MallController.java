@@ -153,7 +153,7 @@ public class MallController {
     @GetMapping("/shop/mall-cart-list")
     @ApiOperation(value = "获取购物车列表",notes = "获取购物车列表")
     public R cartList(@RequestParam(value = "page",defaultValue = "0") int page,
-                      @RequestParam(value = "limit",defaultValue = "10") int limit){
+                      @RequestParam(value = "page_num",defaultValue = "10") int limit){
         int userId = userOperator.getUser().getId();
         //goodsService.cartList(pageVO,userId);
         PageVO pageVO = new PageVO();

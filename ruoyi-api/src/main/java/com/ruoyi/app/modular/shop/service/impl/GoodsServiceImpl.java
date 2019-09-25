@@ -258,8 +258,9 @@ public class GoodsServiceImpl extends ServiceImpl<StoreGoodsMapper, StoreGoods> 
                 .selectPage(pageModel,cartQueryWrapper);
         List<StoreCart> storeCartList = storeCarts.getRecords();
         List<CartDTO> carts = new ArrayList<>();
-        CartDTO cartDTO = new CartDTO();
+
         for (StoreCart storeCart : storeCartList) {
+            CartDTO cartDTO = new CartDTO();
             StoreGoods storeGoods = getById(storeCart.getGoodsId());
             cartDTO.setGoodsId(storeCart.getGoodsId());
             cartDTO.setGoodsName(storeGoods.getGoodsName());
