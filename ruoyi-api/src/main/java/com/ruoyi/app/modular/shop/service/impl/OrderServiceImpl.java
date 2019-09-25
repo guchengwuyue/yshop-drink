@@ -21,6 +21,7 @@ import com.ruoyi.app.modular.shop.service.dto.CouponDTO;
 import com.ruoyi.app.modular.shop.service.dto.GoodsDTO;
 import com.ruoyi.app.modular.shop.service.dto.OrderDTO;
 import com.ruoyi.app.modular.shop.service.mapper.GoodsMapper;
+import com.ruoyi.app.modular.shop.service.mapper.OrderGoodsMapper;
 import com.ruoyi.app.modular.shop.service.mapper.OrderMapper;
 import com.ruoyi.app.modular.shop.service.vo.CartAttrVO;
 import com.ruoyi.app.modular.shop.service.vo.CartVO;
@@ -49,6 +50,8 @@ public class OrderServiceImpl extends ServiceImpl<StoreOrderMapper, StoreOrder> 
     private final StoreOrderGoodsMapper storeOrderGoodsMapper;
     private final OrderMapper orderMapper;
     private final StorePointsMoneyLogMapper storePointsMoneyLogMapper;
+    private final OrderGoodsMapper orderGoodsMapper;
+
 
     /**
      * 购物车提交
@@ -305,10 +308,17 @@ public class OrderServiceImpl extends ServiceImpl<StoreOrderMapper, StoreOrder> 
         List<OrderDTO> orderDTOList = new ArrayList<>();
         for (StoreOrder storeOrder : list) {
             QueryWrapper<StoreOrderGoods> wrapperGoods = new QueryWrapper<>();
-            wrapperGoods.eq("order_id",storeOrder.getOrderId());
+            wrapperGoods.eq("order_id",storeOrder.getOrderId()).groupBy("goods_id");
             List<StoreOrderGoods> storeGoods = storeOrderGoodsMapper.selectList(wrapperGoods);
+            List<StoreOrderGoods> newStoreGoods = new ArrayList<>();
+            for (StoreOrderGoods storeGood : storeGoods) {
+                QueryWrapper<StoreOrderGoods> wrapper2 = new QueryWrapper<>();
+                wrapper2.eq("order_id",storeOrder.getOrderId()).eq("goods_id",storeGood.getGoodsId());
+                storeGood.setSpecList(orderGoodsMapper.toDto(storeOrderGoodsMapper.selectList(wrapper2)));
+                newStoreGoods.add(storeGood);
+            }
             OrderDTO orderDTO = orderMapper.toDto(storeOrder);
-            orderDTO.setGoodsList(storeGoods);
+            orderDTO.setGoodsList(newStoreGoods);
             //处理订单状态
             orderDTO.setStatus(OrderUtil.orderStatus(storeOrder.getPayStatus(),
                     storeOrder.getShippingStatus(),storeOrder.getOrderStatus()));
@@ -335,11 +345,18 @@ public class OrderServiceImpl extends ServiceImpl<StoreOrderMapper, StoreOrder> 
         StoreOrder storeOrder = baseMapper.selectOne(wrapper);
 
         QueryWrapper<StoreOrderGoods> wrapperGoods = new QueryWrapper<>();
-        wrapperGoods.eq("order_id",storeOrder.getOrderId());
+        wrapperGoods.eq("order_id",storeOrder.getOrderId()).groupBy("goods_id");
         List<StoreOrderGoods> orderGoodsList = storeOrderGoodsMapper
                 .selectList(wrapperGoods);
         OrderDTO orderDTO = orderMapper.toDto(storeOrder);
-        orderDTO.setGoodsList(orderGoodsList);
+        List<StoreOrderGoods> newStoreGoods = new ArrayList<>();
+        for (StoreOrderGoods storeGood : orderGoodsList) {
+            QueryWrapper<StoreOrderGoods> wrapper2 = new QueryWrapper<>();
+            wrapper2.eq("order_id",storeOrder.getOrderId()).eq("goods_id",storeGood.getGoodsId());
+            storeGood.setSpecList(orderGoodsMapper.toDto(storeOrderGoodsMapper.selectList(wrapper2)));
+            newStoreGoods.add(storeGood);
+        }
+        orderDTO.setGoodsList(newStoreGoods);
         //处理订单状态
         orderDTO.setStatus(OrderUtil.orderStatus(storeOrder.getPayStatus(),
                 storeOrder.getShippingStatus(),storeOrder.getOrderStatus()));

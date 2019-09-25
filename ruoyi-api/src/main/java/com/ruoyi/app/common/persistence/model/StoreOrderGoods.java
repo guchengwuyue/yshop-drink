@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.ruoyi.app.modular.shop.service.dto.CartAttrDTO;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -126,6 +128,9 @@ public class StoreOrderGoods extends Model<StoreOrderGoods> {
      * sku
      */
     private String sku;
+
+    @TableField(exist = false)
+    private List<CartAttrDTO> specList;
 
 
 

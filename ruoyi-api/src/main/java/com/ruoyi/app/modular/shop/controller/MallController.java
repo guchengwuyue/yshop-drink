@@ -65,7 +65,7 @@ public class MallController {
     @GetMapping("/shop/mall-goods-list")
     @ApiOperation(value = "获取商品列表",notes = "获取商品列表")
     public R goodsList(@RequestParam(value = "page",defaultValue = "0") int page,
-                       @RequestParam(value = "limit",defaultValue = "10") int limit,
+                       @RequestParam(value = "page_num",defaultValue = "10") int limit,
                        @RequestParam(value = "cat_id",defaultValue = "0") int catId,
                        @RequestParam(value = "keywords",defaultValue = "") String keywords){
 

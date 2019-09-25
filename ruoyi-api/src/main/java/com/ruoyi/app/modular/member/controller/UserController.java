@@ -121,7 +121,7 @@ public class UserController {
     @ApiOperation(value = "订单列表",notes = "订单列表")
     public R orderList(@RequestParam(value = "status",defaultValue = "0") int status,
                        @RequestParam(value = "page",defaultValue = "1") int page,
-                       @RequestParam(value = "limit",defaultValue = "10") int limit){
+                       @RequestParam(value = "page_num",defaultValue = "10") int limit){
 
         int userId = userOperator.getUser().getId();
         return R.success(orderService.orderList(status,userId,page,limit));
@@ -137,9 +137,10 @@ public class UserController {
 
     @PostMapping(value = "/shop/user-order-handle")
     @ApiOperation(value = "订单操作",notes = "订单操作")
-    public R handleOrder(@RequestParam(value = "order_id",defaultValue = "0") int orderId,
-                         @RequestParam(value = "type",defaultValue = "1") int type){
+    public R handleOrder(@Validated @RequestBody String jsonStr){
         int userId = userOperator.getUser().getId();
+        int orderId = Integer.valueOf(JSON.parseObject(jsonStr).get("order_id").toString());
+        int type = Integer.valueOf(JSON.parseObject(jsonStr).get("type").toString());
         orderService.orderHandle(orderId,type,userId);
         return R.success("操作成功");
     }
