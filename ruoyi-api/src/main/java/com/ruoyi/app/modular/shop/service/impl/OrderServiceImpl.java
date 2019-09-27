@@ -5,6 +5,7 @@ package com.ruoyi.app.modular.shop.service.impl;
 
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
@@ -16,6 +17,7 @@ import com.itmuch.lightsecurity.exception.LightSecurityException;
 import com.ruoyi.app.common.persistence.dao.*;
 import com.ruoyi.app.common.persistence.model.*;
 import com.ruoyi.app.common.utils.OrderUtil;
+import com.ruoyi.app.modular.member.service.IMemberService;
 import com.ruoyi.app.modular.shop.service.IOrderService;
 import com.ruoyi.app.modular.shop.service.dto.CouponDTO;
 import com.ruoyi.app.modular.shop.service.dto.GoodsDTO;
@@ -29,6 +31,7 @@ import com.ruoyi.app.modular.shop.service.vo.OrderVo;
 import com.ruoyi.app.modular.shop.service.vo.PageVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +54,9 @@ public class OrderServiceImpl extends ServiceImpl<StoreOrderMapper, StoreOrder> 
     private final OrderMapper orderMapper;
     private final StorePointsMoneyLogMapper storePointsMoneyLogMapper;
     private final OrderGoodsMapper orderGoodsMapper;
+    private final IMemberService memberService;
+    private final StoreMemberMapper storeMemberMapper;
+    private final StoreGoodsMapper storeGoodsMapper;
 
 
     /**
@@ -465,5 +471,74 @@ public class OrderServiceImpl extends ServiceImpl<StoreOrderMapper, StoreOrder> 
         map.put("unevalCount",unevalCount);
         map.put("returnCount",returnCount);
         return map;
+    }
+
+    @Override
+    public StoreOrder orderInfo(String orderId, int userId) {
+        QueryWrapper<StoreOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("deleted",0).eq("user_id",userId).eq("pay_status",0).and(
+                i->i.eq("order_id",orderId).or().eq("order_sn",orderId));
+        StoreOrder storeOrder = baseMapper.selectOne(wrapper);
+        return storeOrder;
+    }
+
+    /**
+     * 余额支付
+     */
+    @Override
+    @Transactional
+    public void payYue(StoreOrder order) {
+        //判断库存
+        QueryWrapper<StoreOrderGoods> wrapperGoods = new QueryWrapper<>();
+        wrapperGoods.eq("order_id",order.getOrderId());
+        List<StoreOrderGoods> orderGoodsList = storeOrderGoodsMapper
+                .selectList(wrapperGoods);
+        for (StoreOrderGoods storeGood : orderGoodsList) {
+            int storeCount = checkStore(storeGood.getGoodsId(),storeGood.getSpecKey());
+            if(storeCount < storeGood.getGoodsNum()){
+                throw new LightSecurityException("库存不足");
+            }
+
+            //更新库存
+            storeSpecGoodsPriceMapper.decCount(storeGood.getGoodsId(),
+                    storeGood.getSpecKey(),storeGood.getGoodsNum());
+            //增加商品销量
+            storeGoodsMapper.incSaleNum(storeGood.getGoodsId()
+                    ,storeGood.getGoodsNum());
+
+        }
+
+        //余额判断
+        StoreMember member = memberService.getById(order.getUserId());
+        if(order.getOrderAmount().doubleValue() > member.getUserMoney().doubleValue()){
+            throw new LightSecurityException("余额不足");
+        }
+
+        //更新订单状态
+        StoreOrder storeOrder =  new StoreOrder();
+        storeOrder.setOrderId(order.getOrderId());
+        storeOrder.setPayStatus(1);
+        storeOrder.setPayMethod(2);
+        storeOrder.setUserMoney(order.getOrderAmount());
+        storeOrder.setPayTime(OrderUtil.getSecondTimestampTwo());
+        updateById(storeOrder);
+
+        //减去余额
+        int result = storeMemberMapper.decUserMony(order.getUserId(),
+                order.getOrderAmount().doubleValue());
+        if(result <= 0){
+            throw new LightSecurityException("减余额失败");
+        }
+
+        //增加流水
+        StorePointsMoneyLog storePointsMoneyLog = new StorePointsMoneyLog();
+        storePointsMoneyLog.setUserId(order.getUserId());
+        storePointsMoneyLog.setTitle("购买商品");
+        storePointsMoneyLog.setMoneyNumber(order.getOrderAmount());
+        storePointsMoneyLog.setType(2);
+        storePointsMoneyLog.setCreateTime(OrderUtil.getSecondTimestampTwo());
+
+        storePointsMoneyLogMapper.insert(storePointsMoneyLog);
+
     }
 }

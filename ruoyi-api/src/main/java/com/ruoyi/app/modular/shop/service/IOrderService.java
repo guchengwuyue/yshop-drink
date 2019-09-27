@@ -9,6 +9,7 @@ import com.ruoyi.app.common.persistence.model.StorePointsMoneyLog;
 import com.ruoyi.app.modular.shop.service.dto.OrderDTO;
 import com.ruoyi.app.modular.shop.service.vo.OrderVo;
 import com.ruoyi.app.modular.shop.service.vo.PageVO;
+import org.springframework.core.annotation.Order;
 
 
 import java.util.List;
@@ -34,5 +35,9 @@ public interface IOrderService extends IService<StoreOrder> {
     public List<StorePointsMoneyLog> pointsMoneyLogs(int type, int userId, int page,int limit);
 
     public Map<String,Integer> countInfo(int userId);
+
+    public StoreOrder orderInfo(String orderId,int userId);
+
+    public void payYue(StoreOrder order);
 
 }

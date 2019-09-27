@@ -3,7 +3,9 @@ package com.ruoyi.app.common.persistence.dao;
 import com.ruoyi.app.common.persistence.model.StoreSpecGoodsPrice;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.app.modular.shop.service.dto.ItemDTO;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 import java.util.Map;
@@ -28,5 +30,10 @@ public interface StoreSpecGoodsPriceMapper extends BaseMapper<StoreSpecGoodsPric
             "<foreach item='item' index='index' collection='list' open='(' separator=',' close=')'> #{item} </foreach>" +
             "ORDER BY b.id </script>")
     List<ItemDTO> goodsSpec(List<String> keys);
+
+    @Update("update store_spec_goods_price set store_count=store_count-#{goodsNum} " +
+            "where goods_id=#{goodsId} and `key`=#{specKey}")
+    int decCount(@Param("goodsId") int goodsId,
+                    @Param("specKey") String specKey,@Param("goodsNum") int goodsNum);
 
 }

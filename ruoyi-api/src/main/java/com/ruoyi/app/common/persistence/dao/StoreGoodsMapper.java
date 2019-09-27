@@ -30,4 +30,11 @@ public interface StoreGoodsMapper extends BaseMapper<StoreGoods> {
     @Select("select g.* from store_goods_collect c left join store_goods g " +
             "on c.goods_id=g.goods_id where c.user_id=#{userId}")
     List<StoreGoods> collectGoods(Page page, @Param("userId") int userId);
+
+
+    @Update("update store_goods set sales_sum=sales_sum+#{goodsNum} " +
+            "where goods_id=#{goodsId}")
+    int incSaleNum(@Param("goodsId") int goodsId,
+                 @Param("goodsNum") int goodsNum);
+
 }
