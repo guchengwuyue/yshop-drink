@@ -47,12 +47,21 @@
     <tr>
         <td><img src="https://images.gitee.com/uploads/images/2019/0914/145813_85d0bdc7_477893.png"/></td>
         <td><img src="https://images.gitee.com/uploads/images/2019/0916/164354_34a2cf90_477893.png"/></td>
+    </tr>
+     <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2019/0928/174546_7531f0ca_477893.png"/></td>
+        <td></td>
     </tr>	 
 </table>
 
 
 
-第三：mpvue小程序，小程序主要是用 **mpvue** 框架开发，这里就不说它的好处。（小程序代码，可以加群(后面有)共享文件获取）
+第三：mpvue小程序，小程序主要是用 **mpvue** 框架开发，这里就不说它的好处。（小程序代码，可以加群(后面有)共享文件获取）,
+
+小程序在线体验地址：
+
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0928/175139_e07592c8_477893.jpeg "qrcode_for_gh_be92ee602481_258.jpg")，关注公众号菜单Java商城即可体验哦。
+
 
  mpvue 小程序运行步骤：
 
