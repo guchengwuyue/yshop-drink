@@ -174,7 +174,7 @@ public class MallController {
         }
 
         HashMap<String,String> map = new HashMap<>();
-        map.put("orderSn",orderSn);
+        map.put("order_no",orderSn);
         return R.success(map);
     }
 
