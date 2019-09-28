@@ -66,7 +66,7 @@ public class AuthController {
     @PostMapping("/oauth/access_token")
     @ApiOperation(value = "获取token",notes = "获取token")
     public R loginReturnToken(@Validated @RequestBody LoginVO loginVO) {
-        Boolean isProduct = true; //true 开启真实小程序环境
+        Boolean isProduct = false; //true 开启真实小程序环境
         String openid = "orIMY4xGhMmipwFZoSL1vOhUNFZ0";
         WxMaUserInfo userInfo = null;
         try{
