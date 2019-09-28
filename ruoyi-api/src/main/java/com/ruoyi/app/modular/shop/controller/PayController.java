@@ -6,11 +6,22 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.binarywang.wxpay.bean.notify.WxPayNotifyResponse;
+import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
+import com.github.binarywang.wxpay.bean.order.WxPayAppOrderResult;
+import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
+import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.itmuch.lightsecurity.jwt.UserOperator;
 import com.ruoyi.app.common.R;
+import com.ruoyi.app.common.persistence.dao.StoreGoodsMapper;
+import com.ruoyi.app.common.persistence.dao.StoreOrderGoodsMapper;
+import com.ruoyi.app.common.persistence.model.StoreMember;
 import com.ruoyi.app.common.persistence.model.StoreOrder;
+import com.ruoyi.app.common.persistence.model.StoreOrderGoods;
+import com.ruoyi.app.modular.member.service.IMemberService;
 import com.ruoyi.app.modular.shop.service.dto.OrderDTO;
 import com.ruoyi.app.modular.shop.service.impl.OrderServiceImpl;
 import io.swagger.annotations.Api;
@@ -19,11 +30,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.sound.midi.SoundbankResource;
+import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +55,8 @@ public class PayController {
     private final UserOperator userOperator;
     private final OrderServiceImpl orderService;
     private final WxPayService wxPayService;
+    private final IMemberService memberService;
+    private final StoreOrderGoodsMapper storeOrderGoodsMapper;
 
     @PostMapping(value = "/shop/pay-confirm-money")
     @ApiOperation(value = "支付前检测获取的价格",notes = "支付前检测获取的价格")
@@ -60,10 +77,16 @@ public class PayController {
         return R.success(map);
     }
 
+    /**
+     * 调用统一下单接口，并组装生成支付所需参数对象.
+     *
+     * @param request 统一下单请求参数
+     * @param <T>     请使用{@link com.github.binarywang.wxpay.bean.order}包下的类
+     * @return 返回 {@link com.github.binarywang.wxpay.bean.order}包下的类对象
+     */
     @PostMapping(value = "/shop/pay-do-pay")
     @ApiOperation(value = "开始支付",notes = "开始支付")
-    public R doPay(@Validated @RequestBody String jsonStr,
-                   WxPayUnifiedOrderRequest orderRequest){
+    public R doPay(@Validated @RequestBody String jsonStr){
         JSONObject jsonObject = JSON.parseObject(jsonStr);
         String orderNo = jsonObject.get("order_no").toString();
         //1-余额支付 2-微信支付
@@ -87,31 +110,70 @@ public class PayController {
             orderService.payYue(storeOrder);
             return R.success("余额支付成功");
         }else{
-            return R.error(4000,"微信支付开发中");
-            //todo 微信支付
-//            try {
-//                //WxPayUnifiedOrderRequest orderRequest = new WxPayUnifiedOrderRequest();
-//                orderRequest.setBody("主题");
-//                orderRequest.setOutTradeNo("订单号");
-//                orderRequest.setTotalFee(1);//元转成分
-//                orderRequest.setOpenid("openId");
-//                orderRequest.setSpbillCreateIp("userIp");
-//                //orderRequest.setTimeStart("yyyyMMddHHmmss");
-//               // orderRequest.setTimeExpire("yyyyMMddHHmmss");
-//
-//                return R.success(wxPayService.createOrder(orderRequest));
-//            } catch (Exception e) {
-//                log.error("微信支付失败！订单号：{},原因:{}", orderNo, e.getMessage());
-//                e.printStackTrace();
-//                return R.error(4000,"支付失败，请稍后重试！");
-//            }
+            //判断库存
+            QueryWrapper<StoreOrderGoods> wrapperGoods = new QueryWrapper<>();
+            wrapperGoods.eq("order_id",storeOrder.getOrderId());
+            List<StoreOrderGoods> orderGoodsList = storeOrderGoodsMapper
+                    .selectList(wrapperGoods);
+            for (StoreOrderGoods storeGood : orderGoodsList) {
+                int storeCount = orderService.checkStore(storeGood.getGoodsId(),storeGood.getSpecKey());
+                if(storeCount < storeGood.getGoodsNum()){
+                    return R.error(4000,"库存不足");
+                }
+            }
+            //System.out.println("11111");
+            WxPayUnifiedOrderRequest orderRequest = new WxPayUnifiedOrderRequest();
+            StoreMember member = memberService.getById(userId);
+            orderRequest.setBody("商品购买");
+            orderRequest.setOutTradeNo(orderNo);
+            BigDecimal bigDecimal = new BigDecimal(100);
+            orderRequest.setTotalFee(bigDecimal.multiply(storeOrder.getOrderAmount()).intValue());//元转成分
+            orderRequest.setOpenid(member.getOpenid());
+            orderRequest.setSpbillCreateIp("127.0.0.1");
+            orderRequest.setNotifyUrl("https://app2.dayouqiantu.cn/shop/notify");
+            orderRequest.setTradeType("JSAPI");
+            try {
+                WxPayMpOrderResult orderResult = wxPayService.createOrder(orderRequest);
+                System.out.println(orderResult);
+                return R.success(orderResult);
+            } catch (WxPayException e) {
+                return R.error(4000,e.getMessage());
+                //e.printStackTrace();
+            }
 
         }
 
 
-       // return R.success("");
 
     }
+
+    @PostMapping(value = "/shop/notify")
+    @ApiOperation(value = "异步通知",notes = "异步通知")
+    public String payNotify(@RequestBody String xmlData){
+        try {
+            WxPayOrderNotifyResult notifyResult = wxPayService.parseOrderNotifyResult(xmlData);
+            String orderNo = notifyResult.getOutTradeNo();
+            QueryWrapper<StoreOrder> wrapper = new QueryWrapper<>();
+            wrapper.eq("deleted",0).eq("pay_status",0).eq("order_sn",orderNo);
+            StoreOrder storeOrder = orderService.getOne(wrapper);
+            if(ObjectUtil.isNull(storeOrder)) {
+                return WxPayNotifyResponse.success("处理成功!");
+            }
+            orderService.notifyHandle(storeOrder);
+            return WxPayNotifyResponse.success("处理成功!");
+        } catch (WxPayException e) {
+            //System.out.println(e.getMessage());
+            log.error(e.getMessage());
+            return WxPayNotifyResponse.fail(e.getMessage());
+        }
+
+
+       // return WxPayNotifyResponse.success("处理成功!");
+
+
+    }
+
+
 
 
 }

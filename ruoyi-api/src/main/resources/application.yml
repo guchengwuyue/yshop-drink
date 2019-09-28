@@ -6,6 +6,9 @@ light-security:
     - http-method: ANY
       path: /oauth/access_token
       expression: "anon()"
+    - http-method: ANY
+      path: /shop/notify
+      expression: "anon()"
     - http-method: get
       path: /doc.html
       expression: "anon()"
@@ -150,8 +153,8 @@ wx:
     subMchId:
     keyPath:
   miniapp:
-    appid: wx604d2ea4702620d2
-    secret: 0beb4dad95fbd97cbaf2a0a4dec51575
+    appid:
+    secret:
     token:
     aesKey:
     msgDataFormat: JSON

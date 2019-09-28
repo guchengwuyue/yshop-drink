@@ -483,6 +483,48 @@ public class OrderServiceImpl extends ServiceImpl<StoreOrderMapper, StoreOrder> 
     }
 
     /**
+     * 订单处理
+     * @param order
+     */
+    @Override
+    @Transactional
+    public void notifyHandle(StoreOrder order) {
+        QueryWrapper<StoreOrderGoods> wrapperGoods = new QueryWrapper<>();
+        wrapperGoods.eq("order_id",order.getOrderId());
+        List<StoreOrderGoods> orderGoodsList = storeOrderGoodsMapper
+                .selectList(wrapperGoods);
+        for (StoreOrderGoods storeGood : orderGoodsList) {
+            //更新库存
+            storeSpecGoodsPriceMapper.decCount(storeGood.getGoodsId(),
+                    storeGood.getSpecKey(),storeGood.getGoodsNum());
+            //增加商品销量
+            storeGoodsMapper.incSaleNum(storeGood.getGoodsId()
+                    ,storeGood.getGoodsNum());
+
+        }
+
+        //更新订单状态
+        StoreOrder storeOrder =  new StoreOrder();
+        storeOrder.setOrderId(order.getOrderId());
+        storeOrder.setPayStatus(1);
+        storeOrder.setPayMethod(1);
+        storeOrder.setUserMoney(order.getOrderAmount());
+        storeOrder.setPayTime(OrderUtil.getSecondTimestampTwo());
+        updateById(storeOrder);
+
+        //增加流水
+        StorePointsMoneyLog storePointsMoneyLog = new StorePointsMoneyLog();
+        storePointsMoneyLog.setUserId(order.getUserId());
+        storePointsMoneyLog.setTitle("购买商品");
+        storePointsMoneyLog.setMoneyNumber(order.getOrderAmount());
+        storePointsMoneyLog.setType(2);
+        storePointsMoneyLog.setCreateTime(OrderUtil.getSecondTimestampTwo());
+
+        storePointsMoneyLogMapper.insert(storePointsMoneyLog);
+
+    }
+
+    /**
      * 余额支付
      */
     @Override
@@ -541,4 +583,8 @@ public class OrderServiceImpl extends ServiceImpl<StoreOrderMapper, StoreOrder> 
         storePointsMoneyLogMapper.insert(storePointsMoneyLog);
 
     }
+
+
+
+
 }

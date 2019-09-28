@@ -40,4 +40,6 @@ public interface IOrderService extends IService<StoreOrder> {
 
     public void payYue(StoreOrder order);
 
+    public void notifyHandle(StoreOrder order);
+
 }
