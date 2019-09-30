@@ -75,7 +75,6 @@ public class OrderServiceImpl extends ServiceImpl<StoreOrderMapper, StoreOrder> 
         QueryWrapper<StoreCart> cartQueryWrapper = new QueryWrapper<>();
         cartQueryWrapper.eq("user_id",userId).in("goods_id", Arrays.asList(goddsArr));
         List<StoreCart> storeCarts = storeCartMapper.selectList(cartQueryWrapper);
-        System.out.println("storeCarts:"+storeCarts);
         if(storeCarts.isEmpty()){
             throw new LightSecurityException("购物车空空如也");
         }

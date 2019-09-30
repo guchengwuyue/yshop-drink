@@ -5,15 +5,11 @@ package com.ruoyi.app.modular.auth.controller;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.itmuch.lightsecurity.annotation.PreAuthorize;
 import com.itmuch.lightsecurity.jwt.JwtOperator;
 import com.itmuch.lightsecurity.jwt.User;
 import com.itmuch.lightsecurity.jwt.UserOperator;
 import com.ruoyi.app.common.R;
 import com.ruoyi.app.common.persistence.model.StoreMember;
-import com.ruoyi.app.common.utils.JsonUtils;
 import com.ruoyi.app.modular.member.service.IMemberService;
 import com.ruoyi.app.modular.member.service.vo.LoginVO;
 
@@ -26,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -86,7 +81,6 @@ public class AuthController {
             }
 
             StoreMember member = memberService.login(openid);
-            //System.out.println(member);
             User user = null;
             if(member == null){
                 //新用户插入数据
@@ -114,7 +108,6 @@ public class AuthController {
             map.put("access_token",token);
             return R.success(map);
         } catch (WxErrorException e) {
-            //System.out.println(e.getMessage());
             log.error(e.getMessage());
             return R.error(4000,e.getMessage());
         }

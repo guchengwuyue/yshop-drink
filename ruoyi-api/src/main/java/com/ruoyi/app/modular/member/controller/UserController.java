@@ -2,7 +2,6 @@ package com.ruoyi.app.modular.member.controller;
 
 
 import com.alibaba.fastjson.JSON;
-import com.itmuch.lightsecurity.annotation.PreAuthorize;
 import com.itmuch.lightsecurity.jwt.User;
 import com.itmuch.lightsecurity.jwt.UserOperator;
 import com.ruoyi.app.common.R;
@@ -11,8 +10,6 @@ import com.ruoyi.app.modular.member.service.IMemberService;
 import com.ruoyi.app.modular.member.service.dto.MemberDTO;
 import com.ruoyi.app.modular.member.service.impl.AddressServiceImpl;
 import com.ruoyi.app.modular.member.service.mapper.MemberMapper;
-//import io.swagger.annotations.Api;
-//import io.swagger.annotations.ApiOperation;
 import com.ruoyi.app.modular.member.service.vo.AddressVO;
 import com.ruoyi.app.modular.shop.service.impl.GoodsServiceImpl;
 import com.ruoyi.app.modular.shop.service.impl.OrderServiceImpl;
@@ -25,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+
 import java.util.Map;
 //import wiki.xsx.core.handler.StringHandler;
 //import wiki.xsx.core.util.RedisUtil;

@@ -1,7 +1,6 @@
 package com.ruoyi.app.modular.shop.controller;
 
 
-import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
@@ -9,20 +8,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.binarywang.wxpay.bean.notify.WxPayNotifyResponse;
 import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
-import com.github.binarywang.wxpay.bean.order.WxPayAppOrderResult;
 import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.itmuch.lightsecurity.jwt.UserOperator;
 import com.ruoyi.app.common.R;
-import com.ruoyi.app.common.persistence.dao.StoreGoodsMapper;
 import com.ruoyi.app.common.persistence.dao.StoreOrderGoodsMapper;
 import com.ruoyi.app.common.persistence.model.StoreMember;
 import com.ruoyi.app.common.persistence.model.StoreOrder;
 import com.ruoyi.app.common.persistence.model.StoreOrderGoods;
 import com.ruoyi.app.modular.member.service.IMemberService;
-import com.ruoyi.app.modular.shop.service.dto.OrderDTO;
 import com.ruoyi.app.modular.shop.service.impl.OrderServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,12 +26,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.sound.midi.SoundbankResource;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -121,7 +115,7 @@ public class PayController {
                     return R.error(4000,"库存不足");
                 }
             }
-            //System.out.println("11111");
+
             WxPayUnifiedOrderRequest orderRequest = new WxPayUnifiedOrderRequest();
             StoreMember member = memberService.getById(userId);
             orderRequest.setBody("商品购买");
@@ -134,11 +128,9 @@ public class PayController {
             orderRequest.setTradeType("JSAPI");
             try {
                 WxPayMpOrderResult orderResult = wxPayService.createOrder(orderRequest);
-                System.out.println(orderResult);
                 return R.success(orderResult);
             } catch (WxPayException e) {
                 return R.error(4000,e.getMessage());
-                //e.printStackTrace();
             }
 
         }
@@ -162,7 +154,6 @@ public class PayController {
             orderService.notifyHandle(storeOrder);
             return WxPayNotifyResponse.success("处理成功!");
         } catch (WxPayException e) {
-            //System.out.println(e.getMessage());
             log.error(e.getMessage());
             return WxPayNotifyResponse.fail(e.getMessage());
         }

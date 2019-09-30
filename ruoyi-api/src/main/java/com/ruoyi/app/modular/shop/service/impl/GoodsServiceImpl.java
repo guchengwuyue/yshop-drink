@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itmuch.lightsecurity.exception.LightSecurityException;
 import com.ruoyi.app.common.exception.BadRequestException;
+import com.ruoyi.app.common.exception.EntityExistException;
 import com.ruoyi.app.common.persistence.dao.StoreCartMapper;
 import com.ruoyi.app.common.persistence.dao.StoreGoodsCollectMapper;
 import com.ruoyi.app.common.persistence.dao.StoreGoodsMapper;
@@ -116,7 +117,6 @@ public class GoodsServiceImpl extends ServiceImpl<StoreGoodsMapper, StoreGoods> 
     public List<StoreGoods> collectGoods(int page,int limit,int userId) {
         Page<StoreGoods> pageModel = new Page<>(page, limit);
         List<StoreGoods> list = baseMapper.collectGoods(pageModel,userId);
-        //System.out.println(list);
         return list;
     }
 
@@ -127,6 +127,10 @@ public class GoodsServiceImpl extends ServiceImpl<StoreGoodsMapper, StoreGoods> 
         wrapper.eq("goods_id",goodsId);
         List<StoreSpecGoodsPrice> specGoodsPriceList = storeSpecGoodsPriceMapper
                 .selectList(wrapper);
+        if(ObjectUtil.isNull(specGoodsPriceList)){
+            System.out.println("2222");
+            throw new EntityExistException(specGoodsPriceList.getClass());
+        }
         Map<String, StoreSpecGoodsPrice> listMap = specGoodsPriceList.stream().collect(
                 Collectors.toMap(StoreSpecGoodsPrice::getKey,o->o));
 
@@ -136,6 +140,9 @@ public class GoodsServiceImpl extends ServiceImpl<StoreGoodsMapper, StoreGoods> 
     public Map<String, List<SpecItemDTO>> goodsSpec(int goodsId){
 
         String keys = storeSpecGoodsPriceMapper.goodsSpecKey(goodsId);
+        if(StrUtil.isEmpty(keys)){
+            throw new LightSecurityException("商品规格未添加");
+        }
         String[] strArr = keys.split("_");
         Map<String,List<SpecItemDTO>> itemMap = new HashMap<>();
         List<ItemDTO> items =  storeSpecGoodsPriceMapper
@@ -154,7 +161,6 @@ public class GoodsServiceImpl extends ServiceImpl<StoreGoodsMapper, StoreGoods> 
 
             itemMap.put(itemDTO.getName(),listItem);
         }
-        System.out.println(itemMap);
         return itemMap;
     }
 

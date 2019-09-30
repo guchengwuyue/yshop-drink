@@ -3,21 +3,17 @@ package com.ruoyi.app.modular.shop.controller;
 import com.itmuch.lightsecurity.jwt.UserOperator;
 import com.ruoyi.app.common.R;
 import com.ruoyi.app.common.persistence.model.WechatNewsArticle;
-import com.ruoyi.app.modular.member.service.IMemberService;
 import com.ruoyi.app.modular.shop.service.dto.AdsDTO;
 import com.ruoyi.app.modular.shop.service.dto.GoodsDTO;
 import com.ruoyi.app.modular.shop.service.dto.NewsDTO;
 import com.ruoyi.app.modular.shop.service.impl.AdServiceImpl;
 import com.ruoyi.app.modular.shop.service.impl.GoodsServiceImpl;
 import com.ruoyi.app.modular.shop.service.impl.NewsServiceImpl;
-import com.ruoyi.app.modular.shop.service.vo.PageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,7 +42,6 @@ public class IndexController {
     @ApiOperation(value = "首页信息",notes = "首页信息")
     public R index(){
         int userId = userOperator.getUser().getId();
-
         List<GoodsDTO> recommedGoods = goodsService.getList(0,1,3,userId,"",1);
         List<GoodsDTO> newGoods = goodsService.getList(0,1,6,userId,"",2);
         List<NewsDTO> newsList = newsService.getList(1,3);

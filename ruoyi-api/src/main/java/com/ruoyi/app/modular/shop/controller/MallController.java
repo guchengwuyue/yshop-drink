@@ -85,6 +85,7 @@ public class MallController {
         Map<String, StoreSpecGoodsPrice> specPrice = goodsService.goodsSpecPrice(goodsId);
         GoodsDTO goodsDetail = goodsMapper.toDto(goodsService.getById(goodsId));
         Map<String, List<SpecItemDTO>> specs = goodsService.goodsSpec(goodsId);
+
         boolean isCollect = goodsService.isCollect(goodsId,userId);
 
         Map<String,Object> map = new HashMap<>();

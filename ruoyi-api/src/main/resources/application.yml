@@ -9,6 +9,12 @@ light-security:
     - http-method: ANY
       path: /shop/notify
       expression: "anon()"
+#    - http-method: ANY
+#      path: /shop/index-list
+#      expression: "anon()"
+#    - http-method: ANY
+#      path: /shop/mall-lists
+#      expression: "anon()"
     - http-method: get
       path: /doc.html
       expression: "anon()"
@@ -146,14 +152,14 @@ logging:
 
 wx:
   pay:
-    appId:
+    appId: wxa82b5b7fcb0ec161
     mchId:
     mchKey:
     subAppId:
     subMchId:
     keyPath:
   miniapp:
-    appid:
+    appid: wxa82b5b7fcb0ec161
     secret:
     token:
     aesKey:
