@@ -63,6 +63,9 @@ public class StoreGoodsController extends BaseController
     @Autowired
     private IStoreSpecGoodsPriceService storeSpecGoodsPriceService;
 
+    @Autowired
+    private IStoreGoodsCateService storeGoodsCateService;
+
     @RequiresPermissions("shop:goods:view")
     @GetMapping()
     public String goods()
@@ -477,6 +480,9 @@ public class StoreGoodsController extends BaseController
     public String edit(@PathVariable("goodsId") Integer goodsId, ModelMap mmap)
     {
         StoreGoods storeGoods = storeGoodsService.selectStoreGoodsById(goodsId);
+        StoreGoodsCate storeGoodsCate = storeGoodsCateService
+                .selectStoreGoodsCateById(storeGoods.getCateId());
+        storeGoods.setCateName(storeGoodsCate.getCateTitle());
         mmap.put("storeGoods", storeGoods);
         return prefix + "/edit";
     }

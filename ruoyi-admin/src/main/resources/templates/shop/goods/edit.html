@@ -12,7 +12,7 @@
                 <div class="col-sm-10">
                     <div class="input-group">
                         <input id="treeId" name="cateId" type="hidden" th:value="*{cateId}"/>
-                        <input  onclick="selectCateTree()" id="treeName" type="text" placeholder="请选择分类" class="form-control" required>
+                        <input  onclick="selectCateTree()" id="treeName" type="text" placeholder="请选择分类" class="form-control" th:value="*{cateName}" required>
                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
                     </div>
                 </div>

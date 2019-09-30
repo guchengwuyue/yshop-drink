@@ -24,6 +24,8 @@ public class StoreGoods extends BaseEntity
 
     private String brandName;
 
+    private String cateName;
+
     //private
 
     /** 扩展分类id */
@@ -164,6 +166,14 @@ public class StoreGoods extends BaseEntity
 
     /** 视频 */
     private String goodsVideo;
+
+    public String getCateName() {
+        return cateName;
+    }
+
+    public void setCateName(String cateName) {
+        this.cateName = cateName;
+    }
 
     public String getBrandName() {
         return brandName;
