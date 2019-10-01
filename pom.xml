@@ -222,6 +222,7 @@
 		<module>ruoyi-generator</module>
         <module>ruoyi-common</module>
         <module>ruoyi-api</module>
+        <module>ruoyi-plus-api</module>
     </modules>
     <packaging>pom</packaging>
 

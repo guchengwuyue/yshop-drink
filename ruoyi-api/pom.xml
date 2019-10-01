@@ -37,6 +37,7 @@
         <hutool.version>4.1.1</hutool.version>
         <org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
         <version>3.5.0</version>
+        <mybatis-plus-boot-starter.version>3.2.0</mybatis-plus-boot-starter.version>
     </properties>
 
     <dependencies>
@@ -122,12 +123,12 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.1.2</version>
+            <version>${mybatis-plus-boot-starter.version}</version>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generate</artifactId>
-            <version>${mybatis-plus.version}</version>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>${mybatis-plus-boot-starter.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>
