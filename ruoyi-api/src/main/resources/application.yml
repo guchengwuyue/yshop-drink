@@ -43,7 +43,7 @@ light-security:
 
 
 mybatis-plus:
-  mapper-locations: classpath*:com/ruoyi/app/common/persistence/dao/mapping/*.xml
+  mapper-locations: classpath*:com/ruoyi/app/common/persistence/dao/mapping/*.xml,classpath*:mapper/**/*Mapper.xml
   typeAliasesPackage: com.ruoyi.app.common.persistence.model
   global-config:
     banner: false

@@ -43,7 +43,7 @@ public class CodeGenerator {
     // 作者
     private static final String AUTHOR = "hupeng";
     // 生成的表名称
-    private static final String TABLE_NAME = "store_substitute";
+    private static final String TABLE_NAME = "store_goods_consult";
     // 主键数据库列名称
     private static final String PK_ID_COLUMN_NAME = "id";
     // 代码生成策略 true：All/false:SIMPLE
@@ -62,7 +62,7 @@ public class CodeGenerator {
         String projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + "/ruoyi-api/src/main/java");
         gc.setAuthor(AUTHOR);
-        gc.setOpen(true);                  // 是否打开输出目录
+        gc.setOpen(false);                  // 是否打开输出目录
         gc.setSwagger2(true);               // 启用swagger注解
         gc.setIdType(IdType.ID_WORKER);     // 主键类型:ID_WORKER
         gc.setServiceName("%sService");     // 自定义文件命名，注意 %s 会自动填充表实体属性！
@@ -85,6 +85,7 @@ public class CodeGenerator {
         pc.setModuleName(MODULE_NAME);
         pc.setParent("com.ruoyi.app.modular");
         pc.setController("web.controller");
+        pc.setMapper("dao");
 
         mpg.setPackageInfo(pc);
 
