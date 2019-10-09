@@ -68,8 +68,7 @@ spring:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
     #driverClassName: com.mysql.cj.jdbc.Driver
     username: root
-    password: supply#@147
-    #password: root
+    password: root
     url: jdbc:p6spy:mysql://localhost:3306/supply?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=UTC
     #url: jdbc:mysql://localhost:3306/ruoyi?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=UTC
     type: com.alibaba.druid.pool.DruidDataSource   #这里是配置druid连接池，以下都是druid的配置信息
