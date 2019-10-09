@@ -1,4 +1,3 @@
-
 package com.ruoyi.app.common.entity;
 
 import io.swagger.annotations.ApiModel;

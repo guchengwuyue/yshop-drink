@@ -46,7 +46,8 @@ public class MallController {
     @ApiOperation(value = "商品分类模块列表",notes = "商品分类模块列表")
     public R lists(@RequestParam(value = "page",defaultValue = "0") int page,
                    @RequestParam(value = "limit",defaultValue = "10") int limit){
-        int userId = userOperator.getUser().getId();
+        //int userId = userOperator.getUser().getId();
+        int userId = 0;
         List<CateDTO> goodsCates = cateService.getList();
         List<GoodsDTO> recommedGoods = goodsService.getList(0,
                 page,limit,userId,"",1);

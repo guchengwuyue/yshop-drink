@@ -41,7 +41,8 @@ public class IndexController {
     @GetMapping("/shop/index-list")
     @ApiOperation(value = "首页信息",notes = "首页信息")
     public R index(){
-        int userId = userOperator.getUser().getId();
+        //int userId = userOperator.getUser().getId();
+        int userId = 0;
         List<GoodsDTO> recommedGoods = goodsService.getList(0,1,3,userId,"",1);
         List<GoodsDTO> newGoods = goodsService.getList(0,1,6,userId,"",2);
         List<NewsDTO> newsList = newsService.getList(1,3);

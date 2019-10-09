@@ -1,5 +1,3 @@
-
-
 package com.ruoyi.app.common.constant;
 
 
