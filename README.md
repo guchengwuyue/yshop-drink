@@ -62,6 +62,13 @@
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0928/175139_e07592c8_477893.jpeg "qrcode_for_gh_be92ee602481_258.jpg")，关注公众号菜单Java商城即可体验哦。
 
+<table>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2019/1009/202320_8a00efb0_477893.jpeg"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2019/1009/202331_5d5548e7_477893.jpeg"/></td>
+    </tr>	 
+</table>
+
 
  mpvue 小程序运行步骤：
 
