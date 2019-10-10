@@ -1,8 +1,9 @@
-package com.ruoyi.app.modular.shop.service;
+package com.ruoyi.app.modular.shop.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.app.common.persistence.model.StoreGoodsAttribute;
 import com.ruoyi.app.common.persistence.dao.StoreGoodsAttributeMapper;
+import com.ruoyi.app.modular.shop.service.IStoreGoodsAttributeService;
 import org.springframework.stereotype.Service;
 
 /**
