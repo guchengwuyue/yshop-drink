@@ -423,12 +423,15 @@ public class StoreGoodsController extends BaseController
                 }
                 //过滤规格组合新的规格数据集合
                 if(name.contains("item")){
-                    String pattern = "item\\[(\\d+_\\d+)]\\[([a-z]+_?[a-z]+)]";
+                    String pattern = "item\\[(\\d+[_\\d+]*)]\\[([a-z]+_?[a-z]+)]";
+                    //String pattern = "item\\[(\\d+_\\d+)]\\[([a-z]+_?[a-z]+)]";
                     Pattern r = Pattern.compile(pattern);
                     Matcher m = r.matcher(name);
                     if (m.find( )) {
                         String keyOne = m.group(1).trim();
+                        System.out.println("keyOne:"+keyOne);
                         String keyTwo = m.group(2).trim();
+                        System.out.println("keyTwo:"+keyTwo);
                         String keyValue = builder.toString().trim();
 
                         if(!specDataMap.containsKey(keyOne)){
@@ -456,7 +459,7 @@ public class StoreGoodsController extends BaseController
             }
         }
 
-        //System.out.println(specDataMap);
+
 
 
         if(specDataMap.isEmpty()){

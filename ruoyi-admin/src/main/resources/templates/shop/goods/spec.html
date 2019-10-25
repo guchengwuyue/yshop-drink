@@ -58,7 +58,8 @@
 
         function submitHandler() {
             if ($.validate.form()) {
-                $("#goods_spec_table2")
+                //$("#goods_spec_table2")
+                console.log($.common.formToJSON("form-goods-edit"));
                 $.operate.save(prefix + "/saveSpecAttr", $('#form-goods-edit').serialize());
             }
         }
