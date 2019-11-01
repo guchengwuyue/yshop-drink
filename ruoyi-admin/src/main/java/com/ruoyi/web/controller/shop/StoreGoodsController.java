@@ -252,9 +252,7 @@ public class StoreGoodsController extends BaseController
 
         SpecVO data=JSON.parseObject(jsonStr,SpecVO.class);
 
-        //System.out.println(data);
         //Map<String,Object> map = (Map<String,Object>)jsonObject;
-       // System.out.println(map);
         Map<String,List<Integer>> map2 = new HashMap<>();
         //重新组合map有相同键值的组合成list
         for (String str : data.getList()) {
@@ -272,8 +270,6 @@ public class StoreGoodsController extends BaseController
                 map2.put(newKey,tmpList);
             }
 
-            //System.out.println(map.get("specId"));
-            //System.out.println(map.get("itemId"));
         }
         Iterator<Map.Entry<String, List<Integer>>> it = map2.entrySet().iterator();
 
@@ -300,9 +296,6 @@ public class StoreGoodsController extends BaseController
             finalMap.put(key,map2.get(key));
         }
 
-        //System.out.println(map2);
-        //System.out.println(sortMap);
-       // System.out.println(finalMap);
 
         //列表笛卡儿积
         ArrayList ls = new ArrayList();
@@ -354,8 +347,7 @@ public class StoreGoodsController extends BaseController
             String itemNameStr =  org.apache.commons.lang.StringUtils.join(itemName.toArray(), ",");
             //while (iter.next().forEach();)
 
-            //System.out.println(itemKeyStr);
-            //System.out.println(itemNameStr);
+
 
             double keyPrice    = 0;
             double keyMarketPrice = 0;
@@ -378,11 +370,11 @@ public class StoreGoodsController extends BaseController
             }
 
             stringBuilder.append(MessageFormat.format("<td><input name=item[{0}][price] value={1} /></td>",
-                    itemKeyStr,keyPrice));
+                    itemKeyStr,String.valueOf(keyPrice)));
             stringBuilder.append(MessageFormat.format("<td><input name=item[{0}][market_price] value={1} /></td>",
-                    itemKeyStr,keyMarketPrice));
+                    itemKeyStr,String.valueOf(keyMarketPrice)));
             stringBuilder.append(MessageFormat.format("<td><input name=item[{0}][store_count] value={1} /></td>",
-                    itemKeyStr,keyStoreCount));
+                    itemKeyStr,String.valueOf(keyStoreCount)));
             stringBuilder.append(MessageFormat.format("<td>无<input type='hidden' name=item[{0}][key_name] value={1} /></td>",
                     itemKeyStr,itemNameStr));
             stringBuilder.append("</tr>");
