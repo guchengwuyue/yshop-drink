@@ -3,6 +3,13 @@
 本商城系统是一套完整的商城系统，包括小程序+小程序API+后台商城管理，这个项目属于我原有的一个laravel项目，
 现在迁移Java springboot平台，大概情况这样，废话不多说！！
 
+#### 推荐另外前后端分离商城系统，如下：
+
+|     |  后台系统源码 |   后台系统前端源码  |
+|---  |--- | --- |
+|   码云  |  https://gitee.com/guchengwuyue/yshopmall  | https://gitee.com/guchengwuyue/yshopmall_qd |
+|   github   |   https://gitee.com/guchengwuyue/yshopmall | https://gitee.com/guchengwuyue/yshopmall_qd  |
+
    **系统基础组合来源：** 
 
 程序员就要坚持着不要重复造轮子想法，所有就在码云里找自己合适的轮子：：
