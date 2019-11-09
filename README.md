@@ -112,7 +112,8 @@ npm set registry https://registry.npm.taobao.org/
 
 **学习交流** 
 
-qq群:907721261
+qq群:907721261，
+ **点击加入**  <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=4225d0d4e0f957aad5fa8eeac4473d8848a10e557e46ab8cab5f99a64a10475d"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="java商城系统/java交流" title="java商城系统/java交流"></a>
 
 其他：欢迎star或者提出你们宝贵的建议哦！！！
 
