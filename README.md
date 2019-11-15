@@ -67,7 +67,7 @@
 
 小程序在线体验地址：
 
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0928/175139_e07592c8_477893.jpeg "qrcode_for_gh_be92ee602481_258.jpg")，关注公众号菜单Java商城即可体验哦。
+![输入图片说明](https://images.gitee.com/uploads/images/2019/1116/060936_fd73496c_477893.jpeg "qrcode_for_gh_be92ee602481_258.jpg")，关注公众号菜单Java商城即可体验哦。
 
 <table>
     <tr>
