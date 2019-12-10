@@ -166,6 +166,15 @@ public class DemoTableController extends BaseController
     {
         return prefix + "/detail";
     }
+    
+    /**
+     * 表格父子视图
+     */
+    @GetMapping("/child")
+    public String child()
+    {
+        return prefix + "/child";
+    }
 
     /**
      * 表格图片预览
@@ -192,6 +201,15 @@ public class DemoTableController extends BaseController
     public String reorder()
     {
         return prefix + "/reorder";
+    }
+
+    /**
+     * 表格行内编辑操作
+     */
+    @GetMapping("/editable")
+    public String editable()
+    {
+        return prefix + "/editable";
     }
 
     /**

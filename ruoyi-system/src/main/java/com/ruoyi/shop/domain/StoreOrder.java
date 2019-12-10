@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
 
@@ -91,9 +92,11 @@ public class StoreOrder extends BaseEntity
     private Integer receiveType;
 
     /** 物流code 单号 */
+    @NotBlank(message = "物流单号不能为空")
     private String shippingCode;
 
     /** 物流名称 */
+    @NotBlank(message = "物流公司不能为空")
     private String shippingName;
 
     /** 支付code */

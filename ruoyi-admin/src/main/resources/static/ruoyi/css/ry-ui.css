@@ -573,14 +573,14 @@ label.error {
 	}
 }
 
-/** 表单查询条件 **/
-ul {
+/** 表单查询条件  **/
+.select-list ul, .layui-layer-content ul {
 	margin: 0;
 	padding: 0;
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
-li {
+.select-list li, .layui-layer-content li {
 	list-style: none;
 }
 
@@ -640,8 +640,8 @@ label {
 
 .select-list li p{
 	float: left;
-	width: 80px;
-	margin: 5px 15px 5px 0px;
+	width: 65px;
+	margin: 5px 5px 5px 0px;
 	text-align:right;
 }
 
@@ -737,6 +737,20 @@ label {
 	background-color: #12889a
 }
 
+.select-list .select2-container--bootstrap {
+	width: 200px!important;
+	display: inline-block;
+}
+
+.select-list .select2-container--bootstrap .select2-selection {
+	border-radius: 6px;
+}
+
+.select-list .select2-container--bootstrap .select2-selection--single {
+	height: 30px!important;
+	padding: 5px 10px;
+}
+
 .select-list .select-time input {
 	width: 93px;
 }
@@ -799,7 +813,7 @@ label {
 
 .table-striped .table, .table-striped .table, .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
 	border-bottom: 1px solid #e7eaec!important;
-	background-color: transparent!important;
+	background-color: transparent;
 	border: 0px;
 }
 
@@ -830,6 +844,10 @@ label {
 
 .fixed-table-container thead th  >.both{ 
     display: inline-block
+}
+
+.editable-input .input-sm {
+	height: 32px!important;
 }
 
 /** 表格冻结列样式 **/

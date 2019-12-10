@@ -35,6 +35,10 @@ public class SysOperLog extends BaseEntity
     @Excel(name = "请求方法")
     private String method;
 
+    /** 请求方式 */
+    @Excel(name = "请求方式")
+    private String requestMethod;
+
     /** 操作类别（0其它 1后台用户 2手机端用户） */
     @Excel(name = "操作类别", readConverterExp = "0=其它,1=后台用户,2=手机端用户")
     private Integer operatorType;
@@ -62,6 +66,10 @@ public class SysOperLog extends BaseEntity
     /** 请求参数 */
     @Excel(name = "请求参数")
     private String operParam;
+
+    /** 返回参数 */
+    @Excel(name = "返回参数")
+    private String jsonResult;
 
     /** 操作状态（0正常 1异常） */
     @Excel(name = "状态", readConverterExp = "0=正常,1=异常")
@@ -123,6 +131,16 @@ public class SysOperLog extends BaseEntity
     public void setMethod(String method)
     {
         this.method = method;
+    }
+
+    public String getRequestMethod()
+    {
+        return requestMethod;
+    }
+
+    public void setRequestMethod(String requestMethod)
+    {
+        this.requestMethod = requestMethod;
     }
 
     public Integer getOperatorType()
@@ -195,6 +213,16 @@ public class SysOperLog extends BaseEntity
         this.operParam = operParam;
     }
 
+    public String getJsonResult()
+    {
+        return jsonResult;
+    }
+
+    public void setJsonResult(String jsonResult)
+    {
+        this.jsonResult = jsonResult;
+    }
+
     public Integer getStatus()
     {
         return status;
@@ -233,6 +261,7 @@ public class SysOperLog extends BaseEntity
             .append("businessType", getBusinessType())
             .append("businessTypes", getBusinessTypes())
             .append("method", getMethod())
+            .append("requestMethod", getRequestMethod())
             .append("operatorType", getOperatorType())
             .append("operName", getOperName())
             .append("deptName", getDeptName())

@@ -45,10 +45,10 @@ public class LogAspect
      *
      * @param joinPoint 切点
      */
-    @AfterReturning(pointcut = "logPointCut()")
-    public void doAfterReturning(JoinPoint joinPoint)
+    @AfterReturning(pointcut = "logPointCut()", returning = "jsonResult")
+    public void doAfterReturning(JoinPoint joinPoint, Object jsonResult)
     {
-        handleLog(joinPoint, null);
+        handleLog(joinPoint, null, jsonResult);
     }
 
     /**
@@ -60,10 +60,10 @@ public class LogAspect
     @AfterThrowing(value = "logPointCut()", throwing = "e")
     public void doAfterThrowing(JoinPoint joinPoint, Exception e)
     {
-        handleLog(joinPoint, e);
+        handleLog(joinPoint, e, null);
     }
 
-    protected void handleLog(final JoinPoint joinPoint, final Exception e)
+    protected void handleLog(final JoinPoint joinPoint, final Exception e, Object jsonResult)
     {
         try
         {
@@ -83,6 +83,8 @@ public class LogAspect
             // 请求的地址
             String ip = ShiroUtils.getIp();
             operLog.setOperIp(ip);
+            // 返回参数
+            operLog.setJsonResult(JSON.marshal(jsonResult));
 
             operLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
             if (currentUser != null)
@@ -104,6 +106,8 @@ public class LogAspect
             String className = joinPoint.getTarget().getClass().getName();
             String methodName = joinPoint.getSignature().getName();
             operLog.setMethod(className + "." + methodName + "()");
+            // 设置请求方式
+            operLog.setRequestMethod(ServletUtils.getRequest().getMethod());
             // 处理设置注解上的参数
             getControllerMethodDescription(controllerLog, operLog);
             // 保存数据库

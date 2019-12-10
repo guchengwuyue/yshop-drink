@@ -152,36 +152,4 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
         // long sec = diff % nd % nh % nm / ns;
         return day + "天" + hour + "小时" + min + "分钟";
     }
-
-    /* //日期转换为时间戳 */
-    public static long timeToStamp(String timers) {
-        Date d = new Date();
-        long timeStemp = 0;
-        try {
-            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-            d = sf.parse(timers);// 日期转换为时间戳
-        } catch (ParseException e) {
-        // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        timeStemp = d.getTime();
-        return timeStemp;
-    }
-
-    /**
-     * 日期格式字符串转换成时间戳
-     * @param date 字符串日期
-     * @param format 如：yyyy-MM-dd HH:mm:ss
-     * @return
-     */
-    public static String date2TimeStamp(String date_str,String format){
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(format);
-            return String.valueOf(sdf.parse(date_str).getTime()/1000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
 }

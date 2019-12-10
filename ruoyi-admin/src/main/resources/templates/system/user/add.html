@@ -35,7 +35,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label"><span style="color: red; ">*</span>手机号码：</label>
                         <div class="col-sm-8">
-                            <input name="phonenumber" placeholder="请输入手机号码" class="form-control" type="text" maxlength="11" required>
+                            <input id="phonenumber" name="phonenumber" placeholder="请输入手机号码" class="form-control" type="text" maxlength="11" required>
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label"><span style="color: red; ">*</span>邮箱：</label>
                         <div class="col-sm-8">
-                            <input name="email" class="form-control email" type="text" maxlength="50" placeholder="请输入邮箱" required>
+                            <input id="email" name="email" class="form-control email" type="text" maxlength="50" placeholder="请输入邮箱" required>
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label"><span style="color: red; ">*</span>登录账号：</label>
                         <div class="col-sm-8">
-                            <input name="loginName" placeholder="请输入登录账号" class="form-control" type="text" maxlength="30" required>
+                            <input id="loginName" name="loginName" placeholder="请输入登录账号" class="form-control" type="text" maxlength="30" required>
                         </div>
                     </div>
                 </div>
@@ -149,7 +149,7 @@
                         type: "post",
                         dataType: "json",
                         data: {
-                        	name : function() {
+                        	"loginName": function() {
                                 return $.common.trim($("#loginName").val());
                             }
                         },
@@ -169,7 +169,7 @@
                         type: "post",
                         dataType: "json",
                         data: {
-                            name: function () {
+                            "email": function () {
                                 return $.common.trim($("#email").val());
                             }
                         },
@@ -185,7 +185,7 @@
                         type: "post",
                         dataType: "json",
                         data: {
-                            name: function () {
+                            "phonenumber": function () {
                                 return $.common.trim($("#phonenumber").val());
                             }
                         },
@@ -248,7 +248,7 @@
 
 		$(function() {
             $('#post').select2({
-                placeholder:"请选择岗位",
+                placeholder: "请选择岗位",
                 allowClear: true
             });
         })
