@@ -3,12 +3,12 @@ package com.ruoyi.app.modular.shop.controller;
 import com.itmuch.lightsecurity.jwt.UserOperator;
 import com.ruoyi.app.common.R;
 import com.ruoyi.app.common.persistence.model.WechatNewsArticle;
+import com.ruoyi.app.modular.shop.service.IAdService;
+import com.ruoyi.app.modular.shop.service.IGoodsService;
+import com.ruoyi.app.modular.shop.service.INewsService;
 import com.ruoyi.app.modular.shop.service.dto.AdsDTO;
 import com.ruoyi.app.modular.shop.service.dto.GoodsDTO;
 import com.ruoyi.app.modular.shop.service.dto.NewsDTO;
-import com.ruoyi.app.modular.shop.service.impl.AdServiceImpl;
-import com.ruoyi.app.modular.shop.service.impl.GoodsServiceImpl;
-import com.ruoyi.app.modular.shop.service.impl.NewsServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -33,15 +33,14 @@ import java.util.Map;
 @Api(value = "首页模块", tags = "首页模块", description = "首页模块")
 public class IndexController {
     private final UserOperator userOperator;
-    private final GoodsServiceImpl goodsService;
-    private final NewsServiceImpl newsService;
-    private final AdServiceImpl adService;
+    private final IGoodsService goodsService;
+    private final INewsService newsService;
+    private final IAdService adService;
 
 
     @GetMapping("/shop/index-list")
     @ApiOperation(value = "首页信息",notes = "首页信息")
     public R index(){
-        //int userId = userOperator.getUser().getId();
         int userId = 0;
         List<GoodsDTO> recommedGoods = goodsService.getList(0,1,3,userId,"",1);
         List<GoodsDTO> newGoods = goodsService.getList(0,1,6,userId,"",2);
@@ -55,7 +54,6 @@ public class IndexController {
         map.put("ads",ads);
 
         return R.success(map);
-        //return null;
     }
 
     @GetMapping("/shop/news-lists")

@@ -10,7 +10,7 @@
 
     <name>ruoyi</name>
 	<url>http://www.ruoyi.vip</url>
-    <description>若依管理系统</description>
+    <description>供货管理系统</description>
 
 	<properties>
 		<ruoyi.version>4.1.0</ruoyi.version>

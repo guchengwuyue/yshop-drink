@@ -4,12 +4,12 @@ import cn.hutool.core.util.StrUtil;
 import com.itmuch.lightsecurity.jwt.UserOperator;
 import com.ruoyi.app.common.R;
 import com.ruoyi.app.common.persistence.model.StoreSpecGoodsPrice;
+import com.ruoyi.app.modular.shop.service.ICateService;
+import com.ruoyi.app.modular.shop.service.IGoodsService;
+import com.ruoyi.app.modular.shop.service.IOrderService;
 import com.ruoyi.app.modular.shop.service.dto.CateDTO;
 import com.ruoyi.app.modular.shop.service.dto.GoodsDTO;
 import com.ruoyi.app.modular.shop.service.dto.SpecItemDTO;
-import com.ruoyi.app.modular.shop.service.impl.CateServiceImpl;
-import com.ruoyi.app.modular.shop.service.impl.GoodsServiceImpl;
-import com.ruoyi.app.modular.shop.service.impl.OrderServiceImpl;
 import com.ruoyi.app.modular.shop.service.mapper.GoodsMapper;
 import com.ruoyi.app.modular.shop.service.vo.CartVO;
 import com.ruoyi.app.modular.shop.service.vo.CollectVO;
@@ -36,11 +36,11 @@ import java.util.Map;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Api(value = "商城模块", tags = "商城模块", description = "商城模块")
 public class MallController {
-    private final CateServiceImpl cateService;
-    private final GoodsServiceImpl goodsService;
+    private final ICateService cateService;
+    private final IGoodsService goodsService;
     private final UserOperator userOperator;
     private final GoodsMapper goodsMapper;
-    private final OrderServiceImpl orderervice;
+    private final IOrderService orderervice;
 
     @GetMapping("/shop/mall-lists")
     @ApiOperation(value = "商品分类模块列表",notes = "商品分类模块列表")

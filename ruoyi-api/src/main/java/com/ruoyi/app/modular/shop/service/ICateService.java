@@ -11,5 +11,5 @@ import java.util.List;
 
 
 public interface ICateService extends IService<StoreGoodsCate> {
-    public List<CateDTO> getList();
+    List<CateDTO> getList();
 }

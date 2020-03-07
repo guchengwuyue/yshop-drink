@@ -19,6 +19,7 @@ import com.ruoyi.app.common.persistence.model.StoreMember;
 import com.ruoyi.app.common.persistence.model.StoreOrder;
 import com.ruoyi.app.common.persistence.model.StoreOrderGoods;
 import com.ruoyi.app.modular.member.service.IMemberService;
+import com.ruoyi.app.modular.shop.service.IOrderService;
 import com.ruoyi.app.modular.shop.service.impl.OrderServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -47,7 +48,7 @@ import java.util.Map;
 @Api(value = "支付模块", tags = "支付模块", description = "支付模块")
 public class PayController {
     private final UserOperator userOperator;
-    private final OrderServiceImpl orderService;
+    private final IOrderService orderService;
     private final WxPayService wxPayService;
     private final IMemberService memberService;
     private final StoreOrderGoodsMapper storeOrderGoodsMapper;

@@ -11,6 +11,6 @@ import java.util.List;
 
 
 public interface IAdService extends IService<StoreAds> {
-    public List<AdsDTO> getList();
+    List<AdsDTO> getList();
 
 }

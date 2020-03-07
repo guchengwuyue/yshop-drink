@@ -12,6 +12,6 @@ import java.util.List;
 
 public interface INewsService extends IService<WechatNewsArticle> {
 
-    public List<NewsDTO> getList(int page,int limit);
+    List<NewsDTO> getList(int page,int limit);
 
 }
