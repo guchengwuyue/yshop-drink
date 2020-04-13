@@ -112,8 +112,6 @@ npm set registry https://registry.npm.taobao.org/
 
 **学习交流** 
 
-qq群:964166879
-
 其他：欢迎star或者提出你们宝贵的建议哦！！！
 
 ****Requirement:****  
