@@ -62,18 +62,7 @@
 </table>
 
 
-
 第三：mpvue小程序，小程序主要是用 **mpvue** 框架开发，这里就不说它的好处。
-
-
-
-
-<table>
-    <tr>
-        <td><img src="https://images.gitee.com/uploads/images/2019/1009/202320_8a00efb0_477893.jpeg"/></td>
-        <td><img src="https://images.gitee.com/uploads/images/2019/1009/202331_5d5548e7_477893.jpeg"/></td>
-    </tr>	 
-</table>
 
 
  mpvue 小程序运行步骤：
