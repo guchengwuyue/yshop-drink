@@ -19,7 +19,7 @@ vue,WxJava等
  **模块划分：** 
 
 ```
-- yshop-base 基础模块
+- yixiang-base 基础模块
     - config 配置等
     - coupon 优惠券
     - handler mybatis handler
@@ -29,9 +29,9 @@ vue,WxJava等
     - redis 常用配置与订单过期，自动收货监听等
     - system
     - weixin 支付、公众号等
-- yshop-common common通用工具
-- yshop-framework 核心
-- yshop-mall 商城
+- yixiang-common common通用工具
+- yixiang-framework 核心
+- yixiang-mall 商城
 - yixiang-generator 代码生成模块 支持mybatisplus
 - yixiang-quartr 定时任务
 - yixiang-admin 管理后台
