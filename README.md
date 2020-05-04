@@ -14,7 +14,7 @@ redis
 lombok
 mapstruct
 jwt
-vue等
+vue,WxJava等
 
  **模块划分：** 
 
@@ -32,7 +32,7 @@ vue等
 - yshop-common common通用工具
 - yshop-framework 核心
 - yshop-mall 商城
-- yixiang-generator 代码生成模块
+- yixiang-generator 代码生成模块 支持mybatisplus
 - yixiang-quartr 定时任务
 - yixiang-admin 管理后台
 - yixiang-app api模块 jwt+自定义注解验证
