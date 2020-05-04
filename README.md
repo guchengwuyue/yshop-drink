@@ -1,14 +1,86 @@
-  **商城概况：**
+### **供货商城升级版即将来袭：**
 
-本商城系统是一套完整的商城系统，包括小程序+小程序API+后台商城管理，这个项目属于我原有的一个laravel项目，
-现在迁移Java springboot平台，大概情况这样，废话不多说！！
 
-#### 推荐另外前后端分离商城系统，如下：
+ **介绍：** 
 
-|     |  后台系统源码 |   后台系统前端源码  |
-|---  |--- | --- |
-|   码云  |  https://gitee.com/guchengwuyue/yshopmall  | https://gitee.com/guchengwuyue/yshopmall_qd |
-|   github   |   https://github.com/guchengwuyue/yshopmall | https://github.com/guchengwuyue/yshopmall_qd  |
+供货商城升级版又名yshop-mini商城系统，属于供货商城升级版
+
+ **技术栈：** 
+
+管理后台继续基于ruoyi，
+在此技术上增加:
+mybatisPlus
+redis
+lombok
+mapstruct
+jwt
+vue,WxJava等
+
+ **模块划分：** 
+
+```
+- yshop-base 基础模块
+    - config 配置等
+    - coupon 优惠券
+    - handler mybatis handler
+    - mall
+    - order 订单
+    - oss 云存储
+    - redis 常用配置与订单过期，自动收货监听等
+    - system
+    - weixin 支付、公众号等
+- yshop-common common通用工具
+- yshop-framework 核心
+- yshop-mall 商城
+- yixiang-generator 代码生成模块 支持mybatisplus
+- yixiang-quartr 定时任务
+- yixiang-admin 管理后台
+- yixiang-app api模块 jwt+自定义注解验证
+```
+ 
+
+**`功能特色** ‘
+
+ 1、spu,多规格sku商品管理
+<table>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2020/0504/192604_7db25918_477893.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2020/0504/192638_a4adcc1b_477893.png"/></td
+    </tr>	 
+</table>
+
+2、多级商品分类管理、商品评价管理、订单管理、实时物流、运费模板、用户购物车、用户收藏、优惠券、积分、OSS(七牛、腾讯、阿里)、素材管理等
+
+<table>
+    <tr>
+        <td><img src="https://images.gitee.com/uploads/images/2020/0504/192708_127ceda5_477893.png"/></td>
+        <td><img src="https://images.gitee.com/uploads/images/2020/0504/192733_5402d25d_477893.png"/></td>
+    </tr>	 
+</table>
+
+
+ **-提前预定更优惠** qq群交流：1080453739
+
+
+
+
+
+
+
+
+
+
+-
+-
+-
+-
+
+
+
+### **下面是供货老版本商城概况：**
+
+
+本商城系统是一套完整的商城系统，包括小程序+小程序API+后台商城管理！！
 
    **系统基础组合来源：** 
 
@@ -62,7 +134,9 @@
 </table>
 
 
+
 第三：mpvue小程序，小程序主要是用 **mpvue** 框架开发，这里就不说它的好处。
+
 
 
  mpvue 小程序运行步骤：
@@ -99,6 +173,7 @@ npm set registry https://registry.npm.taobao.org/
 
 
 **学习交流** 
+
 
 其他：欢迎star或者提出你们宝贵的建议哦！！！
 
