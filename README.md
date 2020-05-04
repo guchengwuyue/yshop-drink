@@ -7,7 +7,7 @@
 
  **技术栈：** 
 
-管理后台继续基于ruyi，
+管理后台继续基于ruoyi，
 在此技术上增加:
 mybatisPlus
 redis
