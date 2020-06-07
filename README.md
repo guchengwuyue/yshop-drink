@@ -1,20 +1,23 @@
-### **供货商城升级版即将来袭：**
+### **供货商城升级版yshop会员电商系统：**
 
 
- **介绍：** 
+## yshop会员商城系统介绍
 
-供货商城升级版又名yshop-mini商城系统，属于供货商城升级版
+yshop会员商城系统功能：在线买单、在线充值、消费记录、会员中心、多规格sku商品管理、
+分销、收藏、地址、分类、评价、积分、运费模板、、优惠券、订单管理、
+买单管理、物流、短信、微信菜单、微信回复、微信图文、模板消息等等
 
- **技术栈：** 
-
-管理后台继续基于ruoyi，
-在此技术上增加:
-mybatisPlus
-redis
-lombok
-mapstruct
-jwt
-vue,WxJava等
+### 技术栈
+mybatisPlus、redis、lombok、mapstruct、jwt、WxJava、Druid、OSS、Vue、Vue-router、Vuex等
+* 核心框架：SpringBoot2 + mybatis + jwt
+* 消息中间件：Redis
+* 前端手脚架：Avue-cli
+* 前端框架：Vue2 + vant + Vue-router + Vuex + jquery + thymeleaf
+* 持久层框架：MyBatis-plus
+* 微信开发Java SDK：WxJava
+* 文件管理：阿里oss、七牛云、腾讯cos、本地
+* JDK版本：Java8+
+* 数据库：mysql5.7
 
  **模块划分：** 
 
@@ -28,7 +31,7 @@ vue,WxJava等
     - oss 云存储
     - redis 常用配置与订单过期，自动收货监听等
     - system
-    - weixin 支付、公众号等
+    - weixin 
 - yixiang-common common通用工具
 - yixiang-framework 核心
 - yixiang-mall 商城
@@ -36,6 +39,7 @@ vue,WxJava等
 - yixiang-quartr 定时任务
 - yixiang-admin 管理后台
 - yixiang-app api模块 jwt+自定义注解验证
+- yixiang-weixin 微信模块
 ```
  
 
