@@ -7,7 +7,6 @@ yshop会员商城系统功能：在线买单、在线充值、消费记录、会
 分销、收藏、地址、分类、评价、积分、运费模板、、优惠券、订单管理、
 买单管理、物流、短信、微信菜单、微信回复、微信图文、模板消息等等
 
-详细介绍：https://www.yixiang.co/member/
 
 ### 技术栈
 mybatisPlus、redis、lombok、mapstruct、jwt、WxJava、Druid、OSS、Vue、Vue-router、Vuex等
