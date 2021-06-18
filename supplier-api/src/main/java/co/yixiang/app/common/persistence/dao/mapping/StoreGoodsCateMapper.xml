@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.yixiang.app.common.persistence.dao.StoreGoodsCateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="co.yixiang.app.common.persistence.model.StoreGoodsCate">
+        <id column="id" property="id" />
+        <result column="pid" property="pid" />
+        <result column="brand_id" property="brandId" />
+        <result column="cate_title" property="cateTitle" />
+        <result column="cate_desc" property="cateDesc" />
+        <result column="img_url" property="imgUrl" />
+        <result column="sort" property="sort" />
+        <result column="status" property="status" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="create_at" property="createAt" />
+    </resultMap>
+
+</mapper>

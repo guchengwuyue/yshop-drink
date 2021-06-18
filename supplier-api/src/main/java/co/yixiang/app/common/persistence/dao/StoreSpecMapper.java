@@ -1,0 +1,16 @@
+package co.yixiang.app.common.persistence.dao;
+
+import co.yixiang.app.common.persistence.model.StoreSpec;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+/**
+ * <p>
+ * 商品规格表(独立) Mapper 接口
+ * </p>
+ *
+ * @author hupeng
+ * @since 2019-09-07
+ */
+public interface StoreSpecMapper extends BaseMapper<StoreSpec> {
+
+}

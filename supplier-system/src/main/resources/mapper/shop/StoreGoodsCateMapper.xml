@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.yixiang.shop.mapper.StoreGoodsCateMapper">
+    
+    <resultMap type="StoreGoodsCate" id="StoreGoodsCateResult">
+        <result property="id"    column="id"    />
+        <result property="pid"    column="pid"    />
+        <result property="brandId"    column="brand_id"    />
+        <result property="cateTitle"    column="cate_title"    />
+        <result property="cateDesc"    column="cate_desc"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="createAt"    column="create_at"    />
+        <result property="parentName" column="parent_name" />
+    </resultMap>
+
+    <sql id="selectStoreGoodsCateVo">
+        select id, pid, brand_id, cate_title, cate_desc, img_url, sort, status, is_deleted, create_at from store_goods_cate
+    </sql>
+
+    <select id="selectStoreGoodsCateList" parameterType="StoreGoodsCate" resultMap="StoreGoodsCateResult">
+        <include refid="selectStoreGoodsCateVo"/>
+        <where>  
+            <if test="pid != null "> and pid = #{pid}</if>
+            <if test="cateTitle != null  and cateTitle != ''"> and cate_title = #{cateTitle}</if>
+        </where>
+        order by pid
+    </select>
+    
+    <select id="selectStoreGoodsCateById" parameterType="Long" resultMap="StoreGoodsCateResult">
+        select t.id, t.pid, t.brand_id, t.cate_title, t.cate_desc, t.img_url, t.sort, t.status, t.is_deleted, t.create_at, p.cate_title as parent_name
+        from store_goods_cate t
+        left join store_goods_cate p on p.id = t.pid
+        where t.id = #{id}
+    </select>
+        
+    <insert id="insertStoreGoodsCate" parameterType="StoreGoodsCate" useGeneratedKeys="true" keyProperty="id">
+        insert into store_goods_cate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pid != null ">pid,</if>
+            <if test="brandId != null ">brand_id,</if>
+            <if test="cateTitle != null  and cateTitle != ''">cate_title,</if>
+            <if test="cateDesc != null  and cateDesc != ''">cate_desc,</if>
+            <if test="imgUrl != null  and imgUrl != ''">img_url,</if>
+            <if test="sort != null ">sort,</if>
+            <if test="status != null ">status,</if>
+            <if test="isDeleted != null ">is_deleted,</if>
+            <if test="createAt != null ">create_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pid != null ">#{pid},</if>
+            <if test="brandId != null ">#{brandId},</if>
+            <if test="cateTitle != null  and cateTitle != ''">#{cateTitle},</if>
+            <if test="cateDesc != null  and cateDesc != ''">#{cateDesc},</if>
+            <if test="imgUrl != null  and imgUrl != ''">#{imgUrl},</if>
+            <if test="sort != null ">#{sort},</if>
+            <if test="status != null ">#{status},</if>
+            <if test="isDeleted != null ">#{isDeleted},</if>
+            <if test="createAt != null ">#{createAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStoreGoodsCate" parameterType="StoreGoodsCate">
+        update store_goods_cate
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pid != null ">pid = #{pid},</if>
+            <if test="brandId != null ">brand_id = #{brandId},</if>
+            <if test="cateTitle != null  and cateTitle != ''">cate_title = #{cateTitle},</if>
+            <if test="cateDesc != null  and cateDesc != ''">cate_desc = #{cateDesc},</if>
+            <if test="imgUrl != null  and imgUrl != ''">img_url = #{imgUrl},</if>
+            <if test="sort != null ">sort = #{sort},</if>
+            <if test="status != null ">status = #{status},</if>
+            <if test="isDeleted != null ">is_deleted = #{isDeleted},</if>
+            <if test="createAt != null ">create_at = #{createAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStoreGoodsCateById" parameterType="Long">
+        delete from store_goods_cate where id = #{id}
+    </delete>
+
+    <delete id="deleteStoreGoodsCateByIds" parameterType="String">
+        delete from store_goods_cate where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.yixiang.app.common.persistence.dao.StoreCartMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="co.yixiang.app.common.persistence.model.StoreCart">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="session_id" property="sessionId" />
+        <result column="goods_id" property="goodsId" />
+        <result column="goods_sn" property="goodsSn" />
+        <result column="goods_name" property="goodsName" />
+        <result column="market_price" property="marketPrice" />
+        <result column="goods_price" property="goodsPrice" />
+        <result column="member_goods_price" property="memberGoodsPrice" />
+        <result column="goods_num" property="goodsNum" />
+        <result column="spec_key" property="specKey" />
+        <result column="spec_key_name" property="specKeyName" />
+        <result column="bar_code" property="barCode" />
+        <result column="selected" property="selected" />
+        <result column="add_time" property="addTime" />
+        <result column="prom_type" property="promType" />
+        <result column="prom_id" property="promId" />
+        <result column="sku" property="sku" />
+    </resultMap>
+
+</mapper>

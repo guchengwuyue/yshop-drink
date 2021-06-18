@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.yixiang.shop.mapper.StoreGoodsMapper">
+    
+    <resultMap type="StoreGoods" id="StoreGoodsResult">
+        <result property="goodsId"    column="goods_id"    />
+        <result property="cateId"    column="cate_id"    />
+        <result property="extendCatId"    column="extend_cat_id"    />
+        <result property="goodsSn"    column="goods_sn"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="clickCount"    column="click_count"    />
+        <result property="brandId"    column="brand_id"    />
+        <result property="storeCount"    column="store_count"    />
+        <result property="commentCount"    column="comment_count"    />
+        <result property="weight"    column="weight"    />
+        <result property="volume"    column="volume"    />
+        <result property="marketPrice"    column="market_price"    />
+        <result property="shopPrice"    column="shop_price"    />
+        <result property="costPrice"    column="cost_price"    />
+        <result property="priceLadder"    column="price_ladder"    />
+        <result property="keywords"    column="keywords"    />
+        <result property="goodsRemark"    column="goods_remark"    />
+        <result property="goodsContent"    column="goods_content"    />
+        <result property="mobileContent"    column="mobile_content"    />
+        <result property="goodsLogo"    column="goods_logo"    />
+        <result property="isVirtual"    column="is_virtual"    />
+        <result property="virtualIndate"    column="virtual_indate"    />
+        <result property="virtualLimit"    column="virtual_limit"    />
+        <result property="virtualRefund"    column="virtual_refund"    />
+        <result property="isOnSale"    column="is_on_sale"    />
+        <result property="isFreeShipping"    column="is_free_shipping"    />
+        <result property="onTime"    column="on_time"    />
+        <result property="sort"    column="sort"    />
+        <result property="isRecommend"    column="is_recommend"    />
+        <result property="isNew"    column="is_new"    />
+        <result property="isHot"    column="is_hot"    />
+        <result property="lastUpdate"    column="last_update"    />
+        <result property="goodsType"    column="goods_type"    />
+        <result property="specType"    column="spec_type"    />
+        <result property="giveIntegral"    column="give_integral"    />
+        <result property="exchangeIntegral"    column="exchange_integral"    />
+        <result property="suppliersId"    column="suppliers_id"    />
+        <result property="salesSum"    column="sales_sum"    />
+        <result property="promType"    column="prom_type"    />
+        <result property="promId"    column="prom_id"    />
+        <result property="commission"    column="commission"    />
+        <result property="spu"    column="spu"    />
+        <result property="sku"    column="sku"    />
+        <result property="templateId"    column="template_id"    />
+        <result property="goodsVideo"    column="goods_video"    />
+    </resultMap>
+
+    <sql id="selectStoreGoodsVo">
+        select goods_id, cate_id, extend_cat_id, goods_sn, goods_name, click_count, brand_id, store_count, comment_count, weight, volume, market_price, shop_price, cost_price, price_ladder, keywords, goods_remark, goods_content, mobile_content, goods_logo, is_virtual, virtual_indate, virtual_limit, virtual_refund, is_on_sale, is_free_shipping, on_time, sort, is_recommend, is_new, is_hot, last_update, goods_type, spec_type, give_integral, exchange_integral, suppliers_id, sales_sum, prom_type, prom_id, commission, spu, sku, template_id, goods_video from store_goods
+    </sql>
+
+    <select id="selectStoreGoodsList" parameterType="StoreGoods" resultMap="StoreGoodsResult">
+        <include refid="selectStoreGoodsVo"/>
+        <where>
+            <if test="cateId != null  and cateId != ''"> and cate_id = #{cateId}</if>
+            <if test="goodsSn != null  and goodsSn != ''"> and goods_sn = #{goodsSn}</if>
+            <if test="goodsName != null  and goodsName != ''"> and goods_name like concat('%', #{goodsName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectStoreGoodsById" parameterType="Integer" resultMap="StoreGoodsResult">
+        <include refid="selectStoreGoodsVo"/>
+        where goods_id = #{goodsId}
+    </select>
+        
+    <insert id="insertStoreGoods" parameterType="StoreGoods" useGeneratedKeys="true" keyProperty="goodsId">
+        insert into store_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cateId != null ">cate_id,</if>
+            <if test="extendCatId != null ">extend_cat_id,</if>
+            <if test="goodsSn != null  and goodsSn != ''">goods_sn,</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name,</if>
+            <if test="clickCount != null ">click_count,</if>
+            <if test="brandId != null ">brand_id,</if>
+            <if test="storeCount != null ">store_count,</if>
+            <if test="commentCount != null ">comment_count,</if>
+            <if test="weight != null ">weight,</if>
+            <if test="volume != null ">volume,</if>
+            <if test="marketPrice != null ">market_price,</if>
+            <if test="shopPrice != null ">shop_price,</if>
+            <if test="costPrice != null ">cost_price,</if>
+            <if test="priceLadder != null  and priceLadder != ''">price_ladder,</if>
+            <if test="keywords != null  and keywords != ''">keywords,</if>
+            <if test="goodsRemark != null  and goodsRemark != ''">goods_remark,</if>
+            <if test="goodsContent != null  and goodsContent != ''">goods_content,</if>
+            <if test="mobileContent != null  and mobileContent != ''">mobile_content,</if>
+            <if test="goodsLogo != null  and goodsLogo != ''">goods_logo,</if>
+            <if test="isVirtual != null ">is_virtual,</if>
+            <if test="virtualIndate != null ">virtual_indate,</if>
+            <if test="virtualLimit != null ">virtual_limit,</if>
+            <if test="virtualRefund != null ">virtual_refund,</if>
+            <if test="isOnSale != null ">is_on_sale,</if>
+            <if test="isFreeShipping != null ">is_free_shipping,</if>
+            <if test="onTime != null ">on_time,</if>
+            <if test="sort != null ">sort,</if>
+            <if test="isRecommend != null ">is_recommend,</if>
+            <if test="isNew != null ">is_new,</if>
+            <if test="isHot != null ">is_hot,</if>
+            <if test="lastUpdate != null ">last_update,</if>
+            <if test="goodsType != null ">goods_type,</if>
+            <if test="specType != null ">spec_type,</if>
+            <if test="giveIntegral != null ">give_integral,</if>
+            <if test="exchangeIntegral != null ">exchange_integral,</if>
+            <if test="suppliersId != null ">suppliers_id,</if>
+            <if test="salesSum != null ">sales_sum,</if>
+            <if test="promType != null ">prom_type,</if>
+            <if test="promId != null ">prom_id,</if>
+            <if test="commission != null ">commission,</if>
+            <if test="spu != null  and spu != ''">spu,</if>
+            <if test="sku != null  and sku != ''">sku,</if>
+            <if test="templateId != null ">template_id,</if>
+            <if test="goodsVideo != null  and goodsVideo != ''">goods_video,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cateId != null ">#{cateId},</if>
+            <if test="extendCatId != null ">#{extendCatId},</if>
+            <if test="goodsSn != null  and goodsSn != ''">#{goodsSn},</if>
+            <if test="goodsName != null  and goodsName != ''">#{goodsName},</if>
+            <if test="clickCount != null ">#{clickCount},</if>
+            <if test="brandId != null ">#{brandId},</if>
+            <if test="storeCount != null ">#{storeCount},</if>
+            <if test="commentCount != null ">#{commentCount},</if>
+            <if test="weight != null ">#{weight},</if>
+            <if test="volume != null ">#{volume},</if>
+            <if test="marketPrice != null ">#{marketPrice},</if>
+            <if test="shopPrice != null ">#{shopPrice},</if>
+            <if test="costPrice != null ">#{costPrice},</if>
+            <if test="priceLadder != null  and priceLadder != ''">#{priceLadder},</if>
+            <if test="keywords != null  and keywords != ''">#{keywords},</if>
+            <if test="goodsRemark != null  and goodsRemark != ''">#{goodsRemark},</if>
+            <if test="goodsContent != null  and goodsContent != ''">#{goodsContent},</if>
+            <if test="mobileContent != null  and mobileContent != ''">#{mobileContent},</if>
+            <if test="goodsLogo != null  and goodsLogo != ''">#{goodsLogo},</if>
+            <if test="isVirtual != null ">#{isVirtual},</if>
+            <if test="virtualIndate != null ">#{virtualIndate},</if>
+            <if test="virtualLimit != null ">#{virtualLimit},</if>
+            <if test="virtualRefund != null ">#{virtualRefund},</if>
+            <if test="isOnSale != null ">#{isOnSale},</if>
+            <if test="isFreeShipping != null ">#{isFreeShipping},</if>
+            <if test="onTime != null ">#{onTime},</if>
+            <if test="sort != null ">#{sort},</if>
+            <if test="isRecommend != null ">#{isRecommend},</if>
+            <if test="isNew != null ">#{isNew},</if>
+            <if test="isHot != null ">#{isHot},</if>
+            <if test="lastUpdate != null ">#{lastUpdate},</if>
+            <if test="goodsType != null ">#{goodsType},</if>
+            <if test="specType != null ">#{specType},</if>
+            <if test="giveIntegral != null ">#{giveIntegral},</if>
+            <if test="exchangeIntegral != null ">#{exchangeIntegral},</if>
+            <if test="suppliersId != null ">#{suppliersId},</if>
+            <if test="salesSum != null ">#{salesSum},</if>
+            <if test="promType != null ">#{promType},</if>
+            <if test="promId != null ">#{promId},</if>
+            <if test="commission != null ">#{commission},</if>
+            <if test="spu != null  and spu != ''">#{spu},</if>
+            <if test="sku != null  and sku != ''">#{sku},</if>
+            <if test="templateId != null ">#{templateId},</if>
+            <if test="goodsVideo != null  and goodsVideo != ''">#{goodsVideo},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStoreGoods" parameterType="StoreGoods">
+        update store_goods
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cateId != null ">cate_id = #{cateId},</if>
+            <if test="extendCatId != null ">extend_cat_id = #{extendCatId},</if>
+            <if test="goodsSn != null  and goodsSn != ''">goods_sn = #{goodsSn},</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name = #{goodsName},</if>
+            <if test="clickCount != null ">click_count = #{clickCount},</if>
+            <if test="brandId != null ">brand_id = #{brandId},</if>
+            <if test="storeCount != null ">store_count = #{storeCount},</if>
+            <if test="commentCount != null ">comment_count = #{commentCount},</if>
+            <if test="weight != null ">weight = #{weight},</if>
+            <if test="volume != null ">volume = #{volume},</if>
+            <if test="marketPrice != null ">market_price = #{marketPrice},</if>
+            <if test="shopPrice != null ">shop_price = #{shopPrice},</if>
+            <if test="costPrice != null ">cost_price = #{costPrice},</if>
+            <if test="priceLadder != null  and priceLadder != ''">price_ladder = #{priceLadder},</if>
+            <if test="keywords != null  and keywords != ''">keywords = #{keywords},</if>
+            <if test="goodsRemark != null  and goodsRemark != ''">goods_remark = #{goodsRemark},</if>
+            <if test="goodsContent != null  and goodsContent != ''">goods_content = #{goodsContent},</if>
+            <if test="mobileContent != null  and mobileContent != ''">mobile_content = #{mobileContent},</if>
+            <if test="goodsLogo != null  and goodsLogo != ''">goods_logo = #{goodsLogo},</if>
+            <if test="isVirtual != null ">is_virtual = #{isVirtual},</if>
+            <if test="virtualIndate != null ">virtual_indate = #{virtualIndate},</if>
+            <if test="virtualLimit != null ">virtual_limit = #{virtualLimit},</if>
+            <if test="virtualRefund != null ">virtual_refund = #{virtualRefund},</if>
+            <if test="isOnSale != null ">is_on_sale = #{isOnSale},</if>
+            <if test="isFreeShipping != null ">is_free_shipping = #{isFreeShipping},</if>
+            <if test="onTime != null ">on_time = #{onTime},</if>
+            <if test="sort != null ">sort = #{sort},</if>
+            <if test="isRecommend != null ">is_recommend = #{isRecommend},</if>
+            <if test="isNew != null ">is_new = #{isNew},</if>
+            <if test="isHot != null ">is_hot = #{isHot},</if>
+            <if test="lastUpdate != null ">last_update = #{lastUpdate},</if>
+            <if test="goodsType != null ">goods_type = #{goodsType},</if>
+            <if test="specType != null ">spec_type = #{specType},</if>
+            <if test="giveIntegral != null ">give_integral = #{giveIntegral},</if>
+            <if test="exchangeIntegral != null ">exchange_integral = #{exchangeIntegral},</if>
+            <if test="suppliersId != null ">suppliers_id = #{suppliersId},</if>
+            <if test="salesSum != null ">sales_sum = #{salesSum},</if>
+            <if test="promType != null ">prom_type = #{promType},</if>
+            <if test="promId != null ">prom_id = #{promId},</if>
+            <if test="commission != null ">commission = #{commission},</if>
+            <if test="spu != null  and spu != ''">spu = #{spu},</if>
+            <if test="sku != null  and sku != ''">sku = #{sku},</if>
+            <if test="templateId != null ">template_id = #{templateId},</if>
+            <if test="goodsVideo != null  and goodsVideo != ''">goods_video = #{goodsVideo},</if>
+        </trim>
+        where goods_id = #{goodsId}
+    </update>
+
+    <delete id="deleteStoreGoodsById" parameterType="Integer">
+        delete from store_goods where goods_id = #{goodsId}
+    </delete>
+
+    <delete id="deleteStoreGoodsByIds" parameterType="String">
+        delete from store_goods where goods_id in 
+        <foreach item="goodsId" collection="array" open="(" separator="," close=")">
+            #{goodsId}
+        </foreach>
+    </delete>
+    
+</mapper>

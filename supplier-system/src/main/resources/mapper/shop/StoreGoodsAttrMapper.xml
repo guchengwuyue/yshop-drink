@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.yixiang.shop.mapper.StoreGoodsAttrMapper">
+    
+    <resultMap type="StoreGoodsAttr" id="StoreGoodsAttrResult">
+        <result property="goodsAttrId"    column="goods_attr_id"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="attrId"    column="attr_id"    />
+        <result property="attrValue"    column="attr_value"    />
+        <result property="attrPrice"    column="attr_price"    />
+    </resultMap>
+
+    <sql id="selectStoreGoodsAttrVo">
+        select goods_attr_id, goods_id, attr_id, attr_value, attr_price from store_goods_attr
+    </sql>
+
+    <select id="selectStoreGoodsAttrList" parameterType="StoreGoodsAttr" resultMap="StoreGoodsAttrResult">
+        <include refid="selectStoreGoodsAttrVo"/>
+        <where>  
+            <if test="goodsId != null "> and goods_id = #{goodsId}</if>
+            <if test="attrId != null "> and attr_id = #{attrId}</if>
+            <if test="attrValue != null  and attrValue != ''"> and attr_value = #{attrValue}</if>
+            <if test="attrPrice != null  and attrPrice != ''"> and attr_price = #{attrPrice}</if>
+        </where>
+    </select>
+    
+    <select id="selectStoreGoodsAttrById" parameterType="Integer" resultMap="StoreGoodsAttrResult">
+        <include refid="selectStoreGoodsAttrVo"/>
+        where goods_attr_id = #{goodsAttrId}
+    </select>
+        
+    <insert id="insertStoreGoodsAttr" parameterType="StoreGoodsAttr" useGeneratedKeys="true" keyProperty="goodsAttrId">
+        insert into store_goods_attr
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null ">goods_id,</if>
+            <if test="attrId != null ">attr_id,</if>
+            <if test="attrValue != null  and attrValue != ''">attr_value,</if>
+            <if test="attrPrice != null  and attrPrice != ''">attr_price,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null ">#{goodsId},</if>
+            <if test="attrId != null ">#{attrId},</if>
+            <if test="attrValue != null  and attrValue != ''">#{attrValue},</if>
+            <if test="attrPrice != null  and attrPrice != ''">#{attrPrice},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStoreGoodsAttr" parameterType="StoreGoodsAttr">
+        update store_goods_attr
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodsId != null ">goods_id = #{goodsId},</if>
+            <if test="attrId != null ">attr_id = #{attrId},</if>
+            <if test="attrValue != null  and attrValue != ''">attr_value = #{attrValue},</if>
+            <if test="attrPrice != null  and attrPrice != ''">attr_price = #{attrPrice},</if>
+        </trim>
+        where goods_attr_id = #{goodsAttrId}
+    </update>
+
+    <delete id="deleteStoreGoodsAttrById" parameterType="Integer">
+        delete from store_goods_attr where goods_attr_id = #{goodsAttrId}
+    </delete>
+
+    <delete id="deleteStoreGoodsAttrByIds" parameterType="String">
+        delete from store_goods_attr where goods_attr_id in 
+        <foreach item="goodsAttrId" collection="array" open="(" separator="," close=")">
+            #{goodsAttrId}
+        </foreach>
+    </delete>
+    
+</mapper>

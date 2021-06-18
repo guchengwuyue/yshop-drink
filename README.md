@@ -1,7 +1,22 @@
 
+
+
+### supplier2.0已经发布:
+1、移除Light Security jwt 验证更改为shaun pac4j-jwt
+
+2、mapstruct更新1.3.1 同时修复不能编译成对象的问题
+
+3、新的目录结构
+
+4、同步ruoyi最新版本V4.6.1
+
+5、喜欢的小伙伴记得star下
+
+6、本项目全开源 请自行下载的哦
+
+### supplier2.1即将发布:
 - 新的重构版本正在开发中，喜欢的小伙伴记得star下
 - 新版本移动端将使用uniapp
-- 后端架构升级优化
 
 
 ### **商城概况：**
@@ -11,17 +26,17 @@
 
    **系统基础组合来源：** 
 
-程序员就要坚持着不要重复造轮子想法，所有就在码云里找自己合适的轮子：：
+程序员就要坚持着不要重复造轮子想法，所有就在gitee里找自己合适的轮子：：
 
 1、若依管理后台:用它做后台管理
 
-2、Light Security：用它主要来对接小程序API
+2、shaun pac4j-jwt：强大jwt权限框架
 
 当然他们本身已经完成了很多功能，这里不多说，大家可以直接去码云搜索即可，后面会放上他们连接。
 
 本系统主要包括三部分：
 
-第一：商城后台，完成完整的商城管理系统，目前基本已经完成，至于有bug大家可以直接issue或者进群交流（后面会打出来的(⊙o⊙)？！！），
+第一：商城后台，完成完整的商城管理系统，目前已经完成，至于有bug大家可以直接issue或者进群交流（后面会打出来的(⊙o⊙)？！！），
 功能大概包括：商品管理，商品多规格属性管理，商品分类，商品品牌，商品订单，会员信息等等。
 涉及到技术： **springboot+Thymeleaf+mybatis** 
 
@@ -69,7 +84,8 @@
  mpvue 小程序运行步骤：
 
 1、安装node环境
-     node 是8版本
+     node 是8版本，这边开发版本是8.12.0，由于mpvue属于老牌小程序框架了，目前这边验证的只是这个node版本，
+     当然新的小程序UNIAPP发布之后没用此限制拉
 
 2、设置npm淘宝镜像
 
@@ -112,6 +128,6 @@ npm set registry https://registry.npm.taobao.org/
 
 若依系统：[ruoyi](https://gitee.com/y_project/RuoYi)
 
-简单jwt权限：[Light Security](https://gitee.com/itmuch/light-security)
+强大jwt权限框架：[shaun](https://gitee.com/baomidou/shaun)
      
   

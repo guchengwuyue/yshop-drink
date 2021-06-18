@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.yixiang.shop.mapper.StoreOrderGoodsMapper">
+    
+    <resultMap type="StoreOrderGoods" id="StoreOrderGoodsResult">
+        <result property="recId"    column="rec_id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsSn"    column="goods_sn"    />
+        <result property="goodsNum"    column="goods_num"    />
+        <result property="marketPrice"    column="market_price"    />
+        <result property="goodsPrice"    column="goods_price"    />
+        <result property="costPrice"    column="cost_price"    />
+        <result property="memberGoodsPrice"    column="member_goods_price"    />
+        <result property="giveIntegral"    column="give_integral"    />
+        <result property="specKey"    column="spec_key"    />
+        <result property="specKeyName"    column="spec_key_name"    />
+        <result property="barCode"    column="bar_code"    />
+        <result property="isComment"    column="is_comment"    />
+        <result property="promType"    column="prom_type"    />
+        <result property="promId"    column="prom_id"    />
+        <result property="isSend"    column="is_send"    />
+        <result property="deliveryId"    column="delivery_id"    />
+        <result property="sku"    column="sku"    />
+    </resultMap>
+
+    <sql id="selectStoreOrderGoodsVo">
+        select rec_id, order_id, goods_id, goods_name, goods_sn, goods_num, market_price, goods_price, cost_price, member_goods_price, give_integral, spec_key, spec_key_name, bar_code, is_comment, prom_type, prom_id, is_send, delivery_id, sku from store_order_goods
+    </sql>
+
+    <select id="selectStoreOrderGoodsList" parameterType="StoreOrderGoods" resultMap="StoreOrderGoodsResult">
+        <include refid="selectStoreOrderGoodsVo"/>
+        <where>  
+            <if test="orderId != null "> and order_id = #{orderId}</if>
+            <if test="goodsId != null "> and goods_id = #{goodsId}</if>
+            <if test="goodsName != null  and goodsName != ''"> and goods_name like concat('%', #{goodsName}, '%')</if>
+            <if test="goodsSn != null  and goodsSn != ''"> and goods_sn = #{goodsSn}</if>
+            <if test="goodsNum != null "> and goods_num = #{goodsNum}</if>
+            <if test="marketPrice != null "> and market_price = #{marketPrice}</if>
+            <if test="goodsPrice != null "> and goods_price = #{goodsPrice}</if>
+            <if test="costPrice != null "> and cost_price = #{costPrice}</if>
+            <if test="memberGoodsPrice != null "> and member_goods_price = #{memberGoodsPrice}</if>
+            <if test="giveIntegral != null "> and give_integral = #{giveIntegral}</if>
+            <if test="specKey != null  and specKey != ''"> and spec_key = #{specKey}</if>
+            <if test="specKeyName != null  and specKeyName != ''"> and spec_key_name like concat('%', #{specKeyName}, '%')</if>
+            <if test="barCode != null  and barCode != ''"> and bar_code = #{barCode}</if>
+            <if test="isComment != null "> and is_comment = #{isComment}</if>
+            <if test="promType != null "> and prom_type = #{promType}</if>
+            <if test="promId != null "> and prom_id = #{promId}</if>
+            <if test="isSend != null "> and is_send = #{isSend}</if>
+            <if test="deliveryId != null "> and delivery_id = #{deliveryId}</if>
+            <if test="sku != null  and sku != ''"> and sku = #{sku}</if>
+        </where>
+    </select>
+    
+    <select id="selectStoreOrderGoodsById" parameterType="Integer" resultMap="StoreOrderGoodsResult">
+        <include refid="selectStoreOrderGoodsVo"/>
+        where rec_id = #{recId}
+    </select>
+        
+    <insert id="insertStoreOrderGoods" parameterType="StoreOrderGoods" useGeneratedKeys="true" keyProperty="recId">
+        insert into store_order_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null ">order_id,</if>
+            <if test="goodsId != null ">goods_id,</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name,</if>
+            <if test="goodsSn != null  and goodsSn != ''">goods_sn,</if>
+            <if test="goodsNum != null ">goods_num,</if>
+            <if test="marketPrice != null ">market_price,</if>
+            <if test="goodsPrice != null ">goods_price,</if>
+            <if test="costPrice != null ">cost_price,</if>
+            <if test="memberGoodsPrice != null ">member_goods_price,</if>
+            <if test="giveIntegral != null ">give_integral,</if>
+            <if test="specKey != null  and specKey != ''">spec_key,</if>
+            <if test="specKeyName != null  and specKeyName != ''">spec_key_name,</if>
+            <if test="barCode != null  and barCode != ''">bar_code,</if>
+            <if test="isComment != null ">is_comment,</if>
+            <if test="promType != null ">prom_type,</if>
+            <if test="promId != null ">prom_id,</if>
+            <if test="isSend != null ">is_send,</if>
+            <if test="deliveryId != null ">delivery_id,</if>
+            <if test="sku != null  and sku != ''">sku,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null ">#{orderId},</if>
+            <if test="goodsId != null ">#{goodsId},</if>
+            <if test="goodsName != null  and goodsName != ''">#{goodsName},</if>
+            <if test="goodsSn != null  and goodsSn != ''">#{goodsSn},</if>
+            <if test="goodsNum != null ">#{goodsNum},</if>
+            <if test="marketPrice != null ">#{marketPrice},</if>
+            <if test="goodsPrice != null ">#{goodsPrice},</if>
+            <if test="costPrice != null ">#{costPrice},</if>
+            <if test="memberGoodsPrice != null ">#{memberGoodsPrice},</if>
+            <if test="giveIntegral != null ">#{giveIntegral},</if>
+            <if test="specKey != null  and specKey != ''">#{specKey},</if>
+            <if test="specKeyName != null  and specKeyName != ''">#{specKeyName},</if>
+            <if test="barCode != null  and barCode != ''">#{barCode},</if>
+            <if test="isComment != null ">#{isComment},</if>
+            <if test="promType != null ">#{promType},</if>
+            <if test="promId != null ">#{promId},</if>
+            <if test="isSend != null ">#{isSend},</if>
+            <if test="deliveryId != null ">#{deliveryId},</if>
+            <if test="sku != null  and sku != ''">#{sku},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStoreOrderGoods" parameterType="StoreOrderGoods">
+        update store_order_goods
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null ">order_id = #{orderId},</if>
+            <if test="goodsId != null ">goods_id = #{goodsId},</if>
+            <if test="goodsName != null  and goodsName != ''">goods_name = #{goodsName},</if>
+            <if test="goodsSn != null  and goodsSn != ''">goods_sn = #{goodsSn},</if>
+            <if test="goodsNum != null ">goods_num = #{goodsNum},</if>
+            <if test="marketPrice != null ">market_price = #{marketPrice},</if>
+            <if test="goodsPrice != null ">goods_price = #{goodsPrice},</if>
+            <if test="costPrice != null ">cost_price = #{costPrice},</if>
+            <if test="memberGoodsPrice != null ">member_goods_price = #{memberGoodsPrice},</if>
+            <if test="giveIntegral != null ">give_integral = #{giveIntegral},</if>
+            <if test="specKey != null  and specKey != ''">spec_key = #{specKey},</if>
+            <if test="specKeyName != null  and specKeyName != ''">spec_key_name = #{specKeyName},</if>
+            <if test="barCode != null  and barCode != ''">bar_code = #{barCode},</if>
+            <if test="isComment != null ">is_comment = #{isComment},</if>
+            <if test="promType != null ">prom_type = #{promType},</if>
+            <if test="promId != null ">prom_id = #{promId},</if>
+            <if test="isSend != null ">is_send = #{isSend},</if>
+            <if test="deliveryId != null ">delivery_id = #{deliveryId},</if>
+            <if test="sku != null  and sku != ''">sku = #{sku},</if>
+        </trim>
+        where rec_id = #{recId}
+    </update>
+
+    <delete id="deleteStoreOrderGoodsById" parameterType="Integer">
+        delete from store_order_goods where rec_id = #{recId}
+    </delete>
+
+    <delete id="deleteStoreOrderGoodsByIds" parameterType="String">
+        delete from store_order_goods where rec_id in 
+        <foreach item="recId" collection="array" open="(" separator="," close=")">
+            #{recId}
+        </foreach>
+    </delete>
+    
+</mapper>

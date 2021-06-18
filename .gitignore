@@ -10,6 +10,15 @@ target/
 
 ######################################################################
 # IDE
+*.classpath
+*.project
+*.iml
+*.factorypath
+target
+.idea/
+*.log
+logs
+
 
 ### STS ###
 .apt_generated

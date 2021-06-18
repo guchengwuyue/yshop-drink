@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.yixiang.shop.mapper.StoreOrderMapper">
+    
+    <resultMap type="StoreOrder" id="StoreOrderResult">
+        <result property="orderId"    column="order_id"    />
+        <result property="orderSn"    column="order_sn"    />
+        <result property="userId"    column="user_id"    />
+        <result property="orderStatus"    column="order_status"    />
+        <result property="shippingStatus"    column="shipping_status"    />
+        <result property="payStatus"    column="pay_status"    />
+        <result property="consignee"    column="consignee"    />
+        <result property="country"    column="country"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="district"    column="district"    />
+        <result property="twon"    column="twon"    />
+        <result property="cityInfo"    column="city_info"    />
+        <result property="address"    column="address"    />
+        <result property="zipcode"    column="zipcode"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="email"    column="email"    />
+        <result property="receiveType"    column="receive_type"    />
+        <result property="shippingCode"    column="shipping_code"    />
+        <result property="shippingName"    column="shipping_name"    />
+        <result property="payCode"    column="pay_code"    />
+        <result property="payMethod"    column="pay_method"    />
+        <result property="rechargeId"    column="recharge_id"    />
+        <result property="payName"    column="pay_name"    />
+        <result property="invoiceTitle"    column="invoice_title"    />
+        <result property="taxpayer"    column="taxpayer"    />
+        <result property="goodsPrice"    column="goods_price"    />
+        <result property="shippingPrice"    column="shipping_price"    />
+        <result property="userMoney"    column="user_money"    />
+        <result property="couponPrice"    column="coupon_price"    />
+        <result property="integral"    column="integral"    />
+        <result property="integralMoney"    column="integral_money"    />
+        <result property="orderAmount"    column="order_amount"    />
+        <result property="totalAmount"    column="total_amount"    />
+        <result property="addTime"    column="add_time"    />
+        <result property="shippingTime"    column="shipping_time"    />
+        <result property="confirmTime"    column="confirm_time"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="transactionId"    column="transaction_id"    />
+        <result property="promId"    column="prom_id"    />
+        <result property="promType"    column="prom_type"    />
+        <result property="orderPromId"    column="order_prom_id"    />
+        <result property="orderPromAmount"    column="order_prom_amount"    />
+        <result property="discount"    column="discount"    />
+        <result property="userNote"    column="user_note"    />
+        <result property="adminNote"    column="admin_note"    />
+        <result property="parentSn"    column="parent_sn"    />
+        <result property="isDistribut"    column="is_distribut"    />
+        <result property="paidMoney"    column="paid_money"    />
+        <result property="deletedTime"    column="deleted_time"    />
+        <result property="deleted"    column="deleted"    />
+        <result property="editMoney"    column="edit_money"    />
+
+        <association property="storeMember" column="user_id"
+                     select="co.yixiang.shop.mapper.StoreMemberMapper.selectStoreMemberById"/>
+
+    </resultMap>
+
+    <sql id="selectStoreOrderVo">
+        select order_id, order_sn, user_id, order_status, shipping_status, pay_status, consignee, country, province, city, district, twon, city_info, address, zipcode, mobile, email, receive_type, shipping_code, shipping_name, pay_code, pay_method, recharge_id, pay_name, invoice_title, taxpayer, goods_price, shipping_price, user_money, coupon_price, integral, integral_money, order_amount, total_amount, add_time, shipping_time, confirm_time, pay_time, transaction_id, prom_id, prom_type, order_prom_id, order_prom_amount, discount, user_note, admin_note, parent_sn, is_distribut, paid_money, deleted_time, deleted, edit_money from store_order
+    </sql>
+
+    <select id="selectStoreOrderList" parameterType="StoreOrder" resultMap="StoreOrderResult">
+        <include refid="selectStoreOrderVo"/>
+        <where>  
+            <if test="orderSn != null  and orderSn != ''"> and order_sn = #{orderSn}</if>
+            <if test="orderStatus != null "> and order_status = #{orderStatus}</if>
+            <if test="payStatus != null "> and pay_status = #{payStatus}</if>
+            <if test="shippingStatus != null "> and shipping_status = #{shippingStatus}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+            <if test="mobile != null  and mobile != ''"> and mobile = #{mobile}</if>
+            <if test="shippingCode != null  and shippingCode != ''"> and shipping_code = #{shippingCode}</if>
+            <if test="shippingName != null  and shippingName != ''"> and shipping_name like concat('%', #{shippingName}, '%')</if>
+            <if test="payMethod != null "> and pay_method = #{payMethod}</if>
+            <if test="couponPrice != null "> and coupon_price = #{couponPrice}</if>
+            <if test="orderAmount != null "> and order_amount = #{orderAmount}</if>
+            <if test="totalAmount != null "> and total_amount = #{totalAmount}</if>
+        </where>
+    </select>
+    
+    <select id="selectStoreOrderById" parameterType="Integer" resultMap="StoreOrderResult">
+        <include refid="selectStoreOrderVo"/>
+        where order_id = #{orderId}
+    </select>
+        
+    <insert id="insertStoreOrder" parameterType="StoreOrder" useGeneratedKeys="true" keyProperty="orderId">
+        insert into store_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderSn != null  and orderSn != ''">order_sn,</if>
+            <if test="userId != null ">user_id,</if>
+            <if test="orderStatus != null ">order_status,</if>
+            <if test="shippingStatus != null ">shipping_status,</if>
+            <if test="payStatus != null ">pay_status,</if>
+            <if test="consignee != null  and consignee != ''">consignee,</if>
+            <if test="country != null ">country,</if>
+            <if test="province != null ">province,</if>
+            <if test="city != null ">city,</if>
+            <if test="district != null ">district,</if>
+            <if test="twon != null ">twon,</if>
+            <if test="cityInfo != null  and cityInfo != ''">city_info,</if>
+            <if test="address != null  and address != ''">address,</if>
+            <if test="zipcode != null  and zipcode != ''">zipcode,</if>
+            <if test="mobile != null  and mobile != ''">mobile,</if>
+            <if test="email != null  and email != ''">email,</if>
+            <if test="receiveType != null ">receive_type,</if>
+            <if test="shippingCode != null  and shippingCode != ''">shipping_code,</if>
+            <if test="shippingName != null  and shippingName != ''">shipping_name,</if>
+            <if test="payCode != null  and payCode != ''">pay_code,</if>
+            <if test="payMethod != null ">pay_method,</if>
+            <if test="rechargeId != null ">recharge_id,</if>
+            <if test="payName != null  and payName != ''">pay_name,</if>
+            <if test="invoiceTitle != null  and invoiceTitle != ''">invoice_title,</if>
+            <if test="taxpayer != null  and taxpayer != ''">taxpayer,</if>
+            <if test="goodsPrice != null ">goods_price,</if>
+            <if test="shippingPrice != null ">shipping_price,</if>
+            <if test="userMoney != null ">user_money,</if>
+            <if test="couponPrice != null ">coupon_price,</if>
+            <if test="integral != null ">integral,</if>
+            <if test="integralMoney != null ">integral_money,</if>
+            <if test="orderAmount != null ">order_amount,</if>
+            <if test="totalAmount != null ">total_amount,</if>
+            <if test="addTime != null ">add_time,</if>
+            <if test="shippingTime != null ">shipping_time,</if>
+            <if test="confirmTime != null ">confirm_time,</if>
+            <if test="payTime != null ">pay_time,</if>
+            <if test="transactionId != null  and transactionId != ''">transaction_id,</if>
+            <if test="promId != null ">prom_id,</if>
+            <if test="promType != null ">prom_type,</if>
+            <if test="orderPromId != null ">order_prom_id,</if>
+            <if test="orderPromAmount != null ">order_prom_amount,</if>
+            <if test="discount != null ">discount,</if>
+            <if test="userNote != null  and userNote != ''">user_note,</if>
+            <if test="adminNote != null  and adminNote != ''">admin_note,</if>
+            <if test="parentSn != null  and parentSn != ''">parent_sn,</if>
+            <if test="isDistribut != null ">is_distribut,</if>
+            <if test="paidMoney != null ">paid_money,</if>
+            <if test="deletedTime != null ">deleted_time,</if>
+            <if test="deleted != null ">deleted,</if>
+            <if test="editMoney != null  and editMoney != ''">edit_money,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderSn != null  and orderSn != ''">#{orderSn},</if>
+            <if test="userId != null ">#{userId},</if>
+            <if test="orderStatus != null ">#{orderStatus},</if>
+            <if test="shippingStatus != null ">#{shippingStatus},</if>
+            <if test="payStatus != null ">#{payStatus},</if>
+            <if test="consignee != null  and consignee != ''">#{consignee},</if>
+            <if test="country != null ">#{country},</if>
+            <if test="province != null ">#{province},</if>
+            <if test="city != null ">#{city},</if>
+            <if test="district != null ">#{district},</if>
+            <if test="twon != null ">#{twon},</if>
+            <if test="cityInfo != null  and cityInfo != ''">#{cityInfo},</if>
+            <if test="address != null  and address != ''">#{address},</if>
+            <if test="zipcode != null  and zipcode != ''">#{zipcode},</if>
+            <if test="mobile != null  and mobile != ''">#{mobile},</if>
+            <if test="email != null  and email != ''">#{email},</if>
+            <if test="receiveType != null ">#{receiveType},</if>
+            <if test="shippingCode != null  and shippingCode != ''">#{shippingCode},</if>
+            <if test="shippingName != null  and shippingName != ''">#{shippingName},</if>
+            <if test="payCode != null  and payCode != ''">#{payCode},</if>
+            <if test="payMethod != null ">#{payMethod},</if>
+            <if test="rechargeId != null ">#{rechargeId},</if>
+            <if test="payName != null  and payName != ''">#{payName},</if>
+            <if test="invoiceTitle != null  and invoiceTitle != ''">#{invoiceTitle},</if>
+            <if test="taxpayer != null  and taxpayer != ''">#{taxpayer},</if>
+            <if test="goodsPrice != null ">#{goodsPrice},</if>
+            <if test="shippingPrice != null ">#{shippingPrice},</if>
+            <if test="userMoney != null ">#{userMoney},</if>
+            <if test="couponPrice != null ">#{couponPrice},</if>
+            <if test="integral != null ">#{integral},</if>
+            <if test="integralMoney != null ">#{integralMoney},</if>
+            <if test="orderAmount != null ">#{orderAmount},</if>
+            <if test="totalAmount != null ">#{totalAmount},</if>
+            <if test="addTime != null ">#{addTime},</if>
+            <if test="shippingTime != null ">#{shippingTime},</if>
+            <if test="confirmTime != null ">#{confirmTime},</if>
+            <if test="payTime != null ">#{payTime},</if>
+            <if test="transactionId != null  and transactionId != ''">#{transactionId},</if>
+            <if test="promId != null ">#{promId},</if>
+            <if test="promType != null ">#{promType},</if>
+            <if test="orderPromId != null ">#{orderPromId},</if>
+            <if test="orderPromAmount != null ">#{orderPromAmount},</if>
+            <if test="discount != null ">#{discount},</if>
+            <if test="userNote != null  and userNote != ''">#{userNote},</if>
+            <if test="adminNote != null  and adminNote != ''">#{adminNote},</if>
+            <if test="parentSn != null  and parentSn != ''">#{parentSn},</if>
+            <if test="isDistribut != null ">#{isDistribut},</if>
+            <if test="paidMoney != null ">#{paidMoney},</if>
+            <if test="deletedTime != null ">#{deletedTime},</if>
+            <if test="deleted != null ">#{deleted},</if>
+            <if test="editMoney != null  and editMoney != ''">#{editMoney},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStoreOrder" parameterType="StoreOrder">
+        update store_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderSn != null  and orderSn != ''">order_sn = #{orderSn},</if>
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="orderStatus != null ">order_status = #{orderStatus},</if>
+            <if test="shippingStatus != null ">shipping_status = #{shippingStatus},</if>
+            <if test="payStatus != null ">pay_status = #{payStatus},</if>
+            <if test="consignee != null  and consignee != ''">consignee = #{consignee},</if>
+            <if test="country != null ">country = #{country},</if>
+            <if test="province != null ">province = #{province},</if>
+            <if test="city != null ">city = #{city},</if>
+            <if test="district != null ">district = #{district},</if>
+            <if test="twon != null ">twon = #{twon},</if>
+            <if test="cityInfo != null  and cityInfo != ''">city_info = #{cityInfo},</if>
+            <if test="address != null  and address != ''">address = #{address},</if>
+            <if test="zipcode != null  and zipcode != ''">zipcode = #{zipcode},</if>
+            <if test="mobile != null  and mobile != ''">mobile = #{mobile},</if>
+            <if test="email != null  and email != ''">email = #{email},</if>
+            <if test="receiveType != null ">receive_type = #{receiveType},</if>
+            <if test="shippingCode != null  and shippingCode != ''">shipping_code = #{shippingCode},</if>
+            <if test="shippingName != null  and shippingName != ''">shipping_name = #{shippingName},</if>
+            <if test="payCode != null  and payCode != ''">pay_code = #{payCode},</if>
+            <if test="payMethod != null ">pay_method = #{payMethod},</if>
+            <if test="rechargeId != null ">recharge_id = #{rechargeId},</if>
+            <if test="payName != null  and payName != ''">pay_name = #{payName},</if>
+            <if test="invoiceTitle != null  and invoiceTitle != ''">invoice_title = #{invoiceTitle},</if>
+            <if test="taxpayer != null  and taxpayer != ''">taxpayer = #{taxpayer},</if>
+            <if test="goodsPrice != null ">goods_price = #{goodsPrice},</if>
+            <if test="shippingPrice != null ">shipping_price = #{shippingPrice},</if>
+            <if test="userMoney != null ">user_money = #{userMoney},</if>
+            <if test="couponPrice != null ">coupon_price = #{couponPrice},</if>
+            <if test="integral != null ">integral = #{integral},</if>
+            <if test="integralMoney != null ">integral_money = #{integralMoney},</if>
+            <if test="orderAmount != null ">order_amount = #{orderAmount},</if>
+            <if test="totalAmount != null ">total_amount = #{totalAmount},</if>
+            <if test="addTime != null ">add_time = #{addTime},</if>
+            <if test="shippingTime != null ">shipping_time = #{shippingTime},</if>
+            <if test="confirmTime != null ">confirm_time = #{confirmTime},</if>
+            <if test="payTime != null ">pay_time = #{payTime},</if>
+            <if test="transactionId != null  and transactionId != ''">transaction_id = #{transactionId},</if>
+            <if test="promId != null ">prom_id = #{promId},</if>
+            <if test="promType != null ">prom_type = #{promType},</if>
+            <if test="orderPromId != null ">order_prom_id = #{orderPromId},</if>
+            <if test="orderPromAmount != null ">order_prom_amount = #{orderPromAmount},</if>
+            <if test="discount != null ">discount = #{discount},</if>
+            <if test="userNote != null  and userNote != ''">user_note = #{userNote},</if>
+            <if test="adminNote != null  and adminNote != ''">admin_note = #{adminNote},</if>
+            <if test="parentSn != null  and parentSn != ''">parent_sn = #{parentSn},</if>
+            <if test="isDistribut != null ">is_distribut = #{isDistribut},</if>
+            <if test="paidMoney != null ">paid_money = #{paidMoney},</if>
+            <if test="deletedTime != null ">deleted_time = #{deletedTime},</if>
+            <if test="deleted != null ">deleted = #{deleted},</if>
+            <if test="editMoney != null  and editMoney != ''">edit_money = #{editMoney},</if>
+        </trim>
+        where order_id = #{orderId}
+    </update>
+
+    <delete id="deleteStoreOrderById" parameterType="Integer">
+        delete from store_order where order_id = #{orderId}
+    </delete>
+
+    <delete id="deleteStoreOrderByIds222" parameterType="String">
+        delete from store_order where order_id in 
+        <foreach item="orderId" collection="array" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </delete>
+
+    <update id="deleteStoreOrderByIds" parameterType="String">
+        update store_order set deleted = 1,deleted_time = unix_timestamp(now())
+         where order_id in
+        <foreach item="orderId" collection="array" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </update>
+    
+</mapper>

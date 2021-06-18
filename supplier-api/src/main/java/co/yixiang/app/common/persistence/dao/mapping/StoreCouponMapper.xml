@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.yixiang.app.common.persistence.dao.StoreCouponMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="co.yixiang.app.common.persistence.model.StoreCoupon">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="type" property="type" />
+        <result column="money" property="money" />
+        <result column="condition" property="condition" />
+        <result column="createnum" property="createnum" />
+        <result column="send_num" property="sendNum" />
+        <result column="use_num" property="useNum" />
+        <result column="send_start_time" property="sendStartTime" />
+        <result column="send_end_time" property="sendEndTime" />
+        <result column="use_start_time" property="useStartTime" />
+        <result column="use_end_time" property="useEndTime" />
+        <result column="add_time" property="addTime" />
+        <result column="status" property="status" />
+        <result column="use_type" property="useType" />
+    </resultMap>
+
+</mapper>
