@@ -22,7 +22,7 @@
         <mybatisplus-spring-boot-starter.version>1.0.5</mybatisplus-spring-boot-starter.version>
         <shiro.version>1.4.0</shiro.version>
         <mybatis-plus.version>2.3</mybatis-plus.version>
-        <fastjson.version>1.2.47</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <velocity.version>1.7</velocity.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <ehcache.version>3.3.1</ehcache.version>
