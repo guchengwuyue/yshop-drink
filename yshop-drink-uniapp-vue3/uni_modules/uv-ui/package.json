@@ -1,0 +1,161 @@
+{
+	"id": "uv-ui",
+	"displayName": "uv-ui 破釜沉舟之兼容vue3+2、app、h5、小程序等多端，灵活导入，利剑出击",
+	"version": "1.1.15",
+	"description": "uv-ui 是基于uni-app、部分组件基于uView2.x、全端兼容、支持独立导入、内容丰富的UI框架。破釜沉舟之兼容vue3+2、app、h5、小程序等多端，利剑出击，开箱即用。",
+	"keywords": [
+        "uv-ui",
+        "uvui",
+        "UI组件库",
+        "ui框架",
+        "ui库"
+    ],
+	"repository": "https://github.com/climblee/uv-ui",
+	"engines": {
+		"HBuilderX": "^3.1.0"
+	},
+	"dcloudext": {
+		"type": "component-vue",
+		"sale": {
+			"regular": {
+				"price": "0.00"
+			},
+			"sourcecode": {
+				"price": "0.00"
+			}
+		},
+		"contact": {
+			"qq": ""
+		},
+		"declaration": {
+			"ads": "无",
+			"data": "无",
+			"permissions": "无"
+		},
+		"npmurl": "https://www.npmjs.com/package/@climblee/uv-ui"
+	},
+	"uni_modules": {
+		"dependencies": [
+			"uv-album",
+			"uv-drop-down",
+			"uv-calendars",
+			"uv-scroll-list",
+			"uv-vtabs",
+			"uv-pick-color",
+			"uv-qrcode",
+			"uv-ui-tools",
+			"uv-action-sheet",
+			"uv-alert",
+			"uv-avatar",
+			"uv-back-top",
+			"uv-badge",
+			"uv-button",
+			"uv-calendar",
+			"uv-cell",
+			"uv-checkbox",
+			"uv-code",
+			"uv-code-input",
+			"uv-collapse",
+			"uv-count-down",
+			"uv-count-to",
+			"uv-datetime-picker",
+			"uv-divider",
+			"uv-empty",
+			"uv-form",
+			"uv-gap",
+			"uv-grid",
+			"uv-icon",
+			"uv-image",
+			"uv-index-list",
+			"uv-input",
+			"uv-keyboard",
+			"uv-line",
+			"uv-line-progress",
+			"uv-link",
+			"uv-list",
+			"uv-loading-icon",
+			"uv-loading-page",
+			"uv-load-more",
+			"uv-modal",
+			"uv-navbar",
+			"uv-no-network",
+			"uv-notice-bar",
+			"uv-notify",
+			"uv-number-box",
+			"uv-overlay",
+			"uv-parse",
+			"uv-picker",
+			"uv-popup",
+			"uv-radio",
+			"uv-rate",
+			"uv-read-more",
+			"uv-row",
+			"uv-safe-bottom",
+			"uv-search",
+			"uv-skeleton",
+			"uv-slider",
+			"uv-status-bar",
+			"uv-steps",
+			"uv-sticky",
+			"uv-subsection",
+			"uv-swipe-action",
+			"uv-swiper",
+			"uv-switch",
+			"uv-tabbar",
+			"uv-tabs",
+			"uv-tags",
+			"uv-text",
+			"uv-textarea",
+			"uv-toast",
+			"uv-tooltip",
+			"uv-transition",
+			"uv-upload",
+			"uv-waterfall"
+		],
+		"encrypt": [],
+		"platforms": {
+			"cloud": {
+				"tcb": "y",
+				"aliyun": "y"
+			},
+			"client": {
+				"Vue": {
+					"vue2": "y",
+					"vue3": "y"
+				},
+				"App": {
+					"app-vue": "y",
+					"app-nvue": "y"
+				},
+				"H5-mobile": {
+					"Safari": "y",
+					"Android Browser": "y",
+					"微信浏览器(Android)": "y",
+					"QQ浏览器(Android)": "y"
+				},
+				"H5-pc": {
+					"Chrome": "y",
+					"IE": "y",
+					"Edge": "y",
+					"Firefox": "y",
+					"Safari": "y"
+				},
+				"小程序": {
+					"微信": "y",
+					"阿里": "y",
+					"百度": "y",
+					"字节跳动": "y",
+					"QQ": "y",
+					"钉钉": "u",
+					"快手": "u",
+					"飞书": "u",
+					"京东": "u"
+				},
+				"快应用": {
+					"华为": "u",
+					"联盟": "u"
+				}
+			}
+		}
+	}
+}

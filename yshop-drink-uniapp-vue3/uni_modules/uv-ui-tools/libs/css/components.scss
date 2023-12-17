@@ -1,0 +1,23 @@
+@mixin flex($direction: row) {
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: $direction;
+}
+
+/* #ifndef APP-NVUE */
+// 由于uvui是基于nvue环境进行开发的，此环境中普通元素默认为flex-direction: column;
+// 所以在非nvue中，需要对元素进行重置为flex-direction: column; 否则可能会表现异常
+$uvui-nvue-style: true !default;
+@if $uvui-nvue-style == true {
+	view, scroll-view, swiper-item {
+		display: flex;
+		flex-direction: column;
+		flex-shrink: 0;
+		flex-grow: 0;
+		flex-basis: auto;
+		align-items: stretch;
+		align-content: flex-start;
+	}
+}
+/* #endif */

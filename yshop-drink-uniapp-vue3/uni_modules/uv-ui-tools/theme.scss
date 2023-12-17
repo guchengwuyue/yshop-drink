@@ -1,0 +1,43 @@
+// 此文件为uvUI的主题变量，这些变量目前只能通过uni.scss引入才有效，另外由于
+// uni.scss中引入的样式会同时混入到全局样式文件和单独每一个页面的样式中，造成微信程序包太大，
+// 故uni.scss只建议放scss变量名相关样式，其他的样式可以通过main.js或者App.vue引入
+
+$uv-main-color: #303133;
+$uv-content-color: #606266;
+$uv-tips-color: #909193;
+$uv-light-color: #c0c4cc;
+$uv-border-color: #dadbde;
+$uv-bg-color: #f3f4f6;
+$uv-disabled-color: #c8c9cc;
+
+$uv-primary: #3c9cff;
+$uv-primary-dark: #398ade;
+$uv-primary-disabled: #9acafc;
+$uv-primary-light: #ecf5ff;
+
+$uv-warning: #f9ae3d;
+$uv-warning-dark: #f1a532;
+$uv-warning-disabled: #f9d39b;
+$uv-warning-light: #fdf6ec;
+
+$uv-success: #5ac725;
+$uv-success-dark: #53c21d;
+$uv-success-disabled: #a9e08f;
+$uv-success-light: #f5fff0;
+
+$uv-error: #f56c6c;
+$uv-error-dark: #e45656;
+$uv-error-disabled: #f7b2b2;
+$uv-error-light: #fef0f0;
+
+$uv-info: #909399;
+$uv-info-dark: #767a82;
+$uv-info-disabled: #c4c6c9;
+$uv-info-light: #f4f4f5;
+
+@mixin flex($direction: row) {
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: $direction;
+}

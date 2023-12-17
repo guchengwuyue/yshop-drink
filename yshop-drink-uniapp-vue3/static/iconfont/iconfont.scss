@@ -1,0 +1,270 @@
+
+@font-face {
+  font-family: 'iconfont-yshop';  
+  src: url('//at.alicdn.com/t/font_2012069_r7oux4ay0ls.eot');
+  src: url('//at.alicdn.com/t/font_2012069_r7oux4ay0ls.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_2012069_r7oux4ay0ls.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_2012069_r7oux4ay0ls.woff') format('woff'),
+  url('//at.alicdn.com/t/font_2012069_r7oux4ay0ls.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_2012069_r7oux4ay0ls.svg#iconfont-yshop') format('svg');
+
+}
+
+.iconfont-yshop {
+	font-family: 'iconfont-yshop' !important;
+	font-size: 16px;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: #5A5B5C;
+}
+.icon-alipay:before {
+	content: '\e60a';
+}
+.icon-shop:before {
+	content: '\e664';
+}
+.icon-takein:before {
+	content: '\e666';
+}
+.icon-takeout:before {
+	content: '\e667';
+}
+.icon-location:before {
+	content: '\e633';
+}
+.icon-mobile:before {
+	content: '\e602';
+}
+.icon-box:before {
+	content: '\e665';
+}
+.icon-lamp:before { 
+	content: '\e668';
+}
+.icon-doorbell:before {
+	content: '\e662';
+}
+.icon-daojishi:before {
+	content: '\e625';
+}
+
+@font-face {
+	font-family: 'iconfont';
+	src: url('//at.alicdn.com/t/font_1789197_z1gzlwq7idq.ttf?t=1589441233693') format('truetype');
+}
+
+.iconfont {
+	font-family: 'iconfont' !important;
+	font-size: 16px;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.iconshoucang:before {
+	content: '\e667';
+}
+
+.iconshoucangfill:before {
+	content: '\e6c9';
+}
+
+.iconjifen:before {
+	content: '\e642';
+}
+
+.iconradio-button-off:before {
+	content: '\e688';
+}
+
+.iconradio-button-on:before {
+	content: '\e689';
+}
+
+.iconhelp:before {
+	content: '\e752';
+}
+
+.iconwxpay:before {
+	content: '\e611';
+}
+
+.iconbalance:before {
+	content: '\e619';
+}
+
+.iconadd-select:before {
+	content: '\e7b0';
+}
+
+.iconsami-select:before {
+	content: '\e7b1';
+}
+
+.iconmap:before {
+	content: '\e758';
+}
+
+.iconsuccess:before {
+	content: '\e767';
+}
+
+.iconsuccess-fill:before {
+	content: '\e78d';
+}
+
+.iconiconset0136:before {
+	content: '\e623';
+}
+
+.iconzan:before {
+	content: '\e640';
+}
+
+.iconjifenqiandao:before {
+	content: '\e6a6';
+}
+
+.iconshouyeshouye:before {
+	content: '\e606';
+}
+
+.icondaohang:before {
+	content: '\e641';
+}
+
+.iconwodelianxikefu:before {
+	content: '\e671';
+}
+
+.iconwodexinyuan:before {
+	content: '\e675';
+}
+
+.iconphone:before {
+	content: '\e6dd';
+}
+
+.icondingdan:before {
+	content: '\e645';
+}
+
+.iconliwu:before {
+	content: '\e61c';
+}
+
+.iconyinpinyinliao:before {
+	content: '\e60d';
+}
+
+.iconyinpin:before {
+	content: '\e70b';
+}
+
+.iconwaimaixinxi:before {
+	content: '\e685';
+}
+
+.iconico:before {
+	content: '\e646';
+}
+
+.iconwode:before {
+	content: '\e616';
+}
+
+.icongengduofuwu:before {
+	content: '\e607';
+}
+
+.iconqucan:before {
+	content: '\e625';
+}
+
+.iconyou:before {
+	content: '\e618';
+}
+
+.iconshouhuodizhi:before {
+	content: '\e666';
+}
+
+.iconshangcheng:before {
+	content: '\e63b';
+}
+
+.iconadd:before {
+	content: '\e742';
+}
+
+.iconarrow-right:before {
+	content: '\e743';
+}
+
+.iconarrow-lift:before {
+	content: '\e744';
+}
+
+.iconarrow-up:before {
+	content: '\e745';
+}
+
+.iconclose:before {
+	content: '\e747';
+}
+
+.iconleftbutton:before {
+	content: '\e755';
+}
+
+.iconreduce:before {
+	content: '\e75e';
+}
+
+.iconseleted:before {
+	content: '\e763';
+}
+
+.iconRightbutton:before {
+	content: '\e765';
+}
+
+.iconleftbutton-fill:before {
+	content: '\e782';
+}
+
+.iconRightbutton-fill:before {
+	content: '\e78a';
+}
+
+.iconarrow-down:before {
+	content: '\e7b2';
+}
+
+.iconaixin1:before {
+	content: '\e63c';
+}
+
+@font-face {
+	font-family: "iconfont"; /* Project id 4205200 */
+	src: url('~@/static/iconfont/iconfont.woff2') format('woff2'),
+		 url('~@/static/iconfont/iconfont.woff') format('woff'),
+		 url('~@/static/iconfont/iconfont.ttf') format('truetype');
+  }
+  
+  .iconfont {
+	font-family: "iconfont" !important;
+	font-size: 16px;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-waimai-:before {
+	content: "\e607";
+  }
+  
+  .icon-tangshi:before {
+	content: "\e645";
+  }

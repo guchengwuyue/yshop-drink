@@ -1,133 +1,138 @@
 
 
+## 平台简介
 
-### supplier2.0已经发布:
-1、移除Light Security jwt 验证更改为shaun pac4j-jwt
+意向点餐(扫码点餐)系统，在线点餐(外卖与自取)小程序模式，支持多门店模式，基础技术Java，uniapp(vue3)（支持H5、微信小程序）
+采用当前流行技术组合的前后端分离点餐系统： SpringBoot、Spring Security OAuth2、MybatisPlus、SpringSecurity、jwt、redis、Vue3的前后端分离的系统， 
+包含外卖与自取、商品管理(多规格sku)、店铺管理、云小票打印、图片素材库、订单管理、积分兑换、充值、优惠券、充值、多门店、微信公众号、门店移动端、分销商、桌面扫码点餐、拼团、邀请有礼、会员等级等功能，更适合企业或个人二次开发.
 
-2、mapstruct更新1.3.1 同时修复不能编译成对象的问题
-
-3、新的目录结构
-
-4、同步ruoyi最新版本V4.6.1
-
-5、喜欢的小伙伴记得star下
-
-6、本项目全开源 请自行下载的哦
-
-### supplier2.1即将发布:
-- 新的重构版本正在开发中，喜欢的小伙伴记得star下
-- 新版本移动端将使用uniapp
+官网地址：[https://www.yixiang.co/](https://www.yixiang.co/)
 
 
-### **商城概况：**
 
+## 演示地址
 
-本商城系统是一套完整的商城系统，包括小程序+小程序API+后台商城管理！！
+| 后台登陆：  | https://dc.yixiang.co   账号/密码：yshop002/123456789  |
+|---|---|
+| 门店登陆： | https://dc.yixiang.co    账号/密码：yixiang001/123456789  |
+|  移动端演示：关注右边公众号点击菜单其他系统体验点餐小程序与点餐H5，其中如果演示使用验证码登陆的点击下验证码默认验证码是9999 | ![输入图片说明](77a93e8c07a913b838a756abadb383b9.png) |
 
-   **系统基础组合来源：** 
+## 视频资料
+如果对您有帮助，您可以点右上角 "Star" 支持一下，这样我们才有继续免费下去的动力，谢谢！ QQ交流群 (入群前，请在网页右上角点 "Star" )，群里有视频教程哦！！
 
-程序员就要坚持着不要重复造轮子想法，所有就在gitee里找自己合适的轮子：：
+交流QQ群：544263002
 
-1、若依管理后台:用它做后台管理
-
-2、shaun pac4j-jwt：强大jwt权限框架
-
-当然他们本身已经完成了很多功能，这里不多说，大家可以直接去码云搜索即可，后面会放上他们连接。
-
-本系统主要包括三部分：
-
-第一：商城后台，完成完整的商城管理系统，目前已经完成，至于有bug大家可以直接issue或者进群交流（后面会打出来的(⊙o⊙)？！！），
-功能大概包括：商品管理，商品多规格属性管理，商品分类，商品品牌，商品订单，会员信息等等。
-涉及到技术： **springboot+Thymeleaf+mybatis** 
-
-大致效果如下：
-<table>
-    <tr>
-        <td><img src="https://images.gitee.com/uploads/images/2019/0830/180715_7394c4c4_477893.png"/></td>
-        <td><img src="https://images.gitee.com/uploads/images/2019/0830/180732_b2055281_477893.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://images.gitee.com/uploads/images/2019/0830/180740_8cc475d4_477893.png"/></td>
-        <td><img src="https://images.gitee.com/uploads/images/2019/0830/180752_45e9b4ce_477893.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://images.gitee.com/uploads/images/2019/0830/180800_31df8e35_477893.png"/></td>
-        <td><img src="https://images.gitee.com/uploads/images/2019/0830/180809_4147d2e2_477893.png"/></td>
-    </tr>	 
-</table>
-
-
+## 项目说明
     
 
-第二：小程序API，目前API模块已经基本完成,
-涉及到技术： **springboot+mybatis-plus+jwt+mapstruct+lombok+redis+swagger** 
-
-大致如下效果：
-
-<table>
-    <tr>
-        <td><img src="https://images.gitee.com/uploads/images/2019/0914/145813_85d0bdc7_477893.png"/></td>
-        <td><img src="https://images.gitee.com/uploads/images/2019/0916/164354_34a2cf90_477893.png"/></td>
-    </tr>
-     <tr>
-        <td><img src="https://images.gitee.com/uploads/images/2019/0928/174546_7531f0ca_477893.png"/></td>
-        <td></td>
-    </tr>	 
-</table>
+```
+    yshop-drink.             Java工程
+    yshop-drink-vue          后台前端vue3工程
+    yshop-drink-uniapp-vue3  移动端uniapp(vue3版本)工程，支持微信小程序、h5
+```
 
 
-
-第三：mpvue小程序，小程序主要是用 **mpvue** 框架开发，这里就不说它的好处。
-
-
-
- mpvue 小程序运行步骤：
-
-1、安装node环境
-     node 是8版本，这边开发版本是8.12.0，由于mpvue属于老牌小程序框架了，目前这边验证的只是这个node版本，
-     当然新的小程序UNIAPP发布之后没用此限制拉
-
-2、设置npm淘宝镜像
-
-npm set registry https://registry.npm.taobao.org/
-
-3、npm install
-
-4、npm run dev
-
-
-大致效果如下：
-<table>
-    <tr>
-        <td><img  src="https://images.gitee.com/uploads/images/2019/0830/181113_1b7f255a_477893.jpeg"/></td>
-        <td><img src="https://images.gitee.com/uploads/images/2019/0830/181123_0c86c94c_477893.jpeg"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://images.gitee.com/uploads/images/2019/0830/181132_b729a89b_477893.jpeg"/></td>
-        <td><img src="https://images.gitee.com/uploads/images/2019/0830/181140_08e362ad_477893.jpeg"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://images.gitee.com/uploads/images/2019/0830/181150_b5e0cd3e_477893.jpeg"/></td>
-        <td></td>
-    </tr>	 
-</table>
+## 本地快速启动
+  ##### 1、环境要求
+   
+    ```
+        jdk8
+        mysql8
+        redis6+
+        node14+
+    
+    ```
+  ##### 2、开发工具
+   
+    ```
+        idea
+        vscode
+        hbuilder
+    
+    ```
+ ##### 3、后端启动
 
 
+-   3.1 请使用idea打开Java工程，自动会安装依赖
+-   3.2 创建数据库且导入工程目录下sql/yixiang-drink.sql 文件
+-   3.3 找到项目下的yshop-server 的yml,如图：
+     ![输入图片说明](image.png)
+-   3.4 工程下输入 
+
+   ` mvn clean install package '-Dmaven.test.skip=true`
+-   3.5 启动项目，如图
+    ![输入图片说明](1702544439568.jpg)
+
+##### 4、后台vue启动
+
+ - 4.1 vscode 打开vue工程，在目录下输入命令，npm install
+ - 4.2 配置api如图
+ ![输入图片说明](1702544756749.jpg)
+ - 4.3 本地启动 npm run front
+
+##### 5 移动端uniapp启动
+ 
+  - 5.1 hbuilder导入uniapp项目，
+  - 5.2 配置api
+   ![输入图片说明](WX20231214-171211@2x.png)
+  - 5.3 配置小程序
+   ![输入图片说明](WX20231214-171416@2x.png)
+  - 5.4 运行小程序
+    ![输入图片说明](WX20231214-171514@2x.png)
+  - 5.5 运行h5
+   
+    ![输入图片说明](1702545370856.jpg)
+-
 
 
-**学习交流** 
+
+## 小程序截图
+
+| ![输入图片说明](%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20231211104701.jpg) |  ![输入图片说明](%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20231211104710.jpg) |
+|---|---|
+| ![输入图片说明](%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20231211104713.jpg)  |  ![输入图片说明](WechatIMG64.jpeg) |
+| ![输入图片说明](WechatIMG66.jpeg) |  ![输入图片说明](WechatIMG65.jpeg) |
+
+## 后台截图
+
+| ![输入图片说明](WX20231208-120203@2x.png) | ![输入图片说明](%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20231211104714.jpg)|
+|---|---|
+| ![输入图片说明](WX20231208-120320@2x.png)  | ![输入图片说明](WX20231208-120338@2x.png) |
 
 
-其他：欢迎star或者提出你们宝贵的建议哦！！！
+## 技术栈
+Spring Boot，
 
-****Requirement:****  
- - JDK1.8+,
- - mysql5.7+
+Spring Security oauth2，
 
- **特别鸣谢** 
+MyBatis，
 
-若依系统：[ruoyi](https://gitee.com/y_project/RuoYi)
+MyBatisPlus，
 
-强大jwt权限框架：[shaun](https://gitee.com/baomidou/shaun)
-     
-  
+Redis，
+
+lombok，
+
+hutool
+
+Vue3，
+
+Element UI，
+
+uniapp(vue3)
+
+## 特别鸣谢
+
+
+- ruoyi-vue-pro:https://gitee.com/zhijiantianya/ruoyi-vue-pro
+- element-plus:https://element-plus.gitee.io/zh-CN/
+- vue:https://cn.vuejs.org/
+- pay-java-parent:https://gitee.com/egzosn/pay-java-parent
+- uvui：https://www.uvui.cn/
+- uniapp:https://uniapp.dcloud.net.cn/
+
+
+## 开源协议
+
+本项目采用比 Apache 2.0 更宽松的 [MIT License](https://gitee.com/zhijiantianya/ruoyi-vue-pro/blob/master/LICENSE) 开源协议，个人与企业可 100% 免费使用，不用保留类作者、Copyright 信息。
+

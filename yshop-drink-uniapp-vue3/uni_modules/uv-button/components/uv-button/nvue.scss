@@ -1,0 +1,46 @@
+$uv-button-active-opacity:0.75 !default;
+$uv-button-loading-text-margin-left:4px !default;
+$uv-button-text-color: #FFFFFF !default;
+$uv-button-text-plain-error-color:$uv-error !default;
+$uv-button-text-plain-warning-color:$uv-warning !default;
+$uv-button-text-plain-success-color:$uv-success !default;
+$uv-button-text-plain-info-color:$uv-info !default;
+$uv-button-text-plain-primary-color:$uv-primary !default;
+.uv-button {
+	&--active {
+		opacity: $uv-button-active-opacity;
+	}
+	
+	&--active--plain {
+		background-color: rgb(217, 217, 217);
+	}
+	
+	&__loading-text {
+		margin-left:$uv-button-loading-text-margin-left;
+	}
+	
+	&__text,
+	&__loading-text {
+		color:$uv-button-text-color;
+	}
+	
+	&__text--plain--error {
+		color:$uv-button-text-plain-error-color;
+	}
+	
+	&__text--plain--warning {
+		color:$uv-button-text-plain-warning-color;
+	}
+	
+	&__text--plain--success{
+		color:$uv-button-text-plain-success-color;
+	}
+	
+	&__text--plain--info {
+		color:$uv-button-text-plain-info-color;
+	}
+	
+	&__text--plain--primary {
+		color:$uv-button-text-plain-primary-color;
+	}
+}
