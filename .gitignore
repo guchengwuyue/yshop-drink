@@ -1,52 +1,7 @@
-######################################################################
-# Build Tools
-
-.gradle
-/build/
-!gradle/wrapper/gradle-wrapper.jar
-
-target/
-!.mvn/wrapper/maven-wrapper.jar
-
-######################################################################
-# IDE
-*.classpath
-*.project
-*.iml
-*.factorypath
-target
-.idea/
+/.git
+/.idea
 *.log
-logs
-
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-nbproject/private/
-build/*
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
-
-######################################################################
-# Others
-*.log
-*.xml.versionsBackup
-
-!*/build/*.java
-!*/build/*.html
-!*/build/*.xml
+*.DS_Store
+/yshop-drink/target/
+/yshop-drink-vue/node_modules
+/yshop-drink-uniapp-vue3/node_modules
