@@ -430,7 +430,19 @@
     "h5" : {
         "router" : {
             "base" : "/h5/"
-        }
+        },
+		"sdkConfigs" : {
+		    // 使用地图或位置相关功能必须填写其一
+		    "maps" : {
+		        "bmap" : {
+		            // 百度地图秘钥（HBuilderX 3.99+）http://lbsyun.baidu.com/apiconsole/key#/home
+		            "key" : ""
+		        },
+		        "qqmap" : {
+		            "key" : "OGABZ-Y5OCF-5UWJ5-N7DHH-VFIG7-DHFEB"
+		        }
+		    }
+		}
     }
 }
 /* 模块配置 *//* 应用发布信息 *//* android打包配置 */
