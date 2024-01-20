@@ -329,7 +329,7 @@ onHide(() => {
 })
 onShow(() => {
 	//init();
-	//refreshCart()
+	refreshCart()
 	shopAd.value = uni.getStorageSync('shopAd')
 })
 
@@ -441,8 +441,8 @@ const refreshCart = () =>{
 		if (newCart) {
 			for (let i in newCart) {
 				for (let ii in newGoods) {
-					for (let iii in newGoods[ii].goods_list) {
-						if (newCart[i].id == newGoods[ii].goods_list[iii].id) {
+					for (let iii in newGoods[ii].goodsList) {
+						if (newCart[i].id == newGoods[ii].goodsList[iii].id) {
 							tmpCart.push(newCart[i]);
 						}
 					}
