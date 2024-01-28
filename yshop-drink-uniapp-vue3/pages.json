@@ -3,7 +3,7 @@
     {
       "path": "pages/index/index",
       "style": {
-        "navigationBarTitleText": ""
+        "navigationBarTitleText": "首页"
       }
     },
    
@@ -11,7 +11,7 @@
             "path" : "pages/menu/menu",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "点餐",
                 "enablePullDownRefresh": true
             }
             
@@ -20,7 +20,7 @@
             "path" : "pages/order/order",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "订单",
                 "enablePullDownRefresh": true
             }
             
@@ -29,7 +29,7 @@
             "path" : "pages/mine/mine",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "我的",
                 "enablePullDownRefresh": true
             }
             
@@ -38,7 +38,7 @@
             "path" : "pages/cart/cart",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "购物车",
                 "enablePullDownRefresh": false
             }
             
@@ -155,7 +155,7 @@
                     "path" : "pages/orders/refund",
                     "style" :                                                                                    
 					{
-						"navigationBarTitleText": "",
+						"navigationBarTitleText": "退款",
 						"enablePullDownRefresh": false
 					}
                 
