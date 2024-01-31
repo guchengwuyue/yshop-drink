@@ -1,0 +1,24 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "48081:48081"
+    depends_on:
+      - db
+      - redis
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: yshop_drink
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: 123456
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+###根据实际情况填写响应的值
