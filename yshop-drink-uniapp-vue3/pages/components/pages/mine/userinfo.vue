@@ -12,7 +12,7 @@
 					<view class="label">头像</view>
 					<view class="input flex-fill">
 						<view class="form-input w-100 d-flex align-items-center"  style="position: relative;">
-							<view class="flex user-box">
+							<view class="flex user-box align-items-center">
 								<view class="mr-1">
 									<uv-avatar :src="member.avatar" size="60"></uv-avatar>
 								</view>
@@ -168,8 +168,8 @@ const save = async() => {
 		avatar: member.value.avatar
 	});
 	if (data) {
-		const member = Object.assign(main.member, member.value)
-		main.SET_MEMBER(member)	
+		const member2 = Object.assign(main.member, member.value)
+		main.SET_MEMBER(member2)	
 	}
 	
 }
