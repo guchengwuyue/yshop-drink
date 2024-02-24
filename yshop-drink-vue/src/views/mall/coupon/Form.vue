@@ -50,9 +50,9 @@
           placeholder="选择开始时间"
         />
       </el-form-item>
-      <el-form-item label="结束时间" prop="endtIme">
+      <el-form-item label="结束时间" prop="endTime">
         <el-date-picker
-          v-model="formData.endtIme"
+          v-model="formData.endTime"
           type="date"
           value-format="x"
           placeholder="选择结束时间"
@@ -103,7 +103,7 @@ const formData = ref({
   least: undefined,
   value: undefined,
   startTime: undefined,
-  endtIme: undefined,
+  endTime: undefined,
   weigh: undefined,
   type: undefined,
   exchangeCode: undefined,
@@ -121,9 +121,11 @@ const formRules = reactive({
   least: [{ required: true, message: '消费多少可用不能为空', trigger: 'blur' }],
   value: [{ required: true, message: '优惠券金额不能为空', trigger: 'blur' }],
   startTime: [{ required: true, message: '开始时间不能为空', trigger: 'blur' }],
-  endtIme: [{ required: true, message: '结束时间不能为空', trigger: 'blur' }],
+  endTime: [{ required: true, message: '结束时间不能为空', trigger: 'blur' }],
   type: [{ required: true, message: '可用类型:0=通用,1=自取,2=外卖不能为空', trigger: 'blur' }],
-  distribute: [{ required: true, message: '发行数量不能为空', trigger: 'blur' }]
+  distribute: [{ required: true, message: '发行数量不能为空', trigger: 'blur' }],
+  limit: [{ required: true, message: '限领数量不能为空', trigger: 'blur' }],
+  instructions: [{ required: true, message: '使用说明不能为空', trigger: 'blur' }]
 })
 const formRef = ref() // 表单 Ref
 
@@ -192,7 +194,7 @@ const resetForm = () => {
     least: undefined,
     value: undefined,
     startTime: undefined,
-    endtIme: undefined,
+    endTime: undefined,
     weigh: undefined,
     type: 0,
     exchangeCode: undefined,
