@@ -6,15 +6,15 @@
 采用当前流行技术组合的前后端分离点餐系统： SpringBoot、Spring Security OAuth2、MybatisPlus、SpringSecurity、jwt、redis、Vue3的前后端分离的系统， 
 包含外卖与自取、商品管理(多规格sku)、店铺管理、云小票打印、图片素材库、订单管理、积分兑换、充值、优惠券、充值、多门店、微信公众号、门店移动端、分销商、桌面扫码点餐、拼团、邀请有礼、会员卡等功能，更适合企业或个人二次开发.
 
-官网地址：[https://www.dayouqiantu.cn//](https://www.dayouqiantu.cn/)
+官网地址：[https://www.dayouqiantu.cn/](https://www.dayouqiantu.cn/)
 
 
 
 ## 演示地址
 
-| 后台登陆：  | https://dc.yixiang.co   账号/密码：yshop002/123456789  |
+| 后台登陆：  | https://dc.dayouqiantu.cn   账号/密码：yshop002/123456789  |
 |---|---|
-| 门店登陆： | https://dc.yixiang.co    账号/密码：yixiang001/123456789  |
+| 门店登陆： | https://dc.dayouqiantu.cn   账号/密码：yixiang001/123456789  |
 |  移动端演示：关注右边公众号点击菜单其他系统体验点餐小程序与点餐H5，其中如果演示使用验证码登陆的点击下验证码默认验证码是9999 | ![输入图片说明](77a93e8c07a913b838a756abadb383b9.png) |
 
 ## 视频资料
