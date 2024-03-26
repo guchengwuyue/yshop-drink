@@ -40,11 +40,11 @@ public class UserUpdateReqVO extends UserBaseVO {
     private String lastIp;
 
     @Schema(description = "连续签到天数", required = true)
-    @NotNull(message = "连续签到天数不能为空")
+    //@NotNull(message = "连续签到天数不能为空")
     private Integer signNum;
 
     @Schema(description = "等级", required = true)
-    @NotNull(message = "等级不能为空")
+    //@NotNull(message = "等级不能为空")
     private Integer level;
 
     @Schema(description = "推广元id", example = "5747")
@@ -55,7 +55,7 @@ public class UserUpdateReqVO extends UserBaseVO {
     private LocalDateTime spreadTime;
 
     @Schema(description = "用户类型", required = true, example = "1")
-    @NotNull(message = "用户类型不能为空")
+   // @NotNull(message = "用户类型不能为空")
     private String userType;
 
 }

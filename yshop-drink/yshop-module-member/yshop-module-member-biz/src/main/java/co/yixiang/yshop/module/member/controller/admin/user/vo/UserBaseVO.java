@@ -32,7 +32,7 @@ public class UserBaseVO {
     @Schema(description = "用户头像")
     private String avatar;
 
-    @MobileDesensitize
+    //@MobileDesensitize
     @Schema(description = "手机号码")
     private String mobile;
 
@@ -40,23 +40,23 @@ public class UserBaseVO {
     private String addIp;
 
     @Schema(description = "用户余额", required = true)
-    @NotNull(message = "用户余额不能为空")
+    //@NotNull(message = "用户余额不能为空")
     private BigDecimal nowMoney;
 
     @Schema(description = "佣金金额", required = true, example = "14395")
-    @NotNull(message = "佣金金额不能为空")
+    //@NotNull(message = "佣金金额不能为空")
     private BigDecimal brokeragePrice;
 
     @Schema(description = "用户剩余积分", required = true)
-    @NotNull(message = "用户剩余积分不能为空")
+   // @NotNull(message = "用户剩余积分不能为空")
     private BigDecimal integral;
 
     @Schema(description = "1为正常，0为禁止", required = true, example = "2")
-    @NotNull(message = "1为正常，0为禁止不能为空")
+   // @NotNull(message = "1为正常，0为禁止不能为空")
     private Integer status;
 
     @Schema(description = "是否为推广员", required = true)
-    @NotNull(message = "是否为推广员不能为空")
+   // @NotNull(message = "是否为推广员不能为空")
     private Integer isPromoter;
 
     @Schema(description = "用户购买次数", example = "16061")
@@ -66,14 +66,14 @@ public class UserBaseVO {
     private Integer spreadCount;
 
     @Schema(description = "详细地址", required = true)
-    @NotNull(message = "详细地址不能为空")
+   // @NotNull(message = "详细地址不能为空")
     private String addres;
 
     @Schema(description = "管理员编号 ", example = "29490")
     private Integer adminid;
 
     @Schema(description = "用户登陆类型，h5,wechat,routine", required = true, example = "2")
-    @NotNull(message = "用户登陆类型，h5,wechat,routine不能为空")
+   // @NotNull(message = "用户登陆类型，h5,wechat,routine不能为空")
     private String loginType;
 
     @Schema(description = "微信用户json信息")
