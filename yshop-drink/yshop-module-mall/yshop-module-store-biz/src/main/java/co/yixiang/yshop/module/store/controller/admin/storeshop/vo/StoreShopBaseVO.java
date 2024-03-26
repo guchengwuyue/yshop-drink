@@ -76,7 +76,7 @@ public class StoreShopBaseVO {
     private List<String> adminId;
 
     @Schema(description = "打印机id", required = true, example = "5596")
-    @NotNull(message = "打印机id不能为空")
+   // @NotNull(message = "打印机id不能为空")
     private String uniprintId;
 
     @Schema(description = "营业开始时间", required = true)
