@@ -142,25 +142,25 @@
               </el-col>
             </el-col>
             <!-- 多规格设置-->
-            <el-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24" v-if="manyFormValidate.length && formValidate.header.length!==0 && attrs.length!==0">
+            <el-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24" v-if="manyFormValidate.length">
               <!-- 多规格表格-->
               <el-col :span="24">
                 <el-form-item label="商品属性：" class="labeltop">
                   <el-table :data="manyFormValidate" size="small" style="width: 90%;">
                     <el-table-column type="myindex" v-for="(item,index) in formValidate.header" :key="index" :label="item.title" :property="item.slot" align="center">
                       <template #default="scope">
-                        <div v-if="scope.column.property == 'pic'" align="center">
+                        <div v-if="item.slot == 'pic'" align="center">
                            <Materials v-model="scope.row[scope.column.property]" num="1" type="image" :width="60" :height="60" />
                           <!-- <single-pic v-model="scope.row[scope.column.property]" type="image" :num="1" :width="60" :height="60" /> -->
                         </div>
-                        <div v-else-if="scope.column.property.indexOf('value') != -1" align="center">
-                         {{ scope.row[scope.column.property] }}
+                        <div v-else-if="item.slot.indexOf('value') != -1" align="center">
+                         {{ scope.row[item.slot] }}
                         </div>
-                        <div v-else-if="scope.column.property == 'action'" align="center" >
+                        <div v-else-if="item.slot == 'action'" align="center" >
                           <a @click="delAttrTable(scope.$index)" align="center">删除</a>
                         </div>
                         <div v-else align="center">
-                          <el-input  v-model="scope.row[scope.column.property]" align="center" />
+                          <el-input  v-model="scope.row[item.slot]" align="center" />
                         </div>
                       </template>
                     </el-table-column>
