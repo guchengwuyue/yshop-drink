@@ -172,8 +172,8 @@ const createAttrName = () => {
       detail: [attrsVal.value]
     }
     
-    arr.push(data)
-    formData.value.ruleValue = arr
+    //arr.push(data)
+    formData.value.ruleValue.push(data)
     var hash = {}
     formData.value.ruleValue = formData.value.ruleValue.reduce(function (item, next) {
             /* eslint-disable */
