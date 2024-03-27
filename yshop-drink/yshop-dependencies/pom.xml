@@ -107,11 +107,11 @@
                 <artifactId>yshop-spring-boot-starter-biz-sms</artifactId>
                 <version>${revision}</version>
             </dependency>
-            <dependency>
-                <groupId>co.yixiang.boot</groupId>
-                <artifactId>yshop-spring-boot-starter-biz-pay</artifactId>
-                <version>${revision}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>co.yixiang.boot</groupId>-->
+<!--                <artifactId>yshop-spring-boot-starter-biz-pay</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>co.yixiang.boot</groupId>
                 <artifactId>yshop-spring-boot-starter-biz-weixin</artifactId>
