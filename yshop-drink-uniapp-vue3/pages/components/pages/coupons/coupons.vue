@@ -179,7 +179,7 @@ watch(activeTabIndex, () => {
 
 // 兑换
 const exchange = async() => {
-	let data = await couponReceive({code:this.exchange_code});
+	let data = await couponReceive({code:exchange_code.value});
 	if (data) {
 		uToast.value.show({
 			message: '兑换成功',
