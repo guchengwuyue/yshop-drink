@@ -71,7 +71,7 @@ public interface StoreShopMapper extends BaseMapperX<StoreShopDO> {
             "    ) / 2),2) + COS(40.0497810000 * PI() / 180) * COS(lat * PI() / 180) * POW(" +
             "    SIN((#{lon} * PI() / 180 - lng * PI() / 180) / 2),2))) * 1000) AS dis" +
             "    FROM yshop_store_shop WHERE deleted=0 AND status = 1 " +
-            "<if test =\"name !=''\">and name = #{nickname}</if>" +
+            "<if test =\"name !=''\">and name = #{name}</if>" +
             "<if test =\"shopId > 0\">and id = #{shopId}</if>" +
             " ORDER BY dis ASC</script>"
     )
