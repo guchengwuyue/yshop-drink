@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="自动回复" url="https://www.yixiang.co/mp/auto-reply/" />
-
   <!-- 搜索工作栏 -->
   <ContentWrap>
     <el-form class="-mb-15px" :model="queryParams" :inline="true" label-width="68px">

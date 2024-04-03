@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="系统日志" url="https://www.yixiang.co/system-log/" />
-
   <ContentWrap>
     <!-- 搜索工作栏 -->
     <el-form

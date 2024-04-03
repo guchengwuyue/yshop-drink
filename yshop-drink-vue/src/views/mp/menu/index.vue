@@ -1,5 +1,4 @@
 <template>
-  <doc-alert title="公众号菜单" url="https://www.yixiang.co/mp/menu/" />
   <!-- 搜索工作栏 -->
   <ContentWrap>
     <el-form class="-mb-15px" ref="queryFormRef" :inline="true" label-width="68px">

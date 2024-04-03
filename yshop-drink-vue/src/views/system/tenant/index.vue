@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="SaaS 多租户" url="https://www.yixiang.co/saas-tenant/" />
-
   <!-- 搜索 -->
   <ContentWrap>
     <el-form

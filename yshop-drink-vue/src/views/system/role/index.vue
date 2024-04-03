@@ -1,7 +1,4 @@
 <template>
-  <doc-alert title="功能权限" url="https://www.yixiang.co/resource-permission" />
-  <doc-alert title="数据权限" url="https://www.yixiang.co/data-permission" />
-
   <ContentWrap>
     <!-- 搜索工作栏 -->
     <el-form

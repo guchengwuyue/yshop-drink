@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="地区 & IP" url="https://www.yixiang.co/area-and-ip/" />
-
   <!-- 操作栏 -->
   <ContentWrap>
     <el-button type="primary" plain @click="openForm()">

@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="邮件配置" url="https://www.yixiang.co/mail" />
-
   <!-- 搜索工作栏 -->
   <ContentWrap>
     <Search :schema="allSchemas.searchSchema" @search="setSearchParams" @reset="setSearchParams" />

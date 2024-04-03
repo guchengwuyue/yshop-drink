@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="服务监控" url="https://www.yixiang.co/server-monitor/" />
-
   <ContentWrap>
     <IFrame v-if="!loading" v-loading="loading" :src="src" />
   </ContentWrap>

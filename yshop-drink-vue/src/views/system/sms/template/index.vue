@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="短信配置" url="https://www.yixiang.co/sms/" />
-
   <ContentWrap>
     <!-- 搜索工作栏 -->
     <el-form

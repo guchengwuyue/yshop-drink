@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="数据库文档" url="https://www.yixiang.co/db-doc/" />
-
   <ContentWrap title="数据库文档">
     <div class="mb-10px">
       <el-button type="primary" plain @click="handleExport('HTML')">

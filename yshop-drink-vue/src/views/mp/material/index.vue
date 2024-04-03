@@ -1,5 +1,4 @@
 <template>
-  <doc-alert title="公众号素材" url="https://www.yixiang.co/mp/material/" />
   <!-- 搜索工作栏 -->
   <ContentWrap>
     <el-form class="-mb-15px" :inline="true" label-width="68px">

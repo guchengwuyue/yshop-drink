@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="公众号图文" url="https://www.yixiang.co/mp/article/" />
-
   <!-- 搜索工作栏 -->
   <ContentWrap>
     <el-form

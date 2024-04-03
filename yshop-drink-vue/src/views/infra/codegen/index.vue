@@ -1,7 +1,4 @@
 <template>
-  <doc-alert title="代码生成" url="https://www.yixiang.co/new-feature/" />
-  <doc-alert title="单元测试" url="https://www.yixiang.co/unit-test/" />
-
   <!-- 搜索 -->
   <ContentWrap>
     <el-form

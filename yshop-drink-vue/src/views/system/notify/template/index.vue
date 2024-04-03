@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="站内信配置" url="https://www.yixiang.co/notify/" />
-
   <!-- 搜索工作栏 -->
   <ContentWrap>
     <el-form

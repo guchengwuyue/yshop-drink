@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="OAuth 2.0（SSO 单点登录)" url="https://www.yixiang.co/oauth2/" />
-
   <!-- 搜索 -->
   <ContentWrap>
     <el-form

@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="配置中心" url="https://www.yixiang.co/config-center/" />
-
   <!-- 搜索 -->
   <ContentWrap>
     <el-form

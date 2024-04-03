@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="公众号粉丝" url="https://www.yixiang.co/mp/user/" />
-
   <!-- 搜索工作栏 -->
   <ContentWrap>
     <el-form

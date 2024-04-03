@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="异常处理（错误码）" url="https://www.yixiang.co/exception/" />
-
   <!-- 搜索工作栏 -->
   <ContentWrap>
     <el-form

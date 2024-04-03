@@ -1,5 +1,4 @@
 <template>
-  <doc-alert title="上传下载" url="https://www.yixiang.co/file/" />
   <!-- 搜索 -->
   <ContentWrap>
     <el-form

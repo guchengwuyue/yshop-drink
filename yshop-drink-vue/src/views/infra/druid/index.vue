@@ -1,7 +1,4 @@
 <template>
-  <doc-alert title="数据库 MyBatis" url="https://www.yixiang.co/mybatis/" />
-  <doc-alert title="多数据源（读写分离）" url="https://www.yixiang.co/dynamic-datasource/" />
-
   <ContentWrap>
     <IFrame v-if="!loading" :src="url" />
   </ContentWrap>

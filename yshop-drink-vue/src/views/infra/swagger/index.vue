@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="接口文档" url="https://www.yixiang.co/api-doc/" />
-
   <ContentWrap>
     <IFrame :src="src" />
   </ContentWrap>
