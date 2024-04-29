@@ -40,36 +40,47 @@ public class RedisDelayHandle {
                 .setThreadFactory(threadFactory)
                 .build();
 
-        executorService.execute(new ExecutorTask());
+        executorService.execute(new OrderOutTimeUnPayExecutorTask());
+        executorService.execute(new OrderOutTimeUnConfirmExecutorTask());
     }
 
-    class ExecutorTask implements Runnable {
+    class OrderOutTimeUnPayExecutorTask implements Runnable {
         @SneakyThrows
         @Override
         public void run() {
             RBlockingDeque<String> blockingDeque = redissonClient
                     .getBlockingDeque(ShopConstants.REDIS_ORDER_OUTTIME_UNPAY_QUEUE);
-            RBlockingDeque<String> blockingDeque2 = redissonClient
-                    .getBlockingDeque(ShopConstants.REDIS_ORDER_OUTTIME_UNCONFIRM);
             while (true) {
                 String orderId = "";
-                String orderId2 = "";
                 try {
                     orderId = blockingDeque.take();
-                    orderId2 = blockingDeque2.take();
                 } catch (Exception e) {
                     log.error("Redission延迟队列监测异常中断,忽略此消息：{}", e.getMessage());
                 }
-                if(StrUtil.isNotEmpty(orderId)) {
-                    appStoreOrderService.cancelOrder(orderId,null);
+                if (StrUtil.isNotEmpty(orderId)) {
+                    appStoreOrderService.cancelOrder(orderId, null);
                 }
-                if(StrUtil.isNotEmpty(orderId2)) {
-                    appStoreOrderService.takeOrder(orderId,null);
-                }
-
             }
-
         }
     }
 
+    class OrderOutTimeUnConfirmExecutorTask implements Runnable {
+        @SneakyThrows
+        @Override
+        public void run() {
+            RBlockingDeque<String> blockingDeque = redissonClient
+                    .getBlockingDeque(ShopConstants.REDIS_ORDER_OUTTIME_UNCONFIRM);
+            while (true) {
+                String orderId = "";
+                try {
+                    orderId = blockingDeque.take();
+                } catch (Exception e) {
+                    log.error("Redission延迟队列监测异常中断,忽略此消息：{}", e.getMessage());
+                }
+                if (StrUtil.isNotEmpty(orderId)) {
+                    appStoreOrderService.takeOrder(orderId, null);
+                }
+            }
+        }
+    }
 }
