@@ -210,6 +210,7 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   
   if (tab.paneName == '2') {
     queryParams.isShow = 0
+    queryParams.stock = 1
     getList()
   }
 
