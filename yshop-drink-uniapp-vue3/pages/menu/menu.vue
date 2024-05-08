@@ -587,15 +587,25 @@ const changePropertyDefault = (index, key, isDefault) => { //改变默认属性�
 			newValue.value[i] = good.value.productAttr[i].attrValueArr[0]
 		}
 
-		valueStr = newValue.value.join(',')
+		//valueStr = newValue.value.join(',')
 
 	}else{
 		newValue.value[index] = good.value.productAttr[index].attrValueArr[key]
-		valueStr = newValue.value.join(',')
+		//valueStr = newValue.value.join(',')
+	}
+	
+	valueStr = newValue.value.join(',')
+	let productValue = good.value.productValue[valueStr]
+	if(!productValue) {
+		let skukey = JSON.parse(JSON.stringify(newValue.value))
+		skukey.sort((a, b) => a.localeCompare(b))
+		//console.log('skukey:',skukey)
+		valueStr = skukey.join(',')
+		productValue = good.value.productValue[valueStr]
 	}
 
 	
-	let productValue = good.value.productValue[valueStr]
+	//let productValue = good.value.productValue[valueStr]
 	good.value.number = 1;
 	good.value.price = parseFloat(productValue.price).toFixed(2);
 	good.value.stock = productValue.stock;
