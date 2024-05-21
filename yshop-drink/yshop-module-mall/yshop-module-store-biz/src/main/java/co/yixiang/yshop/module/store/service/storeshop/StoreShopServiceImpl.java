@@ -1,6 +1,7 @@
 package co.yixiang.yshop.module.store.service.storeshop;
 
 import cn.hutool.core.bean.BeanUtil;
+import co.yixiang.yshop.framework.common.exception.ErrorCode;
 import co.yixiang.yshop.framework.security.core.util.SecurityFrameworkUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,15 @@ public class StoreShopServiceImpl implements StoreShopService {
 
     @Override
     public Long createShop(StoreShopCreateReqVO createReqVO) {
+        //管理员只能绑定一个门店
+        createReqVO.getAdminId().forEach(val -> {
+            Long count = shopMapper.selectCount(new LambdaQueryWrapper<StoreShopDO>()
+                    .apply(
+                            "FIND_IN_SET ('" + val + "',admin_id)"));
+            if(count > 0){
+                throw exception(new ErrorCode(1000,"管理员ID："+val+"已经绑定过其他门店，不能再次绑定"));
+            }
+        });
         // 插入
         StoreShopDO shop = StoreShopConvert.INSTANCE.convert(createReqVO);
         shopMapper.insert(shop);
@@ -41,6 +51,16 @@ public class StoreShopServiceImpl implements StoreShopService {
 
     @Override
     public void updateShop(StoreShopUpdateReqVO updateReqVO) {
+        //管理员只能绑定一个门店
+        updateReqVO.getAdminId().forEach(val -> {
+            Long count = shopMapper.selectCount(new LambdaQueryWrapper<StoreShopDO>()
+                    .ne(StoreShopDO::getId,updateReqVO.getId())
+                    .apply(
+                            "FIND_IN_SET ('" + val + "',admin_id)"));
+            if(count > 0){
+                throw exception(new ErrorCode(1000,"管理员ID："+val+"已经绑定过其他门店，不能再次绑定"));
+            }
+        });
         // 校验存在
         validateShopExists(updateReqVO.getId());
         // 更新
