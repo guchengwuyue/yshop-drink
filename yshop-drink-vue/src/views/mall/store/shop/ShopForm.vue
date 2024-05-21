@@ -208,7 +208,9 @@ const mapConfirm = (mapResult) => {
 const getList = async () => {
   try {
     const data = await UserApi.getSimpleUserList()
-    adminUsers.value = data
+    let arr = data.filter(elem => elem.id !== 1);
+    adminUsers.value = arr
+
 
   } finally {
     

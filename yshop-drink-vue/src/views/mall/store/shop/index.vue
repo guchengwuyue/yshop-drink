@@ -32,7 +32,7 @@
         <el-button type="primary" @click="openForm('create')" v-hasPermi="['store:shop:create']">
           <Icon icon="ep:plus" class="mr-5px" /> 新增
         </el-button>
-        <el-button
+        <!-- <el-button
           type="success"
           plain
           @click="handleExport"
@@ -40,7 +40,7 @@
           v-hasPermi="['store:shop:export']"
         >
           <Icon icon="ep:download" class="mr-5px" /> 导出
-        </el-button>
+        </el-button> -->
       </el-form-item>
     </el-form>
   </ContentWrap>
