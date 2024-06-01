@@ -65,10 +65,10 @@
 
 ##### 4、后台vue启动
 
- - 4.1 vscode 打开vue工程，在目录下输入命令，npm install
+ - 4.1 vscode 打开vue工程，在目录下输入命令，pnpm install
  - 4.2 配置api如图
  ![输入图片说明](1702544756749.jpg)
- - 4.3 本地启动 npm run front
+ - 4.3 本地启动 npm run dev
 
 ##### 5 移动端uniapp启动
  
