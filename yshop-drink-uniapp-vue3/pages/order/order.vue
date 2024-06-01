@@ -21,7 +21,7 @@
 							<view class="font-size-sm text-color-assist">订单编号：{{ item.orderId }}</view>
 						</view>
 						<view class="font-size-lg text-color-primary">
-							{{ item._status._title }}
+							{{ item.statusDto.title }}
 						</view>
 					</view>
 				</list-cell>

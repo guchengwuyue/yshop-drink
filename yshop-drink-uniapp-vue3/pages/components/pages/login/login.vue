@@ -61,9 +61,10 @@ import {
   ref,
   computed
 } from 'vue'
-import { onLoad } from '@dcloudio/uni-app'
+import { onLoad,onShow } from '@dcloudio/uni-app'
 import { useMainStore } from '@/store/store'
 import {
+  userAuthSession,
   userLoginForWechatMini,
   smsSend,
   userLogin
@@ -90,6 +91,34 @@ const captchaStyle = computed(() => {
   }
   return style;
 });
+
+onShow(() => {
+   
+	// #ifdef MP-WEIXIN
+	if(!openid.value){
+		wechatMiniLogin();
+	}
+	
+	// #endif
+})
+
+
+const wechatMiniLogin = () => {
+	//this.$u.toast('登录中');
+	uni.login({
+		provider: 'weixin'
+	}).then(async (res) => {
+		let data = await userAuthSession({
+			code: res.code
+		});
+		if (data) {
+			console.log('data.openId001:',data.openId)
+			main.SET_OPENID(data.openId)
+			openid.value = data.openId
+		}
+	});
+}
+
 
 
 const loginForWechatMini = async (e) => {

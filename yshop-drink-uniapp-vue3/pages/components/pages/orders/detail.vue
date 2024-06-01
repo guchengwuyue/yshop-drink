@@ -117,7 +117,7 @@
 						<view class="w-100 d-flex flex-column">
 							<view class="pay-cell">
 								<view>支付方式</view>
-								<view class="font-weight-bold">{{ order._status._payType }}</view>
+								<view class="font-weight-bold">{{ order.statusDto.payType }}</view>
 							</view>
 							<view class="pay-cell">
 								<view>订单金额</view>
@@ -203,7 +203,7 @@ import {
 const title = ref('订单详情')
 const order = ref({
 	shop:{name:''},
-	_status:{_payType:''}
+	statusDto:{payType:''}
 })
 const numForMading = ref(5)
 
