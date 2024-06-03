@@ -80,11 +80,6 @@
             <artifactId>yshop-module-order-biz</artifactId>
             <version>${revision}</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>co.yixiang.boot</groupId>-->
-        <!--            <artifactId>yshop-module-store-biz</artifactId>-->
-        <!--            <version>${revision}</version>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>co.yixiang.boot</groupId>
             <artifactId>yshop-module-coupon-biz</artifactId>
@@ -97,16 +92,6 @@
             <version>${revision}</version>
         </dependency>
 
-        <dependency>
-            <groupId>co.yixiang.boot</groupId>
-            <artifactId>yshop-module-desk-biz</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>co.yixiang.boot</groupId>-->
-<!--            <artifactId>yshop-spring-boot-starter-banner</artifactId>-->
-<!--        </dependency>-->
 
         <!-- 服务保障相关 -->
         <dependency>
