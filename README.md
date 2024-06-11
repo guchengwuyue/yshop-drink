@@ -109,25 +109,25 @@
 
 
 ## 技术栈
-Spring Boot3，
+- Spring Boot3
 
-Spring Security oauth2，
+- Spring Security oauth2
 
-MyBatis，
+- MyBatis
 
-MyBatisPlus，
+- MyBatisPlus
 
-Redis，
+- Redis
 
-lombok，
+- lombok
 
-hutool
+- hutool
 
-Vue3，
+- Vue3
 
-Element UI，
+- Element UI
 
-uniapp(vue3)
+- uniapp(vue3)
 
 ## 特别鸣谢
 
