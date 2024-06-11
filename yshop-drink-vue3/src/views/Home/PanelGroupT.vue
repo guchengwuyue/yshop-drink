@@ -3,7 +3,7 @@
       <el-row :gutter="24" class="dashboard-console-grid">
         <el-col v-bind="grid" class="ivu-mb">
           <el-card :bordered="false">
-            <router-link :to="{ path: '/product/store-product' }">
+            <router-link :to="{ path: '/mall/product/store-product' }">
                <Icon icon="ep:goods" style="color: #69c0ff" :size="35" />
               <p>商品管理</p>
             </router-link>
@@ -11,7 +11,7 @@
         </el-col>
         <el-col v-bind="grid" class="ivu-mb">
           <el-card :bordered="false">
-            <router-link :to="{ path: '/member/user' }">
+            <router-link :to="{ path: '/mall/member/user' }">
               <Icon icon="ep:user" style="color: #95de64" :size="35" />
               <p>会员管理</p>
             </router-link>
@@ -19,7 +19,7 @@
         </el-col>
         <el-col v-bind="grid" class="ivu-mb">
           <el-card :bordered="false">
-            <router-link :to="{ path: '/order/store-order' }">
+            <router-link :to="{ path: '/mall/order/store-order' }">
               <Icon icon="ep:list" style="color: #ff9c6e" :size="35" />
               <p>订单管理</p>
             </router-link>
@@ -43,7 +43,7 @@
         </el-col>
         <el-col v-bind="grid" class="ivu-mb">
           <el-card :bordered="false">
-            <router-link :to="{ path: '/shop/shop' }" >
+            <router-link :to="{ path: '/mall/shop' }" >
                <Icon icon="ep:notebook" style="color: #5cdbd3" :size="35" />
               <p>门店管理</p>
             </router-link>
@@ -59,7 +59,7 @@
         </el-col>
         <el-col v-bind="grid" class="ivu-mb">
           <el-card :bordered="false">
-            <router-link :to="{ path: '/message/wechat-templateo' }">
+            <router-link :to="{ path: '/message/wechat-template' }">
               <Icon icon="ep:message" style="color: #ffc069" :size="35" />
               <p>消息管理</p>
             </router-link>
