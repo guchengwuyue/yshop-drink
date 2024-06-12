@@ -40,6 +40,7 @@
         mysql8
         redis6+
         node16+
+        maven3.8+
     
     ```
   ##### 2、开发工具
@@ -55,20 +56,27 @@
 
 -   3.1 请使用idea打开Java工程，自动会安装依赖
 -   3.2 创建数据库且导入工程目录下sql/yixiang-drink.sql 文件
--   3.3 找到项目下的yshop-server 的yml,如图：
+-   3.3 找到项目下的yshop-server 的yml,修改数据库相关信息和redis相关信息，如图：
      ![输入图片说明](image.png)
--   3.4 工程下输入 
-
-   ` mvn clean install package '-Dmaven.test.skip=true`
+-   3.4 工程下输入
+    ``` 
+    mvn clean install package '-Dmaven.test.skip=true
+    ```
 -   3.5 启动项目，如图
     ![输入图片说明](1702544439568.jpg)
 
 ##### 4、后台vue启动
 
- - 4.1 vscode 打开vue工程，在目录下输入命令，pnpm install
+ - 4.1 vscode 打开vue工程，在目录下输入命令: 
+    ``` 
+    pnpm install
+    ```
  - 4.2 配置api如图
  ![输入图片说明](1702544756749.jpg)
- - 4.3 本地启动 npm run dev
+ - 4.3 本地启动:
+    ```
+     npm run dev-server
+    ```
 
 ##### 5 移动端uniapp启动
  
@@ -101,25 +109,25 @@
 
 
 ## 技术栈
-Spring Boot3，
+- Spring Boot3
 
-Spring Security oauth2，
+- Spring Security oauth2
 
-MyBatis，
+- MyBatis
 
-MyBatisPlus，
+- MyBatisPlus
 
-Redis，
+- Redis
 
-lombok，
+- lombok
 
-hutool
+- hutool
 
-Vue3，
+- Vue3
 
-Element UI，
+- Element UI
 
-uniapp(vue3)
+- uniapp(vue3)
 
 ## 特别鸣谢
 
