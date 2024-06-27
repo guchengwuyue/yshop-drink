@@ -28,7 +28,6 @@
 				<list-cell :hover="false" last>
 					<view class="w-100 d-flex flex-column">
 						<view class="w-100 text-truncate font-size-lg text-color-base" style="margin-bottom: 20rpx;">
-						<!-- 	{{ orderGoodsName(item.cartInfo) }} -->
 							<view class="flex mb-2" v-for="(good,index) in item.cartInfo" :key="index">  
 								<image :src="good.image" mode="aspectFill" class="image"></image>
 								<view class="flex flex-column">
@@ -102,13 +101,6 @@ const tabList = ref([{
 const current = ref(0)
 const type = ref(-1)
 
-const orderGoodsName = computed(() => { //计算单个饮品添加到购物车的数量
-	return (goods) => {
-		let arr = []
-		goods.forEach(good => arr.push(good.title + '*' + good.number))
-		return arr.join('，')
-	}
-})
 const goodsNum = computed(() => { //计算单个饮品添加到购物车的数量
 	return (goods) => {
 		let num = 0;
