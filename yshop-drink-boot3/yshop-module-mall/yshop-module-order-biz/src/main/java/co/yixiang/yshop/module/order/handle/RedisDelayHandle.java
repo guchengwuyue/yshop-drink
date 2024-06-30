@@ -17,12 +17,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadFactory;
 
 /**
- * 延时队列消费
+ * 延时队列消费 已经被废弃
  * @author hupeng
  * @date 2023.7.27
  */
-@Component
+//@Component
 @Slf4j
+@Deprecated
 public class RedisDelayHandle {
     @Resource
     private RedissonClient redissonClient;

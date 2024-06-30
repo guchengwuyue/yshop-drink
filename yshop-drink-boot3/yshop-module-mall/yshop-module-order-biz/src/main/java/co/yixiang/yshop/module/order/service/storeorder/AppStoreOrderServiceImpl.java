@@ -23,6 +23,7 @@ import co.yixiang.yshop.module.member.service.useraddress.AppUserAddressService;
 import co.yixiang.yshop.module.member.service.userbill.UserBillService;
 import co.yixiang.yshop.module.message.enums.WechatTempateEnum;
 import co.yixiang.yshop.module.message.mq.producer.WeixinNoticeProducer;
+import co.yixiang.yshop.module.message.redismq.msg.OrderMsg;
 import co.yixiang.yshop.module.order.controller.app.order.param.AppOrderParam;
 import co.yixiang.yshop.module.order.controller.app.order.param.AppPayParam;
 import co.yixiang.yshop.module.order.controller.app.order.vo.AppStoreOrderQueryVo;
@@ -324,7 +325,7 @@ public class AppStoreOrderServiceImpl extends ServiceImpl<StoreOrderMapper,Store
             try {
                 RBlockingDeque<Object> blockingDeque = redissonClient.getBlockingDeque(ShopConstants.REDIS_ORDER_OUTTIME_UNPAY_QUEUE );
                 RDelayedQueue<Object> delayedQueue = redissonClient.getDelayedQueue(blockingDeque);
-                delayedQueue.offer(storeOrder, ShopConstants.ORDER_OUTTIME_UNPAY, TimeUnit.MINUTES);
+                delayedQueue.offer(OrderMsg.builder().orderId(orderSn).build(), ShopConstants.ORDER_OUTTIME_UNPAY, TimeUnit.MINUTES);
                 String s = TimeUnit.SECONDS.toSeconds(ShopConstants.ORDER_OUTTIME_UNPAY) + "分钟";
                 log.info("添加延时队列成功 ，延迟时间：" + s + "订单编号：" + orderSn);
             } catch (Exception e) {

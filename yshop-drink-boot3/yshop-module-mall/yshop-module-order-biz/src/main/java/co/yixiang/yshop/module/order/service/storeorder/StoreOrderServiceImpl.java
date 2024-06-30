@@ -18,6 +18,7 @@ import co.yixiang.yshop.module.member.enums.BillDetailEnum;
 import co.yixiang.yshop.module.member.service.user.MemberUserService;
 import co.yixiang.yshop.module.member.service.userbill.UserBillService;
 import co.yixiang.yshop.module.message.mq.producer.WeixinNoticeProducer;
+import co.yixiang.yshop.module.message.redismq.msg.OrderMsg;
 import co.yixiang.yshop.module.order.controller.admin.storeorder.vo.*;
 import co.yixiang.yshop.module.order.convert.storeorder.StoreOrderConvert;
 import co.yixiang.yshop.module.order.dal.dataobject.storeorder.StoreOrderDO;
@@ -161,7 +162,7 @@ public class StoreOrderServiceImpl implements StoreOrderService {
             try {
                 RBlockingDeque<Object> blockingDeque = redissonClient.getBlockingDeque(ShopConstants.REDIS_ORDER_OUTTIME_UNCONFIRM);
                 RDelayedQueue<Object> delayedQueue = redissonClient.getDelayedQueue(blockingDeque);
-                delayedQueue.offer(updateReqVO.getOrderId(), ShopConstants.ORDER_OUTTIME_UNCONFIRM, TimeUnit.MINUTES);
+                delayedQueue.offer(OrderMsg.builder().orderId(updateObj.getOrderId()).build(), ShopConstants.ORDER_OUTTIME_UNCONFIRM, TimeUnit.MINUTES);
                 String s = TimeUnit.SECONDS.toSeconds(ShopConstants.ORDER_OUTTIME_UNCONFIRM) + "分钟";
                 log.info("添加延时队列成功 ，延迟时间：" + s);
             } catch (Exception e) {
