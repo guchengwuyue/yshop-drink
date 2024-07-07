@@ -157,11 +157,11 @@ logging:
     co.yixiang.yshop.module.system.dal.mysql.sms.SmsChannelMapper: INFO # 配置 SmsChannelMapper 的日志级别为 info
     co.yixiang.yshop.module.tool.dal.mysql: debug
     co.yixiang.yshop.module.member.dal.mysql: debug
-    co.yixiang.yshop.module.trade.dal.mysql: debug
-    co.yixiang.yshop.module.promotion.dal.mysql: debug
-    co.yixiang.yshop.module.statistics.dal.mysql: debug
-    co.yixiang.yshop.module.crm.dal.mysql: debug
-    co.yixiang.yshop.module.erp.dal.mysql: debug
+    co.yixiang.yshop.module.order.dal.mysql: debug
+    co.yixiang.yshop.module.product.dal.mysql: debug
+    co.yixiang.yshop.module.store.dal.mysql: debug
+    co.yixiang.yshop.module.shop.dal.mysql: debug
+    co.yixiang.yshop.module.coupon.dal.mysql: debug
     org.springframework.context.support.PostProcessorRegistrationDelegate: ERROR # TODO yshop：先禁用，Spring Boot 3.X 存在部分错误的 WARN 提示
 
 debug: false
