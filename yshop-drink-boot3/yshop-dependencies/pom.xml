@@ -76,7 +76,7 @@
         <xercesImpl.version>2.12.2</xercesImpl.version>
         <weixin-java.version>4.6.0</weixin-java.version>
         <pay.boot.version>1.0.3</pay.boot.version>
-        <pay.version>2.14.5</pay.version>
+        <pay.version>2.14.7</pay.version>
         <zxing.version>3.3.3</zxing.version>
     </properties>
 
