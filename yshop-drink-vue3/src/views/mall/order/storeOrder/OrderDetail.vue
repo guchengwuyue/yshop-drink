@@ -25,11 +25,11 @@
                   <td>状态</td>
                 </tr>
                 <tr  v-for="(val, i ) in product" :key="i" >
-                    <td v-if="val.addProductMark == num-1 "><el-image style="width: 40px; height: 40px" :src="val.image" :fit="fit" /></td>
-                    <td v-if="val.addProductMark == num-1">{{ val.title}}</td>
-                    <td v-if="val.addProductMark == num-1">{{ '￥'+ val.price}}</td>
-                    <td v-if="val.addProductMark == num-1">{{ ' x '+ val.number}}</td>
-                    <td v-if="val.addProductMark == num-1">
+                    <td><el-image style="width: 40px; height: 40px" :src="val.image" :fit="fit" /></td>
+                    <td>{{ val.title}}</td>
+                    <td>{{ '￥'+ val.price}}</td>
+                    <td>{{ ' x '+ val.number}}</td>
+                    <td>
                       <el-tag  type="success" v-if="val.isOrder==1">已出单</el-tag>
                       <el-tag  type="danger" v-else>未出单</el-tag>
                     </td>
@@ -109,7 +109,7 @@ const open = async (type: string, id?: number) => {
   nickname.value = DetailData.value.userRespVO.nickname
   product.value = DetailData.value.storeOrderCartInfoDOList
   //获取加餐数量
-  addProductMark.value = DetailData.value.storeOrderCartInfoDOList[DetailData.value.storeOrderCartInfoDOList.length - 1].addProductMark
+  //addProductMark.value = DetailData.value.storeOrderCartInfoDOList[DetailData.value.storeOrderCartInfoDOList.length - 1].addProductMark
 
   console.log('addProductMark.value:',addProductMark.value )
 }
