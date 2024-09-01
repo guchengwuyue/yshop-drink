@@ -43,6 +43,10 @@ public class AppUserAddressServiceImpl extends ServiceImpl<UserAddressMapper,Use
      */
     @Override
     public Long addAndEdit(Long uid, AppAddressParam param){
+        if(ShopCommonEnum.ENABLE_1.getValue().equals(param.getIsDefault())){
+            userAddressMapper.update(UserAddressDO.builder().isDefault(ShopCommonEnum.DEFAULT_0.getValue()).build(),
+                    new LambdaQueryWrapper<UserAddressDO>().eq(UserAddressDO::getUid,uid));
+        }
         UserAddressDO userAddress = UserAddressDO.builder()
                 .address(param.getAddress())
                 .detail(param.getDetail())

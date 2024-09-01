@@ -27,6 +27,8 @@ public class UserPageReqVO extends PageParam {
     @Schema(description = "手机号码")
     private String mobile;
 
+    private String phone;
+
     @Schema(description = "添加时间")
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
     private LocalDateTime[] createTime;

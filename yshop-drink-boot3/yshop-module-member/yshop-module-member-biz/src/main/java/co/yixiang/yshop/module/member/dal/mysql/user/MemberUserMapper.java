@@ -36,7 +36,7 @@ public interface MemberUserMapper extends BaseMapperX<MemberUserDO> {
                 .likeIfPresent(MemberUserDO::getUsername, reqVO.getUsername())
                 .likeIfPresent(MemberUserDO::getRealName, reqVO.getRealName())
                 .likeIfPresent(MemberUserDO::getNickname, reqVO.getNickname())
-                .eqIfPresent(MemberUserDO::getMobile, reqVO.getMobile())
+                .likeIfPresent(MemberUserDO::getMobile, reqVO.getPhone())
                 .betweenIfPresent(MemberUserDO::getCreateTime, reqVO.getCreateTime())
                 .orderByDesc(MemberUserDO::getId));
     }
