@@ -30,6 +30,9 @@ export const useMainStore = defineStore('main', {
 	//isLogin: state => Object.keys(state.member).length > 0	//是否登录
   },
   actions: {
+	DEL_COUPON() {
+	    	this.mycoupon = {}
+	},
 	SET_COUPON(coupon) {
 	  	this.mycoupon = coupon
 	},

@@ -88,25 +88,32 @@ const edit = (id) => {
 	})
 }
 const handleSwipeClick = async(id) => {
-	let [error, res] = await uni.showModal({
+	uni.showModal({
 		title: '提示',
-		content: '确定要删除？'
-	});
-	if (res && res.confirm) {
-		let data = await addressDelete({
-			id: id
-		});
-		if (data) {
-			const index = addresses.value.findIndex(item => item.id == id)
-			const newaddresses = JSON.parse(JSON.stringify(addresses.value))
-			newaddresses.splice(index, 1)
-			main.SET_ADDRESSES(newaddresses)
-			uni.showToast({
-				title: '删除成功！',
-				icon: 'success'
-			})
+		content: '确定要删除？',
+		success: async function (res) {
+			if (res.confirm) {
+				let data = await addressDelete({
+					id: id
+				});
+				if (data) {
+					const index = addresses.value.findIndex(item => item.id == id)
+					const newaddresses = JSON.parse(JSON.stringify(addresses.value))
+					newaddresses.splice(index, 1)
+					main.SET_ADDRESSES(newaddresses)
+					uni.showToast({
+						title: '删除成功！',
+						icon: 'success'
+					})
+				}
+			} else if (res.cancel) {
+				console.log('用户点击取消');
+			}
 		}
-	}
+	});
+	// if (res && res.confirm) {
+		
+	// }
 }
 const chooseAddress = async(address) => {
 	if (!is_choose.value) {

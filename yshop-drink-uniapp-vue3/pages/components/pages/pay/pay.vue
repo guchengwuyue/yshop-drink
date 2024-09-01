@@ -553,6 +553,8 @@ const pay = async() => {
 		uni.hideLoading();
 		return;
 	}
+	
+	main.DEL_COUPON()
 
 
 	if (payType.value == 'weixin') {
