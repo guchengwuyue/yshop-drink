@@ -133,7 +133,7 @@ const formRules = reactive({
   notice: [{ required: true, message: '公告不能为空', trigger: 'blur' }],
   status: [{ required: true, message: '是否营业:0=否,1=是不能为空', trigger: 'blur' }],
   adminId: [{ required: true, message: '管理员id不能为空', trigger: 'blur' }],
-  uniprintId: [{ required: true, message: '打印机id不能为空', trigger: 'blur' }],
+  //uniprintId: [{ required: true, message: '打印机id不能为空', trigger: 'blur' }],
   startTime: [{ required: true, message: '营业开始时间不能为空', trigger: 'blur' }],
   endTime: [{ required: true, message: '营业结束时间不能为空', trigger: 'blur' }]
 })
@@ -155,7 +155,7 @@ const open = async (type: string, id?: number) => {
   formType.value = type
   resetForm()
   getList()
-  getPrintList()
+  //getPrintList()
   // 修改时，设置数据
   if (id) {
     formLoading.value = true

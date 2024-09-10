@@ -202,13 +202,24 @@ export function dateFormatter(_row: any, _column: TableColumnCtx<any>, cellValue
 }
 
 /**
- * element plus 的时间 Formatter 实现，使用 YYYY-MM-DD 格式
+ * element plus 的时间 Formatter 实现，使用 HH:mm:ss 格式
  *
  * @param row 行数据
  * @param column 字段
  * @param cellValue 字段值
  */
 export function dateFormatter2(_row: any, _column: TableColumnCtx<any>, cellValue: any): string {
+  return cellValue ? formatDate(cellValue, 'HH:mm:ss') : ''
+}
+
+/**
+ * element plus 的时间 Formatter 实现，使用 YYYY-MM-DD 格式
+ *
+ * @param row 行数据
+ * @param column 字段
+ * @param cellValue 字段值
+ */
+export function dateFormatter3(_row: any, _column: TableColumnCtx<any>, cellValue: any): string {
   return cellValue ? formatDate(cellValue, 'YYYY-MM-DD') : ''
 }
 
