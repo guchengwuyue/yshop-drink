@@ -310,8 +310,8 @@ public class StoreOrderServiceImpl implements StoreOrderService {
             if(isDemo){
                 throw exception(new ErrorCode(888888,"演示模式没有配置证书无法微信退款的哦！"));
             }
-            log.error("{},{},{},{}",orderSn,storeOrderDO.getOrderId(),price,storeOrderDO.getTotalPrice());
-            RefundOrder refundOrder = new RefundOrder(orderSn,"",storeOrderDO.getOrderId(),price,storeOrderDO.getTotalPrice());
+            log.error("{},{},{},{}",orderSn,storeOrderDO.getOrderId(),price,storeOrderDO.getPayPrice());
+            RefundOrder refundOrder = new RefundOrder(orderSn,"",storeOrderDO.getOrderId(),price,storeOrderDO.getPayPrice());
             RefundResult refundResult = manager.refund(PayIdEnum.WX_MINIAPP.getValue(), refundOrder);
             if(refundResult.getCode().equals("FAIL")){
                 log.error("支付退款错误：{}",refundResult.getMsg());
