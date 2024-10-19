@@ -483,6 +483,6 @@ const refund = (order) => {
 		font-size: 60rpx;
 	}
 	.iconfont-yshop {
-		color: #dd524d;
+		color: #09b4f1;
 	}
 </style>

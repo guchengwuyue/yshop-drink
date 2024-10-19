@@ -29,8 +29,20 @@
 				</view>
 			</view>
 			<view class="content">
+				<view class="flex justify-between yshop-menu">
+					<view class="flex flex-column align-center yshop-menu-item "  @tap="takein">
+						<view><image src="/static/images/index002.png" mode="aspectFit" class="img-01"></image></view>
+						<view>自取</view>
+						<view class="font-small text-light-black">下单免排队</view>
+					</view>
+					<view class="flex flex-column align-center yshop-menu-item "  @tap="takeout">
+						<view><image src="/static/images/index003.png" mode="aspectFit" class="img-01"></image></view>
+						<view>外卖</view>
+						<view class="font-small text-light-black">美食送到家</view>
+					</view>
+				</view>
 				<view class="entrance">
-					<view class="item " @tap="takein">
+				<!-- 	<view class="item " @tap="takein">
 						<view>
 							<view class="font-md">自取</view>
 							<view class="font-small text-light-black flex-1">下单免排队</view>
@@ -46,7 +58,7 @@
 						</view>
 						<view class="index-img"><image src="/static/images/index003.png" mode="aspectFit" class="img-02"></image></view>
 						
-					</view>
+					</view> -->
 				</view>
 				 <view class="info">
 					<view class="integral_section">
@@ -150,6 +162,17 @@ onLoad(() => {
 </script>
 
 <style lang="scss">
+// .yshop-menu {
+// 	margin-bottom: 10rpx;
+// 	position: relative;
+// 	margin-top: -42rpx;
+// }
+.yshop-menu-item {
+	background-color: #ffffff;
+	width: 350rpx;
+	padding-bottom: 30rpx;
+}
+	
 .index-img {
 	width: 120px;
 	height: 120rpx;
@@ -244,7 +267,7 @@ page {
 		.icon {
 			font-size: 90rpx;
 			// color: #5A5B5C;
-			color: #dd524d;
+			color: #09b4f1;
 		}
 		
 		.title {

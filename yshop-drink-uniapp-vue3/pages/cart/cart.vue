@@ -38,7 +38,7 @@
 	 </view>
 	 <view class="fixed-bottom flex justify-between align-center bg-white ">
 	 	<view class="mx-2 ont-weight-light">应付:<text class="text-danger">￥{{ getCartGoodsPrice }}</text></view>
-	 	<view><uv-button type="warning" color="#dd524d" :customStyle="customStyle" size="large" text="去结算" @click="toPay"></uv-button></view>
+	 	<view><uv-button type="warning" color="#09b4f1" :customStyle="customStyle" size="large" text="去结算" @click="toPay"></uv-button></view>
 	 </view>
 	 <uv-toast ref="uToast"></uv-toast>
 </template>

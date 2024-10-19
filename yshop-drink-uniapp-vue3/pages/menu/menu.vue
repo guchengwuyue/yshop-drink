@@ -1363,7 +1363,7 @@ const toPay = () => {
 	
 			.tag {
 				//background-color: $color-warning;
-				background-color: #dd524d;;
+				background-color: #09b4f1;;
 				color: $text-color-white;
 				display: flex;
 				justify-content: center;
