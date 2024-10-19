@@ -5,12 +5,15 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import co.yixiang.yshop.framework.common.enums.CommonStatusEnum;
+import co.yixiang.yshop.framework.common.exception.ErrorCode;
 import co.yixiang.yshop.framework.common.exception.ServiceException;
 import co.yixiang.yshop.framework.common.pojo.PageResult;
 import co.yixiang.yshop.framework.common.util.collection.CollectionUtils;
 import co.yixiang.yshop.framework.common.util.object.BeanUtils;
 import co.yixiang.yshop.framework.datapermission.core.util.DataPermissionUtils;
 import co.yixiang.yshop.module.infra.api.file.FileApi;
+import co.yixiang.yshop.module.store.dal.dataobject.storeshop.StoreShopDO;
+import co.yixiang.yshop.module.store.dal.mysql.storeshop.StoreShopMapper;
 import co.yixiang.yshop.module.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
 import co.yixiang.yshop.module.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
 import co.yixiang.yshop.module.system.controller.admin.user.vo.user.UserImportExcelVO;
@@ -26,6 +29,7 @@ import co.yixiang.yshop.module.system.service.dept.DeptService;
 import co.yixiang.yshop.module.system.service.dept.PostService;
 import co.yixiang.yshop.module.system.service.permission.PermissionService;
 import co.yixiang.yshop.module.system.service.tenant.TenantService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.annotations.VisibleForTesting;
 import com.mzt.logapi.context.LogRecordContext;
 import com.mzt.logapi.service.impl.DiffParseFunction;
@@ -80,6 +84,8 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Resource
     private FileApi fileApi;
+    @Resource
+    private StoreShopMapper storeShopMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -225,6 +231,8 @@ public class AdminUserServiceImpl implements AdminUserService {
         // 1. 校验用户存在
         AdminUserDO user = validateUserExists(id);
 
+        getShop(id);
+
         // 2.1 删除用户
         userMapper.deleteById(id);
         // 2.2 删除用户关联数据
@@ -234,6 +242,15 @@ public class AdminUserServiceImpl implements AdminUserService {
 
         // 3. 记录操作日志上下文
         LogRecordContext.putVariable("user", user);
+    }
+
+    private void getShop(Long userId) {
+        StoreShopDO storeShopDO = storeShopMapper.selectOne(new LambdaQueryWrapper<StoreShopDO>()
+                .apply(userId > 0, "FIND_IN_SET ('" + userId + "',admin_id)"));
+        if(storeShopDO != null){
+            throw exception(new ErrorCode(20241013,"当前门店下：" + storeShopDO.getName() + "绑定等有管理员不可以删除"));
+        }
+
     }
 
     @Override
