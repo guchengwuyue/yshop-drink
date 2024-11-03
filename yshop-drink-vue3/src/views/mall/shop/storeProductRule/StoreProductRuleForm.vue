@@ -8,7 +8,6 @@
       v-loading="formLoading"
       :inline="true"
     >
-      <!-- <el-row :gutter="20"  > -->
         <el-row :gutter="20">
           <el-col class="mb15">
             <el-form-item label="规格名称" prop="ruleName">
@@ -35,7 +34,6 @@
           </el-form-item>
         </el-row>
         <el-row :gutter="20" v-if="isBtn" >
-        <!-- <el-col :span="24" v-if="isBtn" style="background-color: gray;"> -->
            <el-col :span="9" class="mr15">
             <el-form-item label="规格：">
               <el-input placeholder="请输入规格" v-model="attrsName"/>
@@ -52,9 +50,7 @@
           <el-col :span="2">
             <el-button @click="offAttrName">取消</el-button>
           </el-col>
-        <!-- </el-col> -->
         </el-row>
-      <!-- </el-row> -->
     <el-button type="primary"  @click="addBtn" v-if="!isBtn" class="ml95 mt10">添加新规格</el-button>
     </el-form>
     <template #footer>

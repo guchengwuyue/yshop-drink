@@ -129,10 +129,6 @@ const open = async (type: string, id?: number) => {
 defineExpose({ open }) // 提供 open 方法，用于打开弹窗
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab.paneName, event)
-  // queryParams.pageNo = 1
-  // queryParams.type = tab.paneName
-  //getList()
 }
 /** 查询列表 */
 const getList = async () => {

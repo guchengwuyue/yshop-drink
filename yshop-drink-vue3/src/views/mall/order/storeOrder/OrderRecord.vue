@@ -13,7 +13,6 @@ import * as StoreOrderApi from '@/api/mall/order/storeOrder'
 import { dateFormatter } from '@/utils/formatTime'
 
 const { t } = useI18n() // 国际化
-// const message = useMessage() // 消息弹窗
 const dialogTitle = ref('') // 弹窗的标题
 const drawer = ref(false)
 const tableData = ref([])

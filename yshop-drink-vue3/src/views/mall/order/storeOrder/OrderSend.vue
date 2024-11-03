@@ -91,7 +91,6 @@ const formData = ref({
     isSystemDel: undefined
 })
 const formRules = reactive({
-  //deliveryId: [{ required: true, message: '快递单号不能为空', trigger: 'blur' }]
 })
 const formRef = ref() // 表单 Ref
 

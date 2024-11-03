@@ -39,15 +39,6 @@
               :value="item.id"
             />
           </el-select>
-            <!-- <el-tree-select
-              v-model="formValidate.cate_id"
-              :data="categoryTree"
-              :props="{ label: 'name', value: 'id' }"
-              :render-after-expand="false"
-              placeholder="请选择商品分类"
-              check-strictly
-              default-expand-all
-            /> -->
         </el-form-item>
          <el-form-item label="关键字" prop="keyword">
           <el-input v-model="formValidate.keyword" class="input-width" placeholder="请输入关键字" />
@@ -228,33 +219,10 @@
            <vue-ueditor-wrap v-model="formValidate.description" :config="myConfig" @before-init="addCustomDialog"    style="width: 90%;" />
         </el-form-item>
       </el-tab-pane>
-      <!-- <el-tab-pane label="物流设置" name="four">
-        <el-form-item label="运费设置">
-          <el-radio-group v-model="postageSet">
-            <el-radio :label="false">规定邮费</el-radio>
-            <el-radio :label="true">运费模板</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="邮费" prop="postage" v-show="!postageSet">
-          <el-input class="input-width" v-model="formValidate.postage" placeholder="请输入邮费" />
-        </el-form-item>
-        <el-form-item label="运费模板" prop="temp_id" v-show="postageSet">
-          <el-select v-model="formValidate.temp_id"  class="mr20">
-            <el-option :value="0" label="选择运费模板" />
-            <el-option v-for="(item,index) in templateList" :value="item.id" :key="index" :label="item.name"/>
-          </el-select>
-        </el-form-item>
-      </el-tab-pane> -->
       <el-tab-pane label="营销设置" name="four">
         <el-form-item label="获得积分" prop="give_integral">
           <el-input v-model="formValidate.give_integral" class="input-width" placeholder="请输入获得积分" />
         </el-form-item>
-        <!-- <el-form-item label="是否新品" prop="is_new">
-          <el-radio-group v-model="formValidate.is_new">
-            <el-radio :label="0">否</el-radio>
-            <el-radio :label="1">是</el-radio>
-          </el-radio-group>
-        </el-form-item> -->
       </el-tab-pane>
     </el-tabs>
     </el-form>
@@ -269,7 +237,6 @@
 <script setup lang="ts">
 import * as StoreProductApi from '@/api/mall/product/product'
 import * as ProductCategoryApi from '@/api/mall/product/category'
-// import { handleTree3 } from '@/utils/tree'
 import type { TabsPaneContext } from 'element-plus'
 import * as ShopApi from '@/api/mall/store/shop'
 
@@ -507,8 +474,7 @@ const open = async (type: string, id?: number) => {
     id = 0
   }
   getInfo(id)
-   // 获得分类树
- // await getTree()
+
  
 }
 defineExpose({ open }) // 提供 open 方法，用于打开弹窗
@@ -534,13 +500,11 @@ const emit = defineEmits(['success']) // 定义 success 事件，用于操作成
 const submitForm = async () => {
   // 校验表单
   if (!formRef) return 
- // const valid = await formRef.value.validate()
   formRef.value.validate((valid, fields) => {
   if (valid) {
     console.log(fields)
   } else {
     return message.warning('请添加基本信息')
-    // console.log('error submit!', fields)
   }
   })
 
@@ -585,10 +549,7 @@ const upTab = () => {
     activeName.value = 'three'
     return
   }
-  // if (activeName.value == 'five') {
-  //   activeName.value = 'four'
-  //   return
-  // }
+
 
 }
 const downTab = () => {
@@ -604,10 +565,7 @@ if (activeName.value == 'one') {
     activeName.value = 'four'
     return
   }
-  // if (activeName.value == 'four') {
-  //   activeName.value = 'five'
-  //   return
-  // }
+
 }
 
   

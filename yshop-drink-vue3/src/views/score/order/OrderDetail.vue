@@ -13,7 +13,6 @@
         </el-descriptions-item>
         <el-descriptions-item label="商品名称">{{ product.title }}</el-descriptions-item>
         <el-descriptions-item label="商品价格">{{ product.score }}积分</el-descriptions-item>
-        <!-- <el-descriptions-item label="收货地址">1111</el-descriptions-item> -->
       </el-descriptions>
       <el-descriptions title="订单信息" :column="2">
         <el-descriptions-item label="订单号">{{ DetailData.orderId }}</el-descriptions-item>
@@ -56,10 +55,8 @@
 <script setup lang="ts">
 import * as OrderApi from '@/api/score/order'
 import { formatDate } from '@/utils/formatTime'
-//const message = useMessage() // 消息弹窗
 
 const { t } = useI18n() // 国际化
-// const message = useMessage() // 消息弹窗
 const dialogTitle = ref('') // 弹窗的标题
 const drawer = ref(false)
 const DetailData = ref({})

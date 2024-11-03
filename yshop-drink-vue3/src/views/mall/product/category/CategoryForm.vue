@@ -20,17 +20,6 @@
           />
         </el-select>
       </el-form-item>
-      <!-- <el-form-item label="上级分类" prop="parentId">
-        <el-tree-select
-          v-model="formData.parentId"
-          :data="categoryTree"
-          :props="{ label: 'name', value: 'id' }"
-          :render-after-expand="false"
-          placeholder="请选择上级分类"
-          check-strictly
-          default-expand-all
-        />
-      </el-form-item> -->
       <el-form-item label="分类名称" prop="name">
         <el-input v-model="formData.name" placeholder="请输入分类名称" />
       </el-form-item>
@@ -162,11 +151,5 @@ const resetForm = () => {
   formRef.value?.resetFields()
 }
 
-// /** 获得分类树 */
-// const getTree = async () => {
-//   const data = await ProductCategoryApi.getCategoryList({})
-//   const tree = handleTree(data, 'id', 'parentId')
-//   const menu = { id: 0, name: '顶级分类', children: tree }
-//   categoryTree.value = [menu]
-// }
+
 </script>

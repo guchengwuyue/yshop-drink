@@ -204,31 +204,6 @@ const handleDelete = async (id: number) => {
  } catch {}
 }
 
-/** 确认付款按钮操作 */
-// const handlePay = async (id: number) => {
-//   try {
-//     // 删除的二次确认
-//     await message.confirm('修改为支付状态')
-//     // 发起删除
-//     await StoreOrderApi.payStoreOrder(id)
-//     message.success(t('common.updateSuccess'))
-//     // 刷新列表
-//     await getList()
-//   } catch {}
-// }
-
-// /** 确认收货按钮操作 */
-// const handleTake = async (id: number) => {
-//   try {
-//     // 删除的二次确认
-//     await message.confirm('修改收货状态')
-//     // 发起删除
-//     await StoreOrderApi.takeStoreOrder(id)
-//     message.success(t('common.updateSuccess'))
-//     // 刷新列表
-//     await getList()
-//   } catch {}
-// }
 
 /** 导出按钮操作 */
 const handleExport = async () => {

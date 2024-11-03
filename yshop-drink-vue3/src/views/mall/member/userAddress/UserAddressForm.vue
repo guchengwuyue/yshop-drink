@@ -16,12 +16,6 @@
       <el-form-item label="收货人地址" prop="address">
         <el-input v-model="formData.address" placeholder="请输入收货人所在省" />
       </el-form-item>
-      <!-- <el-form-item label="收货人所在市" prop="city">
-        <el-input v-model="formData.city" placeholder="请输入收货人所在市" />
-      </el-form-item>
-      <el-form-item label="收货人所在区" prop="district">
-        <el-input v-model="formData.district" placeholder="请输入收货人所在区" />
-      </el-form-item> -->
       <el-form-item label="收货人详细地址" prop="detail">
         <el-input v-model="formData.detail" placeholder="请输入收货人详细地址" />
       </el-form-item>
