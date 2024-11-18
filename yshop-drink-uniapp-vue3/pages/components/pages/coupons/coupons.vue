@@ -349,28 +349,6 @@ page {
 	}
 }
 
-.bottom-box {
-	height: 80rpx;
-	flex-shrink: 0;
-	.item {
-		padding: 0 20rpx;
-		position: relative;
-		
-		&::after {
-			content: " ";
-			border-right: 1rpx solid $text-color-assist;
-			height: 100%;
-			position: absolute;
-			right: 0;
-			top: 0;
-			transform: scaleX(0.5) scaleY(0.8);
-		}
-		
-		&:nth-last-child(1)::after {
-			border-right: 0;
-		}
-	}
-}
 
 .coupon-list {
 	height: calc(100vh - 120rpx - 200rpx);

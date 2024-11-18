@@ -726,72 +726,6 @@ const toPay = () => {
 		}
 	}
 	
-	.stores {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		margin-bottom: -40rpx;
-		.store {
-			width: 100%;
-			background-color: $bg-color-grey;
-			padding: 20rpx;
-			display: flex;
-			align-items: center;
-			margin-bottom: 20rpx;
-			border-radius: 6rpx;
-	
-			.iconfont {
-				font-size: 50rpx;
-				margin-right: 15rpx;
-	
-				&.iconradio-button-off {
-					color: $text-color-assist;
-				}
-	
-				&.iconradio-button-on {
-					color: $color-primary;
-				}
-			}
-	
-			.infos {
-				flex: 1;
-				display: flex;
-				flex-direction: column;
-				color: $text-color-base;
-				overflow: hidden;
-	
-				.name_and_distance {
-					width: 100%;
-					display: flex;
-					justify-content: space-between;
-					margin-bottom: 10rpx;
-					overflow: hidden;
-	
-					.name {
-						flex: 1;
-						flex-shrink: 0;
-						overflow: hidden;
-						text-overflow: ellipsis;
-						white-space: nowrap;
-						font-size: $font-size-lg;
-					}
-	
-					.distance {
-						flex-shrink: 0;
-						font-size: $font-size-lg;
-						font-weight: bold;
-						margin-left: 20rpx;
-					}
-				}
-	
-				.street {
-					color: $text-color-assist;
-					font-size: $font-size-sm;
-				}
-			}
-		}
-	}
 	
 	.main {
 		width: 100%;
@@ -891,30 +825,7 @@ const toPay = () => {
 				}
 			}
 		}
-	
-		.coupon {
-			flex: 1;
-			width: 100%;
-			background-color: $bg-color-primary;
-			font-size: $font-size-base;
-			color: $color-primary;
-			padding: 0 20rpx;
-			display: flex;
-			align-items: center;
-			overflow: hidden;
-	
-			.title {
-				flex: 1;
-				margin-left: 10rpx;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-			}
-	
-			.iconfont {
-				line-height: 100%;
-			}
-		}
+
 	}
 	
 	.content {
@@ -1130,9 +1041,6 @@ const toPay = () => {
 		}
 	}
 	
-	.modal-box {
-		max-height: 90vh;
-	}
 	
 	.good-detail-modal {
 		width: 100%;

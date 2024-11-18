@@ -129,7 +129,5 @@ const choice = (shop) => {
 		}
 	}
 	
-	.u-border {
-		border: 1rpx solid #1296db;
-	}
+
 </style>

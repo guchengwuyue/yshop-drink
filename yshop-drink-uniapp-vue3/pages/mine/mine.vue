@@ -194,33 +194,6 @@ const serv = (item) => {
 		min-height: 100%;
 	}
 
-	.bg {
-		width: 100%;
-		height: calc(410 / 594 * 750rpx);
-	}
-
-	.hym-btn {
-		position: absolute;
-		top: 40rpx;
-		right: 40rpx;
-		color: $color-primary;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 50rem;
-		font-size: $font-size-sm;
-		box-shadow: 0 0 20rpx rgba(66, 66, 66, 0.1);
-
-		&::after {
-			border: 0;
-		}
-
-		image {
-			width: 30rpx;
-			height: 30rpx;
-			margin-right: 10rpx;
-		}
-	}
 
 	.user-box {
 		position: relative;
@@ -271,11 +244,6 @@ const serv = (item) => {
 		}
 	}
 
-	.level-benefit {
-		margin-left: 35rpx;
-		padding: 10rpx 0 10rpx 30rpx;
-		border-radius: 50rem 0 0 50rem;
-	}
 
 	.user-grid {
 		width: 25%;
@@ -290,46 +258,7 @@ const serv = (item) => {
 		}
 	}
 
-	.level-benefit-box {
-		border-radius: 8rpx;
-		margin-bottom: 30rpx;
-		box-shadow: 0 10rpx 8rpx rgba($color: #878889, $alpha: 0.1);
-		width: 100%;
-		display: flex;
-		padding: 30rpx;
-		flex-direction: column;
-		background-color: #FFFFFF;
-
-		.row {
-			display: flex;
-			padding: 30rpx 0 20rpx;
-			justify-content: space-around;
-			align-items: center;
-
-			.grid {
-				width: 20%;
-				display: flex;
-				flex-direction: column;
-				font-size: $font-size-sm;
-				color: $text-color-assist;
-				align-items: center;
-
-				image {
-					width: 80rpx;
-					height: 80rpx;
-					margin-bottom: 10rpx;
-				}
-
-			}
-		}
-	}
-
-
-	.banner {
-		width: 100%;
-		border-radius: 8rpx;
-		margin-bottom: 30rpx;
-	}
+	
 
 	.service-box {
 		width: 100%;

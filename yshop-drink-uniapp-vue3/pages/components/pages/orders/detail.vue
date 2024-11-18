@@ -261,30 +261,7 @@ const refund = (order) => {
 		margin-right: 30rpx;
 		border-radius: 8rpx;
 	}
-// @mixin arch {
-// 	content: "";
-// 	position: absolute;
-// 	background-color: $bg-color;
-// 	width: 30rpx;
-// 	height: 30rpx;
-// 	bottom: -15rpx;
-// 	z-index: 10;
-// 	border-radius: 100%;
-// }
 
-// .section {
-// 	position: relative;
-	
-// 	&::before {
-// 		@include arch;
-// 		left: -15rpx;
-// 	}
-	
-// 	&::after {
-// 		@include arch;
-// 		right: -15rpx;
-// 	}
-// }
 
 .pay-cell {
 	width: 100%;
@@ -300,53 +277,7 @@ const refund = (order) => {
 	}
 }
 
-.invote-box {
-	position: absolute;
-	width: 100%;
-	left: 0;
-	top: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	
-	image {
-		width: 30rpx;
-		height: 30rpx;
-	}
-}
 
-.btn-box {
-	background-color: #ffffff;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	height: 120rpx;
-	box-shadow: 0 0 20rpx rgba($color: #000000, $alpha: 0.1);
-	display: flex;
-	align-items: center;
-	justify-content: space-evenly;
-	z-index: 11;
-	
-	.item {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 20rpx 10rpx;
-		flex: 1;
-		flex-shrink: 0;
-		
-		button {
-			width: 100%;
-			border-radius: 50rem !important;
-			height: 80rpx;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			padding: 0;
-		}
-	}
-}
 
 /* #ifdef H5 */
 	page {
@@ -370,14 +301,7 @@ const refund = (order) => {
 		margin: 60rpx 0 80rpx;
 		line-height: 48rpx;
 	}
-	
-	.drink-btn {
-		width: 320rpx;
-		border-radius: 50rem !important;
-		margin-bottom: 40rpx;
-		font-size: $font-size-base;
-		line-height: 3.0;
-	}
+
 	
 	@mixin arch {
 		content: "";

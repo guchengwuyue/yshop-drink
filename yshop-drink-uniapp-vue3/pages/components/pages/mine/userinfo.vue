@@ -227,10 +227,5 @@ page {
 	border-radius: 50rem !important;
 	font-size: $font-size-lg;
 }
-.logout-btn {
-	width: 90%;
-	border-radius: 50rem !important;
-	font-size: $font-size-lg;
-	background-color:rgb(237, 81, 29);
-}
+
 </style>
