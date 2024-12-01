@@ -72,10 +72,25 @@
 					</view>
 					<view class="qrcode_section" @tap="coupons">
 						去领个券
-						<view class="iconfont iconarrow-right"></view>
+				<!-- 		<view class="iconfont iconarrow-right"></view> -->
 				
 					</view>
 				</view> 
+				<view class="info">
+					<view class="integral_section" @tap="goScore">
+						<view class="top">
+							<text class="title">积分商城</text>
+						</view>
+						<view class="bottom">
+							进入积分商城兑换奈雪券及周边好礼
+						<!-- 	<view class="iconfont iconarrow-right"></view> -->
+						</view>
+					</view>
+					<view class="qrcode_section" @tap="goScore">
+						<image src="/static/images/jifen.png"></image>
+						<text>逛一逛</text>
+					</view>
+				</view>
 				
 			</view>
 	</view>
@@ -151,6 +166,7 @@ const goScore = () => {
 		url: '/pages/components/pages/scoreproduct/list'
 	})
 }
+
 
 
 
