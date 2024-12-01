@@ -52,7 +52,7 @@
       <el-table-column label="订单号" align="center" prop="orderId" width="190" />
       <el-table-column label="用户id|昵称" align="center" prop="uid" width="150">
         <template #default="scope">
-          <span>{{ scope.row.uid }}|{{ scope.row.userRespVO.nickname }}</span>
+          <span>{{ scope.row.uid }}|{{ scope.row.userRespVO ? scope.row.userRespVO.nickname : '--' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="商品信息" align="center" prop="productId" width="350">
