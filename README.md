@@ -12,9 +12,9 @@
 
 ## 演示地址
 
-| 后台登陆：  | https://dc.dayouqiantu.cn   账号/密码：admin/admin123  |
+| 后台登陆：  | https://dc.yixiang.co   账号/密码：admin/admin123  |
 |---|---|
-| 门店登陆： | https://dc.dayouqiantu.cn   账号/密码：yixiang001/123456789  |
+| 门店登陆： | https://dc.yixiang.co   账号/密码：yixiang001/123456789  |
 |  移动端演示：关注右边公众号点击菜单其他系统体验点餐小程序与点餐H5，其中如果演示使用验证码登陆的点击下验证码默认验证码是9999 | ![输入图片说明](77a93e8c07a913b838a756abadb383b9.png) |
 
 ## 视频资料
