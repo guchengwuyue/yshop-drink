@@ -41,25 +41,6 @@
 						<view class="font-small text-light-black">美食送到家</view>
 					</view>
 				</view>
-				<view class="entrance">
-				<!-- 	<view class="item " @tap="takein">
-						<view>
-							<view class="font-md">自取</view>
-							<view class="font-small text-light-black flex-1">下单免排队</view>
-						</view>
-						<view class="index-img">
-							<image src="/static/images/index002.png" mode="aspectFit" class="img-01"></image>
-						</view>	
-					</view>
-					<view  class="item" @tap="takeout">
-						<view>
-							<view class="font-md">外卖</view>
-							<view class="font-small text-light-black">美食送到家</view>
-						</view>
-						<view class="index-img"><image src="/static/images/index003.png" mode="aspectFit" class="img-02"></image></view>
-						
-					</view> -->
-				</view>
 				 <view class="info">
 					<view class="integral_section">
 						<view class="top">
@@ -178,23 +159,17 @@ onLoad(() => {
 </script>
 
 <style lang="scss">
-// .yshop-menu {
-// 	margin-bottom: 10rpx;
-// 	position: relative;
-// 	margin-top: -42rpx;
-// }
+.yshop-menu {
+	//margin-bottom: 10rpx;
+	// position: relative;
+	margin-top: 20rpx;
+}
 .yshop-menu-item {
 	background-color: #ffffff;
-	width: 350rpx;
+	width: 355rpx;
 	padding-bottom: 30rpx;
 }
 	
-.index-img {
-	width: 120px;
-	height: 120rpx;
-	position: relative;
-	left:-20rpx
-}
 .img-01 {
 	width: 100px;
 	height: 100rpx;
@@ -214,7 +189,7 @@ page {
 }
 /* #endif */
 page {
-	background-color: #ffffff!important;
+	//background-color: #ffffff!important;
 }
 .banner {
 	position: relative;
@@ -246,57 +221,13 @@ page {
 }
 
 .content {
-	padding: 0 50rpx;
+	padding: 0 15rpx;
 }
 
-.entrance {
-	position: relative;
-	//top:0;
-	margin-top: 30rpx;
-	margin-bottom: 30rpx;
-	border-radius: 10rpx;
-	background-color: #ffffff;
-	box-shadow: $box-shadow;
-	padding: 30rpx 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 50rpx;
-	.item {
-		//flex: 1;
-		display: flex;
-		//flex-direction: column;
-		justify-content: center;
-		//align-items: center;
-		position: relative;
-		
-		&:nth-child(1):after {
-			content: '';
-			position: absolute;
-			width: 1rpx;
-			background-color: #ddd;
-			right: 0;
-			height: 100%;
-			transform: scaleX(0.5) scaleY(0.8);
-		}
-		
-		.icon {
-			font-size: 90rpx;
-			// color: #5A5B5C;
-			color: #09b4f1;
-		}
-		
-		.title {
-			font-size: 30rpx;
-			color: $text-color-base;
-			font-weight: 600;
-		}
-	}
-}
 
 .info {
 	position: relative;
-	margin-bottom: 30rpx;
+	margin: 10rpx 0;
 	border-radius: 10rpx;
 	background-color: #ffffff;
 	box-shadow: $box-shadow;
@@ -304,6 +235,7 @@ page {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	padding: 25rpx;
 	
 	.integral_section {
 		flex: 1;
