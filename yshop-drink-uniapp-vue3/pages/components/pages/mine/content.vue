@@ -6,7 +6,7 @@
 		  left-arrow
 		  @leftClick="$onClickLeft"
 		/>
-		<view>
+		<view class="bg-white p-2">
 			<rich-text :nodes="content"></rich-text>
 		</view>
 	</layout>
