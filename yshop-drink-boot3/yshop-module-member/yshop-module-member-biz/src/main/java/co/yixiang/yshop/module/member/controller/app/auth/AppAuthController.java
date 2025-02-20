@@ -135,6 +135,16 @@ public class AppAuthController {
                 ,appWxMiniLoginVO.getOpenid()));
     }
 
+    @GetMapping("/auth-wechat-login")
+    @Operation(summary = "社交授权的跳转")
+    @Parameters({
+            @Parameter(name = "code", description = "code码", required = true)
+    })
+    public CommonResult<AppAuthLoginRespVO> wechatAuth(@RequestParam("code") String code) {
+        System.out.println("code:"+code);
+        return CommonResult.success(authService.wechatAuth(code));
+    }
+
 
 
 }

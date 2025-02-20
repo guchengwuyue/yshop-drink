@@ -21,7 +21,7 @@ onShow(() => {
 	// 检查用户登录情况
 	// #ifdef H5
 	if(isWeixin()){
-	
+		oAuth()
 		// H5编译的代码
 		// 判断是否是微信浏览器
 	}
@@ -53,6 +53,56 @@ const wechatMiniLogin = () => {
 			}
 		}
 	});
+}
+
+const getAuthUrl = (appId) => {
+	  // #ifdef H5
+	  // #endif
+	  cookie.set('redirect', window.location.href)
+	  const url = `${location.origin}/h5/#/pages/index/index`
+	  cookie.set('index_url',url)
+	  let redirect_uri = encodeURIComponent(url)
+	
+	  const state = 'STATE'
+	  return `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
+ }
+ 
+const oAuth = async() => {
+	  const WX_AUTH = 'wx_auth'
+	  return new Promise((resolve, reject) => {
+		     
+		const accessToken = uni.getStorageSync('accessToken');
+		if (cookie.has('wx_auth') && accessToken && main.isLogin) {
+		  reject()
+		  return
+		}
+		const { code } = parseQuery()
+		if (!code) {
+		  //公众号appid
+		  const appid = APP_ID;
+		  location.href = getAuthUrl(appid)
+		  return
+		} else {
+		 auth(code)
+		}
+		resolve()
+	  }).catch(error => {
+		console.log(error)
+	  })
+}
+
+const auth = async(code) => {
+	console.log('获取微信授权:',code)
+	let data = await wechatAuth({'code':code})
+	cookie.set('wx_auth', code)
+	if (data) {
+		main.SET_OPENID(data.openId)
+		main.SET_MEMBER(data.userInfo);
+		main.SET_TOKEN(data.accessToken);
+		
+	
+	}
+
 }
 
 

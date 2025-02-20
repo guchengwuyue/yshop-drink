@@ -71,6 +71,14 @@ public interface MemberAuthService {
      */
     AppAuthLoginRespVO weixinMiniAppLogin3(String encryptedData, String iv, String openid);
 
+    /**
+     * 微信公众号的一键登录
+     *
+     * @param code code
+     * @return 登录结果
+     */
+    AppAuthLoginRespVO wechatAuth(String code);
+
 
     /**
      * 获得社交认证 URL

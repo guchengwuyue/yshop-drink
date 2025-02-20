@@ -2,7 +2,7 @@ export const VUE_APP_API_URL = 'http://localhost:48081/app-api'
 //export const VUE_APP_API_URL = 'https://apidc.yixiang.co/app-api'
 export const VUE_APP_RESOURCES_URL = 'https://h5.yixiang.co/static'
 export const VUE_APP_UPLOAD_URL = VUE_APP_API_URL + '/infra/file/upload'
-export const APP_ID = 'wxc061dee8806ff712'
+export const APP_ID = 'wxdbdbc123c8c30b45'
 
 const orderListStatus = {}
 

@@ -35,6 +35,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.annotations.VisibleForTesting;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
+import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -271,6 +273,46 @@ public class MemberAuthServiceImpl implements MemberAuthService {
         return appAuthLoginRespVO;
     }
 
+    /**
+     * 微信公众号登录
+     * @param code code
+     * @return
+     */
+    @Override
+    public AppAuthLoginRespVO wechatAuth(String code) {
+        WxOAuth2AccessToken wxMpOAuth2AccessToken = null;
+        MemberUserDO memberUserDO = null;
+        try {
+            wxMpOAuth2AccessToken = mpService.getOAuth2Service().getAccessToken(code);
+            WxOAuth2UserInfo wxMpUser = mpService.getOAuth2Service().getUserInfo(wxMpOAuth2AccessToken, null);
+            String openid = wxMpUser.getOpenid();
+            //根据openid查用户是否存在
+            memberUserDO = userMapper.selectOne(new LambdaQueryWrapper<MemberUserDO>()
+                    .eq(MemberUserDO::getOpenid,openid));
+            if (memberUserDO == null) {
+                // 获得获得注册用户
+                memberUserDO = userService.createUserIfAbsent("", getClientIP(),
+                        LoginTypeEnum.WECHAT.getValue());
+                //过滤掉表情
+                String nickname = wxMpUser.getNickname();
+                memberUserDO.setOpenid(openid);
+                memberUserDO.setNickname(nickname);
+                memberUserDO.setAvatar(wxMpUser.getHeadImgUrl());
+                memberUserDO.setUsername(openid);
+                userMapper.updateById(memberUserDO);
+            }
+        }catch (WxErrorException e) {
+            log.error(e.getMessage());
+            throw exception(MINI_AUTH_LOGIN_BAD);
+        }
+
+        // 创建 Token 令牌，记录登录日志
+        AppAuthLoginRespVO appAuthLoginRespVO = createTokenAfterLoginSuccess(memberUserDO, memberUserDO.getNickname(),
+                LoginLogTypeEnum.LOGIN_SOCIAL);
+        appAuthLoginRespVO.setOpenId(memberUserDO.getOpenid());
+        appAuthLoginRespVO.setUserInfo(UserConvert.INSTANCE.convert3(memberUserDO));
+        return appAuthLoginRespVO;
+    }
 
     private AppAuthLoginRespVO createTokenAfterLoginSuccess(MemberUserDO user, String mobile, LoginLogTypeEnum logType) {
         // 插入登陆日志
