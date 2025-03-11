@@ -36,8 +36,10 @@ const logout = () => {
 		type: 'success'
 	});
 	setTimeout(function() {
-		uni.navigateBack();
-	}, 2000);
+		uni.redirectTo({
+			url: '/pages/components/pages/login/login',
+		})
+	}, 1000);
 }
 	
 </script>
