@@ -108,7 +108,7 @@ public class UserBillServiceImpl extends ServiceImpl<UserBillMapper, UserBillDO>
                 .pm(BillEnum.PM_1.getValue())
                 .linkId(linkid)
                 .extendField(extendField)
-                .status(ShopCommonEnum.IS_STATUS_0.getValue())
+                .status(ShopCommonEnum.IS_STATUS_1.getValue())
                 .build();
 
         userBillMapper.insert(userBill);
