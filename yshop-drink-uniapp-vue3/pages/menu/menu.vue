@@ -673,6 +673,10 @@ const toPay = () => {
 			uToast.value.show({message:'不在店铺营业时间内',type: 'error'});
 			return;
 		}
+		if(orderType.value == 'takeout' && store.value.distance <= 0){
+			uToast.value.show({message:'本店不支持外卖',type: 'error'});
+			return;
+		}
 		// 判断当前是否在配送范围内
 		if (orderType.value == 'takeout' && store.value.distance < store.value.far) {
 			uToast.value.show({message:'选中的地址不在配送范围',type: 'error'});
