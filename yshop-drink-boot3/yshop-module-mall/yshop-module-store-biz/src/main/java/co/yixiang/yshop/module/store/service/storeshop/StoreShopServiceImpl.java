@@ -1,6 +1,7 @@
 package co.yixiang.yshop.module.store.service.storeshop;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DateUtil;
 import co.yixiang.yshop.framework.common.exception.ErrorCode;
 import co.yixiang.yshop.framework.security.core.util.SecurityFrameworkUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -44,6 +45,8 @@ public class StoreShopServiceImpl implements StoreShopService {
         });
         // 插入
         StoreShopDO shop = StoreShopConvert.INSTANCE.convert(createReqVO);
+        Integer status = doShopStatus(shop.getStartTime(),shop.getEndTime());
+        shop.setStatus(status);
         shopMapper.insert(shop);
         // 返回
         return shop.getId();
@@ -66,7 +69,37 @@ public class StoreShopServiceImpl implements StoreShopService {
         validateShopExists(updateReqVO.getId());
         // 更新
         StoreShopDO updateObj = StoreShopConvert.INSTANCE.convert(updateReqVO);
+        Integer status = doShopStatus(updateObj.getStartTime(),updateObj.getEndTime());
+        updateObj.setStatus(status);
         shopMapper.updateById(updateObj);
+    }
+
+
+    /**
+     * 处理营业时间
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    private Integer doShopStatus(Date startTime,Date endTime){
+        Date now = new Date();
+        Integer sH = DateUtil.hour(startTime,true);
+        Integer sM = DateUtil.minute(startTime);
+        Integer eH = DateUtil.hour(endTime,true);
+        Integer eM = DateUtil.minute(endTime);
+        Integer nH = DateUtil.hour(now,true);
+        Integer nM = DateUtil.minute(now);
+        if(nH < sH){
+            return 0;
+        }else if(eH < nH){
+            return 0;
+        }else if(nH == sH && sM > nM){
+            return 0;
+        }else if(eH == nH && eM < nM){
+            return 0;
+        } else{
+            return 1;
+        }
     }
 
     @Override
