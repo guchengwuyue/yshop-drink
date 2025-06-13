@@ -595,7 +595,7 @@ public class AppStoreOrderServiceImpl extends ServiceImpl<StoreOrderMapper,Store
         if (uid != null) {
             wrapper.eq(StoreOrderDO::getUid, uid);
         }
-        wrapper.orderByDesc(StoreOrderDO::getId);
+        wrapper.eq(StoreOrderDO::getIsSystemDel,ShopCommonEnum.DELETE_0.getValue()).orderByDesc(StoreOrderDO::getId);
        // wrapper.eq(StoreOrderDO::getPaid, OrderInfoEnum.PAY_STATUS_1.getValue())
                 //.eq(StoreOrderDO::getRefundStatus, OrderInfoEnum.REFUND_STATUS_0.getValue())
                 //.eq(StoreOrderDO::getStatus, OrderInfoEnum.STATUS_0.getValue())
