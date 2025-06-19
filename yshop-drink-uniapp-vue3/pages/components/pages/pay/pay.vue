@@ -555,7 +555,14 @@ const pay = async() => {
 	}
 	
 	main.DEL_COUPON()
-
+    if(amount.value == 0){
+		uToast.value.show({
+			message: '订单金额为0自动余额支付',
+			type: 'success'
+		});
+		uni.hideLoading()
+		return
+	}
 
 	if (payType.value == 'weixin') {
 		// 微信支付
