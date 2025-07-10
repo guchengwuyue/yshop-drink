@@ -8,9 +8,9 @@
 		/>
 		
 		<view class="container" v-if="!loading">
-			<view>
+			<!-- <view>
 				<image :src="shopAd" mode="aspectFill" class="w-100 " style="height: 250rpx;"></image>
-			</view>
+			</view> -->
 			<view style="height: 60rpx;background-color: #FFFFFF;" v-if="store.notice">
 					<uv-notice-bar  :text="store.notice"></uv-notice-bar>
 			</view>
@@ -107,6 +107,7 @@
 									</view>
 								</view>
 								<!-- category end -->
+								<view style="height: 110rpx;"></view>
 							</view>
 						</view>
 					</scroll-view>
@@ -371,6 +372,7 @@ const  init = async() => { //页面初始化
 				getShopList(result)
 			 },
 			 fail: function (res) {
+			  
 			   uni.showToast({
 			     title: '获取位置失败，请检查是否开启相关权限',
 			     duration: 2000,
@@ -386,7 +388,13 @@ const  init = async() => { //页面初始化
 			 complete: function (res) {
 			 }
 		}));
-		
+		 if(!result.hasOwnProperty('latitude')){
+			result = {
+				latitude: 39.919990,
+				longitude: 116.456270
+			};
+			getShopList(result)
+		 }
 		return
 	}
 	
@@ -1240,6 +1248,10 @@ const toPay = () => {
 	.cart-box {
 		position: fixed;
 		bottom: 30rpx;
+		/* #ifdef H5 */
+		bottom:var(--window-bottom);
+		//bottom: 100rpx;
+		/* #endif */
 		left: 30rpx;
 		right: 30rpx;
 		height: 96rpx;
