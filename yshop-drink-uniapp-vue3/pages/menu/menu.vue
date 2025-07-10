@@ -542,7 +542,7 @@ const calcSize = () => {
 const handleAddToCart = (cate, newGood, num) =>{ //添加到购物车
 	const index = cart.value.findIndex(item => {
 		if (newGood) {
-			return (item.id === newGood.id) && (item.props_text === good.value.valueStr)
+			return (item.id === newGood.id) && (item.valueStr === good.value.valueStr)
 		} else {
 			return item.id === newGood.id
 		}
