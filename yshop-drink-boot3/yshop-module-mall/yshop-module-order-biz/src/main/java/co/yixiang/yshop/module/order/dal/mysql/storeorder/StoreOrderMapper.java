@@ -43,7 +43,7 @@ public interface StoreOrderMapper extends BaseMapperX<StoreOrderDO> {
                 .betweenIfPresent(StoreOrderDO::getCreateTime, reqVO.getCreateTime());
                 //.orderByDesc(StoreOrderDO::getId);
         if( OrderTypeEnum.TYPE_WORK.getValue().equals(reqVO.getType())){
-            wrapper.orderByAsc(StoreOrderDO::getCreateTime);
+            wrapper.ne(StoreOrderDO::getIsSystemDel, ShopCommonEnum.DELETE_1.getValue()).orderByAsc(StoreOrderDO::getCreateTime);
         }else{
             wrapper.orderByDesc(StoreOrderDO::getCreateTime);
         }
@@ -51,13 +51,15 @@ public interface StoreOrderMapper extends BaseMapperX<StoreOrderDO> {
             switch (AdminOrderStatusEnum.toType(reqVO.getOrderStatus())) {
                 //未支付
                 case STATUS_0:
-                    wrapper.eq(StoreOrderDO::getPaid, OrderInfoEnum.PAY_STATUS_0.getValue())
+                    wrapper.ne(StoreOrderDO::getIsSystemDel, ShopCommonEnum.DELETE_1.getValue())
+                            .eq(StoreOrderDO::getPaid, OrderInfoEnum.PAY_STATUS_0.getValue())
                             .eq(StoreOrderDO::getRefundStatus, OrderInfoEnum.REFUND_STATUS_0.getValue())
                             .eq(StoreOrderDO::getStatus, OrderInfoEnum.STATUS_0.getValue());
                     break;
                 //待发货
                 case STATUS_1:
-                    wrapper.eq(StoreOrderDO::getRefundStatus, OrderInfoEnum.REFUND_STATUS_0.getValue())
+                    wrapper.ne(StoreOrderDO::getIsSystemDel, ShopCommonEnum.DELETE_1.getValue())
+                            .eq(StoreOrderDO::getRefundStatus, OrderInfoEnum.REFUND_STATUS_0.getValue())
                             .eq(StoreOrderDO::getStatus, OrderInfoEnum.STATUS_0.getValue());
                     if( OrderTypeEnum.TYPE_WORK.getValue().equals(reqVO.getType())){
                         wrapper.and(i->i.eq(StoreOrderDO::getPaid, OrderInfoEnum.PAY_STATUS_1.getValue())
@@ -69,26 +71,30 @@ public interface StoreOrderMapper extends BaseMapperX<StoreOrderDO> {
                     break;
                 //待收货
                 case STATUS_2:
-                    wrapper.eq(StoreOrderDO::getPaid, OrderInfoEnum.PAY_STATUS_1.getValue())
+                    wrapper.ne(StoreOrderDO::getIsSystemDel, ShopCommonEnum.DELETE_1.getValue())
+                            .eq(StoreOrderDO::getPaid, OrderInfoEnum.PAY_STATUS_1.getValue())
                             .eq(StoreOrderDO::getRefundStatus, OrderInfoEnum.REFUND_STATUS_0.getValue())
                             .eq(StoreOrderDO::getStatus, OrderInfoEnum.STATUS_1.getValue());
                     break;
                 //待评价
                 case STATUS_3:
-                    wrapper.eq(StoreOrderDO::getPaid, OrderInfoEnum.PAY_STATUS_1.getValue())
+                    wrapper.ne(StoreOrderDO::getIsSystemDel, ShopCommonEnum.DELETE_1.getValue())
+                            .eq(StoreOrderDO::getPaid, OrderInfoEnum.PAY_STATUS_1.getValue())
                             .eq(StoreOrderDO::getRefundStatus, OrderInfoEnum.REFUND_STATUS_0.getValue())
                             .eq(StoreOrderDO::getStatus, OrderInfoEnum.STATUS_2.getValue());
                     break;
                 //已完成
                 case STATUS_4:
-                    wrapper.eq(StoreOrderDO::getPaid, OrderInfoEnum.PAY_STATUS_1.getValue())
+                    wrapper.ne(StoreOrderDO::getIsSystemDel, ShopCommonEnum.DELETE_1.getValue())
+                            .eq(StoreOrderDO::getPaid, OrderInfoEnum.PAY_STATUS_1.getValue())
                             .eq(StoreOrderDO::getRefundStatus, OrderInfoEnum.REFUND_STATUS_0.getValue())
                             .eq(StoreOrderDO::getStatus, OrderInfoEnum.STATUS_3.getValue());
                     break;
                 //退款单
                 case STATUS_5:
                     String[] strs = {"1", "2"};
-                    wrapper.in(StoreOrderDO::getRefundStatus, strs);
+                    wrapper.ne(StoreOrderDO::getIsSystemDel, ShopCommonEnum.DELETE_1.getValue())
+                            .in(StoreOrderDO::getRefundStatus, strs);
                     break;
                 //已删除
                 case STATUS_6:
