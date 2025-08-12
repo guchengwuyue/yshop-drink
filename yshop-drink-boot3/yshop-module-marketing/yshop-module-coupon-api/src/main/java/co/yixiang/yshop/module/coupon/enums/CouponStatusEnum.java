@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 public enum CouponStatusEnum {
-
+	STATUS_4(4,"所有"),
 	STATUS_0(0,"未使用"),
 	STATUS_1(1,"已使用"),
 	STATUS_2(2,"已失效");
