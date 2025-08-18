@@ -78,7 +78,9 @@
 									</view>
 								</view>
 								<view class="right" @click.stop="" v-if="activeTabIndex == 1">
-									<view class="use immediate-use" :round="true" @tap="receive(item, index)" >立即领取</view>
+									<!-- <view class="use immediate-use" :round="true" @tap="receive(item, index)" >立即领取</view> -->
+									<view  class="use immediate-use" :round="true" v-if="item.isReceive == 0" @tap="receive(item, index)" >立即领取</view>
+									<view v-else class="used immediate-use">已领取</view>
 								</view>
 								<view class="right" @click.stop="" v-if="activeTabIndex == 0">
 									<view v-if="item.status == 0" class="use immediate-use" :round="true" @tap="useCouponWith(item)" >立即使用</view>
@@ -266,6 +268,7 @@ const receive = async(coupon,index) => {
 			type: 'success'
 		});
 		detailModalVisible.value = false
+		getCoupons(1)
 	}
 }
 
@@ -513,10 +516,10 @@ page {
 				padding: 0 20rpx;
 				font-size: 24rpx;
 				border-radius: 40rpx;
-				//color: #ffffff!important;
-				//background-color: $u-type-warning!important;
+				color: #ffffff!important;
+				background-color: $uv-info-dark!important;
 				line-height: 40rpx;
-				//color: rgb(117, 142, 165);
+				color: rgb(117, 142, 165);
 				margin-left: 20rpx;
 			}
 		}

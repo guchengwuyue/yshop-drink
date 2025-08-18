@@ -313,6 +313,9 @@ const amount = computed(() =>{
 	if (main.mycoupon.hasOwnProperty('id')) {
 		amount -= parseFloat(main.mycoupon.value);
 	}
+	if(amount < 0){
+		amount = 0
+	}
 	return amount.toFixed(2);
 })
 
@@ -494,34 +497,37 @@ const submit = () => {
 }
 const pay = async() => {
 	let that = this;
-	// #ifdef MP-WEIXIN
-	await new Promise(function(revolve) {
-		//订阅号信息id
-		 let subscribeMss = ['KBtfY9G1IWCzC6q-ZKo-Q-MmdP7aaF79nx0XFcBf3h4'];
+	// // #ifdef MP-WEIXIN
+	// await new Promise(function(revolve) {
+	// 	//订阅号信息id
+	// 	 let subscribeMss = ['KBtfY9G1IWCzC6q-ZKo-Q-MmdP7aaF79nx0XFcBf3h4'];
 
-		wx.showModal({
-			title: '温馨提示',
-			content: '为更好的促进您与商家的交流，小程序需要在您成交时向您发送消息',
-			confirmText: "同意",
-			cancelText: "拒绝",
-			success: function(res) {
-				if (res.confirm) {
-					uni.requestSubscribeMessage({
-						tmplIds: subscribeMss,
-						complete(res) {
-							console.log(res)
-							revolve(true)
-						}
-					});
-				} else {
-					revolve(true)
-				}
-			}
-		})
-	});
+	// 	wx.showModal({
+	// 		title: '温馨提示',
+	// 		content: '为更好的促进您与商家的交流，小程序需要在您成交时向您发送消息',
+	// 		confirmText: "同意",
+	// 		cancelText: "拒绝",
+	// 		success: function(res) {
+	// 			if (res.confirm) {
+	// 				uni.requestSubscribeMessage({
+	// 					tmplIds: subscribeMss,
+	// 					complete(res) {
+	// 						console.log(res)
+	// 						revolve(true)
+	// 					}
+	// 				});
+	// 			} else {
+	// 				revolve(true)
+	// 			}
+	// 		}
+	// 	})
+	// });
 	
 
 	// #endif
+	if(amount.value == 0){
+		payType.value = 'yue'
+	}
 	uni.showLoading({
 		title: '加载中'
 	});
@@ -557,12 +563,13 @@ const pay = async() => {
 	main.DEL_COUPON()
     if(amount.value == 0){
 		uToast.value.show({
-			message: '订单金额为0自动余额支付',
+			message: '订单金额为0自动走余额支付',
 			type: 'success'
 		});
+		balancePay(order);
 		uni.hideLoading()
 		return
-	}
+   }
 
 	if (payType.value == 'weixin') {
 		// 微信支付
