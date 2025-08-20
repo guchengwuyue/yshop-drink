@@ -3,11 +3,10 @@ package co.yixiang.yshop.framework.common.util.string;
 import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import org.springframework.util.CollectionUtils;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.text.Collator;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -75,6 +74,23 @@ public class StrUtils {
         return Arrays.stream(content.split("\n"))
                 .filter(line -> !line.contains(sequence))
                 .collect(Collectors.joining("\n"));
+    }
+
+    /**
+     * 数字排在最前，英文字母其次，汉字则按照拼音进行排序
+     */
+    public static List<String> compareTo(List<String> stringList) {
+        if (CollectionUtils.isEmpty(stringList)) {
+            return Collections.emptyList();
+        }
+        Comparator<String> comparator = (text, texts) -> {
+            Collator collator = Collator.getInstance(java.util.Locale.CHINESE);
+            return collator.getCollationKey(text).compareTo(
+                    collator.getCollationKey(texts));
+        };
+        Collections.sort(stringList, comparator);
+        return stringList;
+
     }
 
 }

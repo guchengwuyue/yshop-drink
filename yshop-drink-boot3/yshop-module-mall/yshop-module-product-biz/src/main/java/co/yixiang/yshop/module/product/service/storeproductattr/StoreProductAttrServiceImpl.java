@@ -3,6 +3,7 @@ package co.yixiang.yshop.module.product.service.storeproductattr;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import co.yixiang.yshop.framework.common.util.string.StrUtils;
 import co.yixiang.yshop.module.product.dal.dataobject.storeproductattr.StoreProductAttrDO;
 import co.yixiang.yshop.module.product.dal.dataobject.storeproductattrvalue.StoreProductAttrValueDO;
 import co.yixiang.yshop.module.product.dal.mysql.storeproductattr.StoreProductAttrMapper;
@@ -103,7 +104,7 @@ public class StoreProductAttrServiceImpl extends ServiceImpl<StoreProductAttrMap
 //                throw new BadRequestException("活动商品库存不能大于原有商品库存");
 //            }
             List<String> stringList = new ArrayList<>(productFormatDto.getDetail().values());
-            Collections.sort(stringList);
+            stringList =  StrUtils.compareTo(stringList);
             StoreProductAttrValueDO oldAttrValue = storeProductAttrValueService.getOne(new LambdaQueryWrapper<StoreProductAttrValueDO>()
                     .eq(StoreProductAttrValueDO::getSku, productFormatDto.getSku())
                     .eq(StoreProductAttrValueDO::getProductId, productId));
