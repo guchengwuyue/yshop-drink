@@ -8,6 +8,7 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import co.yixiang.yshop.framework.common.enums.ShopCommonEnum;
+import co.yixiang.yshop.framework.common.util.string.StrUtils;
 import co.yixiang.yshop.module.product.convert.storeproductrule.StoreProductRuleConvert;
 import co.yixiang.yshop.module.product.dal.dataobject.category.ProductCategoryDO;
 import co.yixiang.yshop.module.product.dal.dataobject.storeproductattrresult.StoreProductAttrResultDO;
@@ -171,9 +172,10 @@ public class StoreProductServiceImpl extends ServiceImpl<StoreProductMapper,Stor
         for (Map<String, Map<String, String>> map : detailDto.getRes()) {
             Map<String, String> detail = map.get("detail");
             String[] detailArr = detail.values().toArray(new String[]{});
-            Arrays.sort(detailArr);
+            //Arrays.sort(detailArr);
 
-            String sku = String.join(",", detailArr);
+           // String sku = String.join(",", detailArr);
+            String sku = String.join(",", StrUtils.compareTo(CollUtil.toList(detailArr)));
 
             Map<String, Object> valueMap = new LinkedHashMap<>();
 
