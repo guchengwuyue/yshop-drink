@@ -148,7 +148,7 @@
                          {{ scope.row[item.slot] }}
                         </div>
                         <div v-else-if="item.slot == 'action'" align="center" >
-                          <a @click="delAttrTable(scope.$index)" align="center">删除</a>
+                          <a align="center">无</a>
                         </div>
                         <div v-else align="center">
                           <el-input  v-model="scope.row[item.slot]" align="center" />
