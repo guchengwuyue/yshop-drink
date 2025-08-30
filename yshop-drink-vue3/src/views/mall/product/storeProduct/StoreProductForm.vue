@@ -29,7 +29,7 @@
          <el-form-item label="商品分类" prop="cate_id">
           <el-select
             v-model="formValidate.cate_id"
-            placeholder="选择店铺"
+            placeholder="选择分类"
             @change="selectShop"
           >
             <el-option

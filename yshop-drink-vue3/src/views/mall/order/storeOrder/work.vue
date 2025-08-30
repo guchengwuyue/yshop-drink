@@ -110,7 +110,7 @@ import OrderRecord from './OrderRecord.vue'
 import type { TabsPaneContext } from 'element-plus'
 import { formatDate } from '@/utils/formatTime'
 const message = useMessage() // 消息弹窗
-//const { t } = useI18n() // 国际化
+const { t } = useI18n() // 国际化
 
 const loading = ref(true) // 列表的加载中
 const total = ref(0) // 列表的总页数
@@ -198,9 +198,8 @@ const handleDelete = async (id: number) => {
    await message.delConfirm()
    // 发起删除
    await StoreOrderApi.deleteStoreOrder(id)
-   message.success(t('common.delSuccess'))
    // 刷新列表
-   await getList()
+   getList()
  } catch {}
 }
 
