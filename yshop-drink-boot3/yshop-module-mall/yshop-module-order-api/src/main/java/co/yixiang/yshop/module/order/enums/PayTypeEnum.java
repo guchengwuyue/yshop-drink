@@ -18,6 +18,7 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 public enum PayTypeEnum {
 
+	CASH("cash","现金支付"),
 	ALI("alipay","支付宝支付"),
 	WEIXIN("weixin","微信支付"),
 	YUE("yue","余额支付"),

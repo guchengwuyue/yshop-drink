@@ -190,13 +190,8 @@ public class StoreOrderServiceImpl implements StoreOrderService {
         // 校验存在
         validateStoreOrderExists(id);
         StoreOrderDO storeOrderDO = storeOrderMapper.selectById(id);
-        storeOrderDO.setPaid(OrderInfoEnum.PAY_STATUS_1.getValue());
-        storeOrderDO.setPayTime(LocalDateTime.now());
-        storeOrderMapper.updateById(storeOrderDO);
-
-        //增加状态
-        storeOrderStatusService.create(storeOrderDO.getUid(),storeOrderDO.getId(), OrderLogEnum.OFFLINE_PAY.getValue(),
-                OrderLogEnum.OFFLINE_PAY.getDesc());
+        //下线支付
+        appStoreOrderService.paySuccess(storeOrderDO.getOrderId(),PayTypeEnum.CASH.getValue());
     }
 
     @Override

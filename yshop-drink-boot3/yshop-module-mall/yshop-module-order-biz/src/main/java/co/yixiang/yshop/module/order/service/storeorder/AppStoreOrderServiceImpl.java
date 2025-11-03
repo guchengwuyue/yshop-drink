@@ -521,6 +521,8 @@ public class AppStoreOrderServiceImpl extends ServiceImpl<StoreOrderMapper,Store
             payTypeMsg = PayTypeEnum.YUE.getDesc();
         }else if (PayTypeEnum.ALI.getValue().equals(payType)) {
             payTypeMsg = PayTypeEnum.ALI.getDesc();
+        }else if(PayTypeEnum.CASH.getValue().equals(payType)){
+            payTypeMsg = PayTypeEnum.CASH.getDesc();
         }
         billService.expend(userInfo.getId(), "购买商品",
                 BillDetailEnum.CATEGORY_1.getValue(),
