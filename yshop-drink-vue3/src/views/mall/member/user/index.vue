@@ -71,7 +71,14 @@
         :formatter="dateFormatter"
       />
       <el-table-column label="用户余额" align="center" prop="nowMoney" />
-      <el-table-column label="用户登陆类型" align="center" prop="loginType" />
+      <el-table-column label="用户登陆类型" align="center" prop="loginType">
+        <template #default="scope">
+          <span v-if="scope.row.loginType == 'routine'">小程序</span>
+          <span v-else-if="scope.row.loginType == 'wechat'">公众号</span>
+          <span v-else-if="scope.row.loginType == 'h5'">H5</span>
+          <span v-else>未知</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center">
         <template #default="scope">
           <div class="flex justify-center items-center">

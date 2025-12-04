@@ -11,7 +11,7 @@
         <el-radio-button label="0">未支付</el-radio-button>
         <el-radio-button label="1">制作中</el-radio-button>
         <el-radio-button label="2">待收货</el-radio-button>
-        <el-radio-button label="3">已收货/已取餐</el-radio-button>
+        <el-radio-button label="4">已收货/已取餐</el-radio-button>
         <!-- <el-radio-button label="4">交易完成</el-radio-button> -->
         <el-radio-button label="5">退款单</el-radio-button>
         <el-radio-button label="6">已删除</el-radio-button>

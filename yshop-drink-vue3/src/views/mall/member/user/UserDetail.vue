@@ -21,7 +21,12 @@
             <el-descriptions-item label="推广id">{{ DetailData.spreadUid }}</el-descriptions-item>
             <el-descriptions-item label="购买次数">{{ DetailData.payCount }}</el-descriptions-item>
             <el-descriptions-item label="下级人数">{{ DetailData.spreadCount }}</el-descriptions-item>
-            <el-descriptions-item label="登陆类型">{{ DetailData.loginType }}</el-descriptions-item>
+            <el-descriptions-item label="登陆类型">
+              <span v-if="DetailData.loginType == 'routine'">小程序</span>
+              <span v-else-if="DetailData.loginType == 'wechat'">公众号</span>
+              <span v-else-if="DetailData.loginType == 'h5'">H5</span>
+              <span v-else>未知</span>
+            </el-descriptions-item>
             <el-descriptions-item label="注册时间">{{ formatDate(DetailData.createTime) }}</el-descriptions-item>
           </el-descriptions>
         </el-tab-pane>
