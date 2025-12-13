@@ -60,7 +60,16 @@
         <el-descriptions-item label="赠送积分">{{ DetailData.gainIntegral }}</el-descriptions-item>
         <el-descriptions-item label="创建时间">{{ formatDate(DetailData.createTime)}}</el-descriptions-item>
         <el-descriptions-item label="支付时间">{{ formatDate(DetailData.payTime) }}</el-descriptions-item>
-        <el-descriptions-item label="支付方式">{{ DetailData.payType }}</el-descriptions-item>
+        <el-descriptions-item label="支付方式">
+          <span v-if="DetailData.paid == 1">
+           <span v-if="DetailData.payType=='yue'">余额支付</span>
+           <span v-if="DetailData.payType=='weixin'">微信支付</span>
+           <span v-if="DetailData.payType=='alipay'">支付宝支付</span>
+           <span v-if="DetailData.payType=='cash'">现金支付</span>
+          </span>
+          <span v-else>--</span>
+        </el-descriptions-item>
+        <el-descriptions-item label="订单备注">{{ DetailData.mark }}</el-descriptions-item>
       </el-descriptions>
       <el-timeline>
         <el-timeline-item
