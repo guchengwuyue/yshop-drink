@@ -2,6 +2,7 @@ package co.yixiang.yshop.module.order.service.storeorder;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import co.yixiang.yshop.framework.common.constant.ShopConstants;
 import co.yixiang.yshop.framework.common.enums.OrderInfoEnum;
 import co.yixiang.yshop.framework.common.enums.PayIdEnum;
@@ -49,6 +50,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static co.yixiang.yshop.framework.common.exception.util.ServiceExceptionUtil.exception;
@@ -290,7 +292,7 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 
         storeOrderDO.setRefundStatus(OrderInfoEnum.REFUND_STATUS_2.getValue());
         storeOrderDO.setRefundPrice(price);
-        storeOrderMapper.updateById(storeOrderDO);
+
 
         //生成分布式唯一值用于退款订单
         String orderSn = IdUtil.getSnowflake(0, 0).nextIdStr();
@@ -307,6 +309,17 @@ public class StoreOrderServiceImpl implements StoreOrderService {
             }
             log.error("{},{},{},{}",orderSn,storeOrderDO.getOrderId(),price,storeOrderDO.getPayPrice());
             RefundOrder refundOrder = new RefundOrder(orderSn,"",storeOrderDO.getOrderId(),price,storeOrderDO.getPayPrice());
+            //查询微信退款
+            if(StrUtil.isNotEmpty(storeOrderDO.getOutTradeNo())){
+                RefundOrder refundQueryOrder = new RefundOrder();
+                refundQueryOrder.setRefundNo(storeOrderDO.getOutTradeNo());
+                Map<String, Object> objectMap =  manager.refundQuery(PayIdEnum.WX_MINIAPP.getValue(), refundQueryOrder);
+                if(objectMap.get("'return_code'").toString().equals("SUCCESS")){
+                    storeOrderMapper.updateById(storeOrderDO);
+                    return;
+                }
+            }
+
             RefundResult refundResult = manager.refund(PayIdEnum.WX_MINIAPP.getValue(), refundOrder);
             if(refundResult.getCode().equals("FAIL")){
                 log.error("支付退款错误：{}",refundResult.getMsg());
@@ -317,10 +330,11 @@ public class StoreOrderServiceImpl implements StoreOrderService {
                     throw exception(new ErrorCode(999998,refundResult.getResultMsg()));
                 }
             }
+            storeOrderDO.setOutTradeNo(orderSn);
         }else if (PayTypeEnum.ALI.getValue().equals(storeOrderDO.getPayType())){
             throw exception(new ErrorCode(999997,"支付宝暂时不支持退款"));
         }
-
+        storeOrderMapper.updateById(storeOrderDO);
         //增加流水
         billService.income(storeOrderDO.getUid(), "商品退款", BillDetailEnum.CATEGORY_1.getValue(),
                 BillDetailEnum.TYPE_5.getValue(),

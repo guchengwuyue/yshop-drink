@@ -270,6 +270,7 @@ public class StoreOrderDO extends BaseDO {
      */
     private Long numberId;
 
+    private String outTradeNo;
 
 
 
