@@ -654,6 +654,27 @@ const resetForm = () => {
   }
   attrs.value = []
 
+  oneFormValidate.value = [
+  {
+    imageArr: [],
+    pic: '',
+    price: 2,
+    cost: 0,
+    ot_price: 0,
+    stock: 0,
+    seckill_stock: 0,
+    seckill_price: 0,
+    pink_stock: 0,
+    pink_price: 0,
+    bar_code: '',
+    weight: 0,
+    volume: 0,
+    brokerage: 0,
+    brokerage_two: 0,
+    integral: 0
+  }
+]
+
   formRef.value?.resetFields()
 }
 
