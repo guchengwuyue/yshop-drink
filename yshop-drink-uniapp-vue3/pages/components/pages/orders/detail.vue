@@ -25,7 +25,7 @@
 					<list-cell :hover="false" padding="50rpx 30rpx">
 						<view class="w-100 d-flex flex-column">
 							<view class="d-flex align-items-center just-content-center">
-								<view class="sort-num">{{ order.numberId }}</view>
+								<view class="sort-num">{{ order.paid == 1 ? order.numberId : '--' }}</view>
 							</view>
 							<!-- steps begin -->
 							<view class="d-flex just-content-center">
