@@ -8,8 +8,7 @@
 	<view class="container position-relative w-100 h-100 overflow-hidden">
 		<view class="exchange-box">
 			<view class="input-box">
-				<input type="text" v-model="exchange_code" placeholder="请输入兑换码" placeholder-class="text-color-assist font-size-base" />
-				<button type="primary" @click="exchange">兑换</button>
+				<uv-search placeholder="请输入兑换码" v-model="exchange_code" @click="exchange"></uv-search>
 			</view>
 		</view>
 		<view class="tabbar">
@@ -58,7 +57,7 @@
 					<uv-empty v-if="notCoupons.length == 0" mode="list"></uv-empty>
 					<view class="coupon" v-for="(item, index) in notCoupons" :key="index" @tap="openDetailModal(item,index)">
 						<view class="taobao">
-							<view class="ticket">
+							<view class="">
 								<view class="left">
 									<image
 										class="picture"
@@ -92,7 +91,7 @@
 				</view>
 			</scroll-view>
 		</view>
-		<modal custom :show="detailModalVisible" @cancel="closeDetailModal" width="90%">
+		<modal custom :show="detailModalVisible" @cancel="closeDetailModal" width="90%" title="优惠券详情">
 			<view class="modal-content">
 				<view class="d-flex font-size-extra-lg text-color-base just-content-center mb-20">{{ coupon.title }}</view>
 				<view class="d-flex font-size-sm text-color-base mb-20">
@@ -112,12 +111,6 @@
 				</view>
 				<view class="d-flex font-size-sm text-color-base mb-20">
 					适用店铺：{{coupon.shopName}}
-				</view>
-				<view class="d-flex align-items-center just-content-center" v-if="activeTabIndex == 0">
-					<button type="primary" @tap="useCoupon" class="use-coupon-btn">立即使用</button>
-				</view>
-				<view class="d-flex align-items-center just-content-center" v-if="activeTabIndex == 1">
-					<button type="primary" @tap="receive(coupon, couponIndex)" class="use-coupon-btn">立即领取</button>
 				</view>
 			</view>
 		</modal>
@@ -229,9 +222,9 @@ const getCoupons = async(type) => {
 	console.log('tabs.value:',tabs.value[type].title)
 	//tabs.value[type].page++;
 }
-const openDetailModal = (coupon,index) => {
+const openDetailModal = (couponData,index) => {
 	couponIndex.value = index;
-	coupon.value = coupon
+	coupon.value = couponData
 	detailModalVisible.value = true
 }
 const useCouponWith = (coupon) => {
@@ -289,40 +282,21 @@ page {
 
 .exchange-box {
 	flex-shrink: 0;
-	height: 200rpx;
+	height: 100rpx;
 	background-color: #ffffff;
-	display: flex;
-	flex-direction: column;
+	 display: flex;
 	align-items: center;
 	justify-content: center;
 
 	.input-box {
-		display: flex;
-		align-items: stretch;
 		width: 70%;
-		flex-shrink: 0;
-		input {
-			flex: 1;
-			height: 80rpx;
-			border: 1rpx solid #eee;
-			border-right: 0;
-			border-radius: 8rpx 0 0 8rpx;
-			// padding: 20rpx;
-			font-size: $font-size-base;
-			color: $text-color-base;
-		}
-		button {
-			border-radius: 0 8rpx 8rpx 0;
-			display: flex;
-			align-items: center;
-		}
 	}
 }
 
 .tabbar {
 	flex-shrink: 0;
 	width: 100%;
-	height: 120rpx;
+	height: 80rpx;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -438,23 +412,6 @@ page {
 			display: flex;
 			align-items: center;
 		}
-		.store {
-			font-weight: 500;
-		}
-		.buddha {
-			width: 70rpx;
-			height: 70rpx;
-			border-radius: 10rpx;
-			margin-right: 10rpx;
-		}
-		.entrance {
-			color: $uv-info;
-			border: solid 2rpx $uv-info;
-			line-height: 48rpx;
-			padding: 0 30rpx;
-			background: none;
-			border-radius: 15px;
-		}
 	}
 	.ticket {
 		display: flex;
@@ -522,16 +479,6 @@ page {
 				color: rgb(117, 142, 165);
 				margin-left: 20rpx;
 			}
-		}
-		.right_log {
-			text-align: center;
-			width: 30%;
-			padding: 80rpx 0rpx;
-			background-color: white;//rgb(255, 245, 244);
-			border-radius: 20rpx;
-			
-			align-items: center;
-			
 		}
 	}
 }
