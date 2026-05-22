@@ -7,16 +7,16 @@
 	  @leftClick="$onClickLeft"
 	/>
 	<!-- #endif -->
-	<view class="container" style="padding:20rpx;">
-		<view style="padding-bottom: 100rpx;">
+	<view class="container score-product-order-detail">
+		<view class="score-product-order-detail__body">
 			<view class="bg-white">
-				<view class="section">
+				<view class="score-product-order-detail__section">
 					
 					<list-cell :hover="false" padding="50rpx 30rpx">
-						<view class="w-100 d-flex flex-column position-relative" style="margin-bottom: -40rpx;">
+						<view class="w-100 d-flex flex-column position-relative score-product-order-detail__goods-preview">
 							<view class="w-100 d-flex align-items-center mb-40">
 								<view class="d-flex flex-column w-60 overflow-hidden">
-									<image class="product-image" :src="order.product.image" mode="aspectFill"></image>
+									<image class="score-product-order-detail__thumb" :src="order.product.image" mode="aspectFill"></image>
 								</view>
 								<view class="d-flex flex-column w-60 overflow-hidden">
 									<view class="font-size-lg text-color-base mb-10 text-truncate">{{ order.product.title }}</view>
@@ -29,29 +29,29 @@
 						</view>
 					</list-cell>
 				</view>
-				<view class="section">
+				<view class="score-product-order-detail__section">
 					<list-cell :hover="false" padding="50rpx 30rpx">
 						<view class="w-100 d-flex flex-column">
 				
-							<view class="pay-cell">
+							<view class="score-product-order-detail__cell">
 								<view>消耗积分</view>
 								<view class="font-weight-bold">{{ order.totalScore }}</view>
 							</view>
 						</view>
 					</list-cell>
 				</view>
-				<view class="section">
+				<view class="score-product-order-detail__section">
 					<list-cell :hover="false" padding="50rpx 30rpx">
 						<view class="w-100 d-flex flex-column">
-							<view class="pay-cell">
+							<view class="score-product-order-detail__cell">
 								<view>订单状态</view>
 								<view class="font-weight-bold">{{ order.statusText }}</view>
 							</view>
-							<view class="pay-cell">
+							<view class="score-product-order-detail__cell">
 								<view>下单时间</view>
 								<view class="font-weight-bold">{{ formatDateTime(order.createTime) }}</view>
 							</view>
-							<view class="pay-cell">
+							<view class="score-product-order-detail__cell">
 								<view>订单号</view>
 								<view class="font-weight-bold">{{ order.orderId }}</view>
 							</view>
@@ -60,7 +60,7 @@
 					
 					<list-cell :hover="false">
 						<view class="w-100 d-flex align-items-center">
-							<view class="pay-cell">
+							<view class="score-product-order-detail__cell">
 								<view>收货地址</view>
 							</view>
 							<view class="d-flex flex-column">
@@ -73,13 +73,13 @@
 					
 					<list-cell :hover="false" padding="50rpx 30rpx" v-if="order.expressCompany">
 						<view class="w-100 d-flex flex-column">
-							<view class="pay-cell">
+							<view class="score-product-order-detail__cell">
 								<view>快递公司</view>
 								<view class="font-weight-bold">{{order.expressCompany }}</view>
 							</view>
-							<view class="pay-cell">
+							<view class="score-product-order-detail__cell">
 								<view>快递单号</view>
-								<view class="font-weight-bold">{{order.expressNumber }}<text class="copy" @click="copy()">复制</text></view>
+								<view class="font-weight-bold">{{order.expressNumber }}<text class="score-product-order-detail__copy" @click="copy()">复制</text></view>
 								<!-- <text class="copy" @click="copy()">复制</text> -->
 							</view>
 						</view>
@@ -190,98 +190,83 @@ const  receive = async(order) => {
 </script>
 
 <style lang="scss" scoped>
-.copy {
-	color: #1296db;
-	margin-left: 10rpx;
-}
-@mixin arch {
-	content: "";
+$score-product-order-detail-padding: $spacing-row-base;
+$score-product-order-detail-body-padding-bottom: 100rpx;
+$score-product-order-detail-thumb-size: 140rpx;
+$score-product-order-detail-cell-gap: 40rpx;
+$score-product-order-detail-section-notch: 30rpx;
+$score-product-order-detail-section-notch-offset: 15rpx;
+$score-product-order-detail-goods-offset: -40rpx;
+$score-product-order-detail-copy-color: #1296db;
+$score-product-order-detail-copy-gap: $spacing-row-base;
+
+@mixin score-product-order-detail-section-notch {
+	content: '';
 	position: absolute;
-	background-color: $bg-color;
-	width: 30rpx;
-	height: 30rpx;
-	bottom: -15rpx;
+	bottom: calc(-1 * #{$score-product-order-detail-section-notch-offset});
 	z-index: 10;
-	border-radius: 100%;
+	width: $score-product-order-detail-section-notch;
+	height: $score-product-order-detail-section-notch;
+	background-color: $bg-color;
+	border-radius: $border-radius-circle;
 }
 
-.section {
+/* #ifdef H5 */
+page {
+	min-height: 100%;
+	background-color: $bg-color;
+}
+/* #endif */
+
+.score-product-order-detail {
+	padding: $score-product-order-detail-padding;
+	--score-product-order-detail-thumb-size: #{$score-product-order-detail-thumb-size};
+
+	&__body {
+		padding-bottom: $score-product-order-detail-body-padding-bottom;
+	}
+
+	&__goods-preview {
+		margin-bottom: $score-product-order-detail-goods-offset;
+	}
+
+	&__thumb {
+		flex-shrink: 0;
+		width: var(--score-product-order-detail-thumb-size);
+		height: var(--score-product-order-detail-thumb-size);
+	}
+
+	&__copy {
+		margin-left: $score-product-order-detail-copy-gap;
+		color: $score-product-order-detail-copy-color;
+	}
+}
+
+.score-product-order-detail__section {
 	position: relative;
-	
+
 	&::before {
-		@include arch;
-		left: -15rpx;
+		@include score-product-order-detail-section-notch;
+		left: calc(-1 * #{$score-product-order-detail-section-notch-offset});
 	}
-	
+
 	&::after {
-		@include arch;
-		right: -15rpx;
+		@include score-product-order-detail-section-notch;
+		right: calc(-1 * #{$score-product-order-detail-section-notch-offset});
 	}
 }
 
-.pay-cell {
-	width: 100%;
+.score-product-order-detail__cell {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	width: 100%;
+	margin-bottom: $score-product-order-detail-cell-gap;
 	font-size: $font-size-base;
 	color: $text-color-base;
-	margin-bottom: 40rpx;
 
-	&:nth-last-child(1) {
+	&:last-child {
 		margin-bottom: 0;
 	}
-}
-
-.invote-box {
-	position: absolute;
-	width: 100%;
-	left: 0;
-	top: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	
-	image {
-		width: 30rpx;
-		height: 30rpx;
-	}
-}
-
-.btn-box {
-	background-color: #ffffff;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	height: 120rpx;
-	box-shadow: 0 0 20rpx rgba($color: #000000, $alpha: 0.1);
-	display: flex;
-	align-items: center;
-	justify-content: space-evenly;
-	z-index: 11;
-	
-	.item {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 20rpx 10rpx;
-		flex: 1;
-		flex-shrink: 0;
-		
-		button {
-			width: 100%;
-			border-radius: 50rem !important;
-			height: 80rpx;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			padding: 0;
-		}
-	}
-}
-.product-image {
-	width: 140rpx;
-	height: 140rpx;
 }
 </style>

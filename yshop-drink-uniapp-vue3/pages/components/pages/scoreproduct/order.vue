@@ -7,12 +7,12 @@
 	  @leftClick="$onClickLeft"
 	/>
 	<!-- #endif -->
-	<view class="container">
+	<view class="container score-product-orders">
 		<view class="bg-white">
 			<uv-tabs :list="tabList" :current="current" @change="change" keyName="name" :scrollable="false"></uv-tabs>
 		</view>
-		<view class="orders-list d-flex flex-column w-100" style="padding: 20rpx; padding-bottom: 0;">
-			<view class="order-item" v-for="(item, index) in orders" :key="index" style="margin-bottom: 30rpx;">
+		<view class="score-product-orders__list d-flex flex-column w-100">
+			<view class="score-product-orders-item" v-for="(item, index) in orders" :key="index">
 				<list-cell :hover="false">
 					<view class="w-100 d-flex align-items-center">
 						<view class="flex-fill d-flex flex-column">
@@ -26,29 +26,29 @@
 				<list-cell :hover="false" last>
 					<view class="w-100 d-flex flex-column">
 						<view class="flex ">
-							<image :src="item.product.image" mode="aspectFill" class="image"></image>
+							<image :src="item.product.image" mode="aspectFill" class="score-product-orders-item__thumb"></image>
 							<view>
-								<view class="w-100 text-truncate font-size-lg text-color-base" style="margin-bottom: 20rpx;">
+								<view class="w-100 text-truncate font-size-lg text-color-base score-product-orders-item__title">
 									{{ item.product.title }}
 								</view>
 								<view class="font-size-sm mt-2">×{{ item.product.number }}  {{ item.product.score }}积分</view>
 							</view>
 						</view>
-						<view class="d-flex justify-content-between align-items-center mt-3" >
+						<view class="d-flex justify-content-between align-items-center score-product-orders-item__meta">
 							<view class="font-size-sm text-color-assist">
 								{{formatDateTime(item.createTime) }}
 							</view>
 							<view class="d-flex font-size-sm text-color-base align-items-center">
-								<view style="margin-right: 10rpx;">共{{item.number }}件商品，消耗积分</view>
+								<view class="score-product-orders-item__summary">共{{item.number }}件商品，消耗积分</view>
 								<view class="font-size-lg"> {{ item.totalScore }}</view>
 							</view>
 						</view>
-						<view class="d-flex align-items-center justify-content-end mt-3">
+						<view class="d-flex align-items-center justify-content-end score-product-orders-item__actions">
 							<view>
 								<button v-if="item.havePaid > 0 && item.haveDelivered == 1 && item.haveReceived == 0"
-									class="left-margin" type="primary" plain size="mini"
+									class="score-product-orders-item__btn" type="primary" plain size="mini"
 									@tap.stop="receive(item)">确认收到货</button>
-								<button class="left-margin"  plain size="mini" @tap="detail(item.id)">订单详情</button>
+								<button class="score-product-orders-item__btn" plain size="mini" @tap="detail(item.id)">订单详情</button>
 							</view>
 						</view>
 					</view>
@@ -164,13 +164,53 @@ const  receive = async(order) => {
 </script>
 
 <style lang="scss" scoped>
-	.left-margin {
-		margin-left: 10rpx;
+$score-product-orders-list-padding-x: $spacing-row-base;
+$score-product-orders-list-padding-bottom: 0;
+$score-product-orders-item-gap: $spacing-row-lg;
+$score-product-orders-section-gap: $spacing-row-base;
+$score-product-orders-btn-gap: $spacing-row-base;
+$score-product-orders-summary-gap: $spacing-row-base;
+$score-product-orders-thumb-size: 160rpx;
+$score-product-orders-thumb-radius: 8rpx;
+
+.score-product-orders {
+	--score-product-orders-thumb-size: #{$score-product-orders-thumb-size};
+
+	&__list {
+		padding: $score-product-orders-list-padding-x;
+		padding-bottom: $score-product-orders-list-padding-bottom;
 	}
-	.image {
-		width: 160rpx;
-		height: 160rpx;
-		margin-right: 30rpx;
-		border-radius: 8rpx;
+}
+
+.score-product-orders-item {
+	margin-bottom: $score-product-orders-item-gap;
+
+	&__title {
+		margin-bottom: $score-product-orders-section-gap;
 	}
+
+	&__thumb {
+		flex-shrink: 0;
+		width: var(--score-product-orders-thumb-size);
+		height: var(--score-product-orders-thumb-size);
+		margin-right: $spacing-row-lg;
+		border-radius: $score-product-orders-thumb-radius;
+	}
+
+	&__meta {
+		margin-top: $score-product-orders-section-gap;
+	}
+
+	&__summary {
+		margin-right: $score-product-orders-summary-gap;
+	}
+
+	&__actions {
+		margin-top: $score-product-orders-section-gap;
+	}
+
+	&__btn + &__btn {
+		margin-left: $score-product-orders-btn-gap;
+	}
+}
 </style>

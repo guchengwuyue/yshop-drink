@@ -13,23 +13,23 @@
 			:right-gap="10"
 			:column-gap="1">
 			<template v-slot:list1>
-				<view class="demo-warter" v-for="(item, index) in list1" :key="index" @click="goDetail(item)">
-					<image :src="item.image" mode="widthFix" style="width: 300rpx;"></image>
-					<view class="demo-title">
+				<view class="score-product-list__card" v-for="(item, index) in list1" :key="index" @click="goDetail(item)">
+					<image :src="item.image" mode="widthFix" class="score-product-list__image"></image>
+					<view class="score-product-list__title">
 						{{item.title}}
 					</view>
-					<view class="demo-price">
+					<view class="score-product-list__score">
 						消耗积分:{{item.score}}
 					</view>
 				</view>
 			</template>
 			<template v-slot:list2>
-				<view class="demo-warter" v-for="(item, index) in list2" :key="index" @click="goDetail(item)">
-					<image :src="item.image" mode="widthFix" style="width: 300rpx;"></image>
-					<view class="demo-title">
+				<view class="score-product-list__card" v-for="(item, index) in list2" :key="index" @click="goDetail(item)">
+					<image :src="item.image" mode="widthFix" class="score-product-list__image"></image>
+					<view class="score-product-list__title">
 						{{item.title}}
 					</view>
-					<view class="demo-price">
+					<view class="score-product-list__score">
 						消耗积分:{{item.score}}
 					</view>
 				</view>
@@ -137,79 +137,37 @@ const  getProduct = async() => {
 </script>
 
 <style lang="scss">
-	.search {
-		margin: 10rpx !important;
-	}
+$score-product-accent: #ffcc00;
+$score-product-list-card-radius: 8px;
+$score-product-list-card-gap: 5px;
+$score-product-list-card-padding: 8px;
+$score-product-list-image-width: 300rpx;
+$score-product-list-title-gap: 5px;
 
-	.demo-warter {
-		border-radius: 8px;
-		margin: 5px;
-		background-color: #ffcc00;
-		padding: 8px;
-		position: relative;
-	}
+.score-product-list__card {
+	--score-product-accent: #{$score-product-accent};
+	--score-product-list-image-width: #{$score-product-list-image-width};
 
-	.demo-title {
-		font-size: 30rpx;
-		margin-top: 5px;
-		color: #ffffff;
-	}
+	position: relative;
+	margin: $score-product-list-card-gap;
+	padding: $score-product-list-card-padding;
+	border-radius: $score-product-list-card-radius;
+	background-color: var(--score-product-accent);
+}
 
-	.demo-tag {
-		display: flex;
-		margin-top: 5px;
-	}
+.score-product-list__image {
+	width: var(--score-product-list-image-width);
+}
 
-	.demo-tag-owner {
-		background-color: $uv-error;
-		color: #FFFFFF;
-		display: flex;
-		align-items: center;
-		padding: 4rpx 14rpx;
-		border-radius: 50rpx;
-		font-size: 20rpx;
-		line-height: 1;
-	}
+.score-product-list__title {
+	margin-top: $score-product-list-title-gap;
+	font-size: $font-size-paragraph;
+	color: $text-color-white;
+}
 
-	.demo-tag-text {
-		border: 1px solid $uv-primary;
-		color: $uv-primary;
-		margin-left: 10px;
-		border-radius: 50rpx;
-		line-height: 1;
-		padding: 4rpx 14rpx;
-		display: flex;
-		align-items: center;
-		border-radius: 50rpx;
-		font-size: 20rpx;
-	}
-
-	.demo-price {
-		font-size: 30rpx;
-		color: $bg-color;
-		margin-top: 5px;
-	}
-
-	.demo-shop {
-		font-size: 32rpx;
-		color: #cdad73;
-		margin-top: 5px;
-	}
-
-	.page {
-		padding: 10px 0;
-
-		.demo-layout {
-			text-align: center;
-			background-color: #c6caca;
-			border-radius: 20rpx;
-			margin: 5px 0;
-			padding: 3px;
-		}
-
-		.select {
-			background-color: #eea13c;
-			color: #ffffff;
-		}
-	}
+.score-product-list__score {
+	margin-top: $score-product-list-title-gap;
+	font-size: $font-size-paragraph;
+	color: $bg-color;
+}
 </style>

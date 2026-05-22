@@ -14,27 +14,30 @@
 
 /* 颜色变量 */
 /* 行为相关颜色 */
-// $color-primary: #ADB838;
 $color-primary: #09b4f1;
 $color-success: #4cd964;
 $color-warning: #FAB714;
 $color-error: #D12E32;
 
 /* 文字基本颜色 */
-$text-color-base: #5A5B5C; //基本色
-$text-color-assist: #919293; //辅助色
+$text-color-base: #333333; //基本色(主要文字)
+$text-color-assist: #999999; //辅助色(次要文字)
 $text-color-black: #3B3C3E; //黑
 $text-color-grey: #878889; //灰
 $text-color-white: #ffffff; //白
+$text-color-light-muted: #A9A5A0; //浅灰
 
 /* 背景颜色 */
 $bg-color: #F1F8FA;
 $bg-color-grey: #F5F5F5;
-//$bg-color-primary: #E8EACF;
 $bg-color-primary: #dbe7ea;
 
 /* 边框颜色 */
-$border-color:#e2e2e2;
+$border-color: #e6e6e6;
+$border-color-light: #E9E8E5;
+
+/* 阴影 */
+$box-shadow: 0 20rpx 20rpx -20rpx rgba($color: #333, $alpha: 0.1);
 
 /* 尺寸变量 */
 
@@ -74,10 +77,6 @@ $color-subtitle: #555555; // 二级标题颜色
 $font-size-subtitle:36rpx;
 $color-paragraph: #3F536E; // 文章段落颜色
 $font-size-paragraph:30rpx;
-
-$box-shadow: 0 20rpx 20rpx -20rpx rgba($color: #333, $alpha: 0.1);
-
-
 
 
 $uv-main-color: #333333;

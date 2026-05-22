@@ -7,33 +7,33 @@
 	  @leftClick="$onClickLeft"
 	/>
 	<!-- #endif -->
-	<view class="container">
-		<view class="carousel">
+	<view class="container score-product-detail">
+		<view class="score-product-detail__carousel">
 			<swiper indicator-dots circular=true duration="400">
-				<swiper-item class="swiper-item" v-for="(item,index) in product.images" :key="index">
-					<view class="image-wrapper">
+				<swiper-item class="score-product-detail__swiper-item" v-for="(item,index) in product.images" :key="index">
+					<view class="score-product-detail__image-wrapper">
 						<image :src="item" class="loaded" @click="previewImage(index)" mode="aspectFill"></image>
 					</view>
 				</swiper-item>
 			</swiper>
 		</view>
 
-		<view class="introduce-section" v-if="product.id">
-			<text class="title">{{product.title}}</text>
-			<view class="price-box bot-row">
+		<view class="score-product-detail__intro" v-if="product.id">
+			<text class="score-product-detail__title">{{product.title}}</text>
+			<view class="score-product-detail__meta">
 				<text>积分： {{product.score}}</text>
 				<text>销量: {{product.sales}}</text>
 				<text>库存: {{product.stock}}</text>
 			</view>
 		</view>
 
-		<view class="detail-desc" v-if="product.desc">
+		<view class="score-product-detail__desc" v-if="product.desc">
 			<rich-text :nodes="product.desc"></rich-text>
 		</view>
 
 		<!-- 底部操作菜单 -->
 		<view class="fixed-bottom px-2">
-			<button class="btn" @click="confirm">立即兑换</button>
+			<button class="score-product-detail__btn" @click="confirm">立即兑换</button>
 		</view>
 
 		<uv-toast ref="uToast" />
@@ -133,95 +133,88 @@ const previewImage = (index) => {
 
 </script>
 
-<style lang='scss'>
-	.icon-you {
-		color: #888;
-	}
+<style lang="scss">
+$score-product-accent: #ffcc00;
+$score-product-detail-carousel-height: 722rpx;
+$score-product-detail-swiper-height: 750rpx;
+$score-product-detail-intro-padding-y: 20rpx;
+$score-product-detail-intro-padding-x: 30rpx;
+$score-product-detail-title-height: 50rpx;
+$score-product-detail-meta-height: 64rpx;
+$score-product-detail-btn-height: 100rpx;
+$score-product-detail-btn-font-size: 40rpx;
+$score-product-detail-desc-margin-bottom: 200rpx;
 
-	.carousel {
-		height: 722upx;
+.score-product-detail {
+	--score-product-accent: #{$score-product-accent};
+
+	&__carousel {
 		position: relative;
+		height: $score-product-detail-carousel-height;
 
 		swiper {
 			height: 100%;
 		}
+	}
 
-		.image-wrapper {
+	&__image-wrapper {
+		width: 100%;
+		height: 100%;
+	}
+
+	&__swiper-item {
+		display: flex;
+		justify-content: center;
+		align-content: center;
+		height: $score-product-detail-swiper-height;
+		overflow: hidden;
+
+		image {
 			width: 100%;
 			height: 100%;
 		}
-
-		.swiper-item {
-			display: flex;
-			justify-content: center;
-			align-content: center;
-			height: 750upx;
-			overflow: hidden;
-
-			image {
-				width: 100%;
-				height: 100%;
-			}
-		}
-
 	}
 
-	/* 标题简介 */
-	.introduce-section {
-		background: #fff;
-		padding: 20upx 30upx;
-
-		.title {
-			font-size: 32upx;
-			color: #555555;
-			height: 50upx;
-			line-height: 50upx;
-		}
-
-		.price-box {
-			display: flex;
-			align-items: baseline;
-			height: 64upx;
-			padding: 10upx 0;
-			font-size: 30rpx;
-			color: #5A5B5C;
-		}
-
-		.price {
-			font-size: 35rpx;
-		}
-
-		.bot-row {
-			display: flex;
-			align-items: center;
-
-			text {
-				flex: 1;
-			}
-		}
-	}
-	
-	.btn {
-		height: 100rpx;
-		line-height: 100rpx;
-		border-radius: 100rpx;
-		background: #ffcc00;
-		font-size: 40rpx;
-		color: #fff;
-		margin: 30upx auto 20upx;
-		
-	
+	&__intro {
+		background-color: $text-color-white;
+		padding: $score-product-detail-intro-padding-y $score-product-detail-intro-padding-x;
 	}
 
-	/*  详情 */
-	.detail-desc {
-		background: #fff;
-		margin-top: 16upx;
-		margin-bottom: 200rpx;
-		padding: 20rpx;
+	&__title {
+		height: $score-product-detail-title-height;
+		line-height: $score-product-detail-title-height;
+		font-size: $font-size-lg;
+		color: $color-subtitle;
 	}
 
+	&__meta {
+		display: flex;
+		align-items: center;
+		height: $score-product-detail-meta-height;
+		padding: 10rpx 0;
+		font-size: $font-size-paragraph;
+		color: $text-color-black;
 
-	
+		text {
+			flex: 1;
+		}
+	}
 
+	&__btn {
+		height: $score-product-detail-btn-height;
+		line-height: $score-product-detail-btn-height;
+		margin: 30rpx auto 20rpx;
+		border-radius: $score-product-detail-btn-height;
+		background-color: var(--score-product-accent);
+		font-size: $score-product-detail-btn-font-size;
+		color: $text-color-white;
+	}
+
+	&__desc {
+		margin-top: $spacing-col-base;
+		margin-bottom: $score-product-detail-desc-margin-bottom;
+		padding: $spacing-row-base;
+		background-color: $text-color-white;
+	}
+}
 </style>

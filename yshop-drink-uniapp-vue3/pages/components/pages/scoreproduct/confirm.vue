@@ -7,7 +7,7 @@
 	  @leftClick="$onClickLeft"
 	/>
 	<!-- #endif -->
-	<view class="px-2 mt-2">
+	<view class="px-2 mt-2 score-product-confirm">
 		<view class="bg-white p-2" >
 			<uv-form :model="form" ref="uForm" >
 				<uv-form-item>
@@ -26,7 +26,7 @@
 			<view class="mb-5">积分商城</view>
 			<view class="flex justify-between">
 				<view class="flex">
-					<image :src="product.image" mode="aspectFill" class="image"></image>
+					<image :src="product.image" mode="aspectFill" class="score-product-confirm__thumb"></image>
 					<text class="font-size-medium">{{ product.title }}</text>
 				</view>
 				<view class="flex flex-column">
@@ -43,7 +43,7 @@
 	</view>
 	<view class="fixed-bottom flex justify-between align-center bg-white ">
 		<view class="mx-2 ont-weight-light">合计:<text class="text-danger">￥{{ product.score }}积分</text></view>
-		<view><uv-button type="warning" color="#ffcc00" :customStyle="customStyle" size="large" text="立即兑换" @click="submit"></uv-button></view>
+		<view><uv-button type="warning" :color="scoreProductAccent" :customStyle="customStyle" size="large" text="立即兑换" @click="submit"></uv-button></view>
 	</view>
 	<uv-toast ref="uToast" />
 </template>
@@ -69,11 +69,13 @@ const { address,isLogin} = storeToRefs(main)
 const title = ref("确认订单")
 const product = ref({})
 
-const customStyle = computed(() =>{
+const scoreProductAccent = '#ffcc00'
+
+const customStyle = computed(() => {
 	return {
-		  paddingLeft:'60rpx',
-		  paddingRight:'60rpx'
-		}
+		paddingLeft: '60rpx',
+		paddingRight: '60rpx'
+	}
 })
 
 onLoad(() => {
@@ -120,10 +122,20 @@ const submit = async() => {
 </script>
 
 <style lang="scss" scoped>
-	.image {
-		width: 160rpx;
-		height: 160rpx;
-		margin-right: 30rpx;
-		border-radius: 8rpx;
+$score-product-accent: #ffcc00;
+$score-product-confirm-thumb-size: 160rpx;
+$score-product-confirm-thumb-radius: 8rpx;
+
+.score-product-confirm {
+	--score-product-accent: #{$score-product-accent};
+	--score-product-confirm-thumb-size: #{$score-product-confirm-thumb-size};
+
+	&__thumb {
+		flex-shrink: 0;
+		width: var(--score-product-confirm-thumb-size);
+		height: var(--score-product-confirm-thumb-size);
+		margin-right: $spacing-row-lg;
+		border-radius: $score-product-confirm-thumb-radius;
 	}
+}
 </style>

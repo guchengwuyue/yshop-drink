@@ -20,59 +20,55 @@
     </uv-sticky>
 
     <blank size="10"></blank>
-	<view class="container">
-			<view class="banner">
-				<uv-swiper class="bg" height="300" imgMode="aspectFill" keyName="image" :list="listAds" indicatorMode="dot" indicatorStyle="bottom"></uv-swiper>
-				<view class="intro">
-					<view class="greet">您好，{{ isLogin ? member.nickname : '游客' }}</view>
-					<view class="note">java-springboot-意向点餐外卖系统</view>
+	<view class="container index-page">
+			<view class="index-banner">
+				<uv-swiper class="index-banner__swiper" height="300" imgMode="aspectFill" keyName="image" :list="listAds" indicatorMode="dot" indicatorStyle="bottom"></uv-swiper>
+				<view class="index-banner__intro">
+					<view class="index-banner__greet">您好，{{ isLogin ? member.nickname : '游客' }}</view>
+					<view class="index-banner__note">java-springboot-意向点餐外卖系统</view>
 				</view>
 			</view>
-			<view class="content">
-				<view class="flex justify-between yshop-menu">
-					<view class="flex flex-column align-center yshop-menu-item "  @tap="takein">
-						<view><image src="/static/images/index002.png" mode="aspectFit" class="img-01"></image></view>
+			<view class="index-content">
+				<view class="flex justify-between index-menu">
+					<view class="flex flex-column align-center index-menu__item" @tap="takein">
+						<view><image src="/static/images/index002.png" mode="aspectFit" class="index-menu__icon"></image></view>
 						<view>自取</view>
 						<view class="font-small text-light-black">下单免排队</view>
 					</view>
-					<view class="flex flex-column align-center yshop-menu-item "  @tap="takeout">
-						<view><image src="/static/images/index003.png" mode="aspectFit" class="img-01"></image></view>
+					<view class="flex flex-column align-center index-menu__item" @tap="takeout">
+						<view><image src="/static/images/index003.png" mode="aspectFit" class="index-menu__icon"></image></view>
 						<view>外卖</view>
 						<view class="font-small text-light-black">美食送到家</view>
 					</view>
 				</view>
-				 <view class="info">
-					<view class="integral_section">
-						<view class="top">
-							<text class="title">我的卡券</text>
-							<text class="value">{{member.couponCount}}</text>
+				 <view class="index-card">
+					<view class="index-card__main">
+						<view class="index-card__header">
+							<text class="index-card__title">我的卡券</text>
+							<text class="index-card__value">{{member.couponCount}}</text>
 						</view>
-						<view class="bottom">
+						<view class="index-card__desc">
 							可抵扣商品价格哦
 						</view>
 					</view>
-					<view class="qrcode_section" @tap="coupons">
+					<view class="index-card__action" @tap="coupons">
 						去领个券
-				<!-- 		<view class="iconfont iconarrow-right"></view> -->
-				
 					</view>
-				</view> 
-				<view class="info">
-					<view class="integral_section" @tap="goScore">
-						<view class="top">
-							<text class="title">积分商城</text>
+				</view>
+				<view class="index-card">
+					<view class="index-card__main" @tap="goScore">
+						<view class="index-card__header">
+							<text class="index-card__title">积分商城</text>
 						</view>
-						<view class="bottom">
+						<view class="index-card__desc">
 							进入积分商城兑换奈雪券及周边好礼
-						<!-- 	<view class="iconfont iconarrow-right"></view> -->
 						</view>
 					</view>
-					<view class="qrcode_section" @tap="goScore">
-						<image src="/static/images/jifen.png"></image>
+					<view class="index-card__action index-card__action--with-icon" @tap="goScore">
+						<image src="/static/images/jifen.png" class="index-card__action-icon"></image>
 						<text>逛一逛</text>
 					</view>
 				</view>
-				
 			</view>
 	</view>
   </layout>
@@ -159,127 +155,133 @@ onLoad(() => {
 </script>
 
 <style lang="scss">
-.yshop-menu {
-	//margin-bottom: 10rpx;
-	// position: relative;
-	margin-top: 20rpx;
-}
-.yshop-menu-item {
-	background-color: #ffffff;
-	width: 355rpx;
-	padding-bottom: 30rpx;
-}
-	
-.img-01 {
-	width: 100px;
-	height: 100rpx;
-	margin-top: 30rpx;
-}
-.img-02 {
-	width: 110px;
-	height: 110rpx;
-	margin-top: 20rpx;
-}
-	
-	
+// 首页局部尺寸 token（与 uni.scss 全局变量配合）
+$index-banner-height: 300rpx;
+$index-menu-item-width: 355rpx;
+$index-card-radius: 10rpx;
+$index-content-padding-x: 15rpx;
+$index-intro-offset-x: 40rpx;
+$index-intro-offset-y: 50rpx;
+$index-value-font-size: 44rpx;
+$index-gap-sm: 10rpx;
+
 /* #ifdef H5 */
 page {
 	height: auto;
 	min-height: 100%;
 }
 /* #endif */
-page {
-	//background-color: #ffffff!important;
-}
-.banner {
-	position: relative;
-	width: 100%;
-	//height: 300rpx;
-	
-	.bg {
+
+.index-page {
+	--index-banner-height: #{$index-banner-height};
+	--index-menu-item-width: #{$index-menu-item-width};
+
+	.index-banner {
+		position: relative;
 		width: 100%;
-		height: 300rpx;
-	}
-	
-	.intro {
-		position: absolute;
-		top: calc(50rpx + var(--status-bar-height));
-		left: 40rpx;
-		color: #FFFFFF;
-		display: flex;
-		flex-direction: column;
-		
-		.greet {
+
+		&__swiper {
+			width: 100%;
+			height: var(--index-banner-height);
+		}
+
+		&__intro {
+			position: absolute;
+			top: calc(#{$index-intro-offset-y} + var(--status-bar-height));
+			left: $index-intro-offset-x;
+			color: $text-color-white;
+			display: flex;
+			flex-direction: column;
+		}
+
+		&__greet {
 			font-size: $font-size-lg;
-			margin-bottom: 10rpx;
+			margin-bottom: $index-gap-sm;
 		}
-		
-		.note {
+
+		&__note {
 			font-size: $font-size-sm;
 		}
 	}
-}
 
-.content {
-	padding: 0 15rpx;
-}
+	.index-content {
+		padding: 0 $index-content-padding-x;
+	}
 
+	.index-menu {
+		margin-top: $spacing-row-base;
 
-.info {
-	position: relative;
-	margin: 10rpx 0;
-	border-radius: 10rpx;
-	background-color: #ffffff;
-	box-shadow: $box-shadow;
-	//padding: 30rpx;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 25rpx;
-	
-	.integral_section {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		
-		.top {
-			display: flex;
-			align-items: center;
-			
-			.title {
-				color: $text-color-base;
-				font-size: $font-size-base;
-				margin-right: 10rpx;
-			}
-			.value {
-				font-size: 44rpx;
-				font-weight: bold;
-			}
+		&__item {
+			width: var(--index-menu-item-width);
+			padding-bottom: $spacing-row-lg;
+			background-color: $text-color-white;
 		}
-		
-		.bottom {
-			font-size: $font-size-sm;
-			color: $text-color-assist;
-			display: flex;
-			align-items: center;
+
+		&__icon {
+			width: 100rpx;
+			height: 100rpx;
+			margin-top: $spacing-row-lg;
 		}
 	}
-	
-	.qrcode_section {
-		color: $color-primary;
+
+	.index-card {
+		position: relative;
 		display: flex;
-		//flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		font-size: $font-size-sm;
-		
-		image {
-			width: 40rpx;
-			height: 40rpx;
-			margin-bottom: 10rpx;
+		margin: $index-gap-sm 0;
+		padding: 25rpx;
+		border-radius: $index-card-radius;
+		background-color: $text-color-white;
+		box-shadow: $box-shadow;
+
+		&__main {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+
+		&__header {
+			display: flex;
+			align-items: center;
+		}
+
+		&__title {
+			margin-right: $index-gap-sm;
+			font-size: $font-size-base;
+			color: $text-color-base;
+		}
+
+		&__value {
+			font-size: $index-value-font-size;
+			font-weight: bold;
+		}
+
+		&__desc {
+			display: flex;
+			align-items: center;
+			font-size: $font-size-sm;
+			color: $text-color-assist;
+		}
+
+		&__action {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: $font-size-sm;
+			color: $color-primary;
+
+			&--with-icon {
+				flex-direction: column;
+			}
+		}
+
+		&__action-icon {
+			width: $img-size-sm;
+			height: $img-size-sm;
+			margin-bottom: $index-gap-sm;
 		}
 	}
 }
-
 </style>

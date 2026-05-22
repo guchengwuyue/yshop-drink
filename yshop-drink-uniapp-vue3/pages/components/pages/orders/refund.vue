@@ -5,7 +5,7 @@
 	  left-arrow
 	  @leftClick="$onClickLeft"
 	/>
-	<view class="p-2">
+	<view class="refund-page">
 		<uv-list>
 			<uv-list-item title="订单金额"  :rightText="'¥'+totalPrice"></uv-list-item>
 			<uv-list-item title="退款金额"  :rightText="'¥'+payPrice"></uv-list-item>
@@ -15,7 +15,7 @@
 				<template #footer><uv-input placeholder="请输入内容" border="none" v-model="refundReasonWapExplain"></uv-input></template>
 			</uv-list-item>
 		</uv-list>
-		<view class="mt-2">
+		<view class="refund-page__submit">
 			<uv-button shape="circle" type="warning" :plain="true" size="small" text="申请退款" @click="refund()"></uv-button>
 		</view>
 		<uv-toast ref="toast"></uv-toast>
@@ -55,5 +55,15 @@ const refund  = async() => {
 
 </script>
 
-<style>
+<style lang="scss" scoped>
+$refund-padding: $spacing-row-base;
+$refund-submit-gap: $spacing-row-base;
+
+.refund-page {
+	padding: $refund-padding;
+
+	&__submit {
+		margin-top: $refund-submit-gap;
+	}
+}
 </style>

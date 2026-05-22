@@ -5,16 +5,16 @@
 	  left-arrow
 	  @leftClick="$onClickLeft"
 	/>
-	<view class="container">
+	<view class="container orders-page">
 		<view class="bg-white">
 			<uv-tabs :list="tabList" :current="current" @change="change" keyName="name" :scrollable="false"></uv-tabs>
 		</view>
-		<view class="orders-list d-flex flex-column w-100" style="padding: 20rpx; padding-bottom: 0;">
-			<view class="order-item" v-for="(item, index) in orders" :key="index" style="margin-bottom: 30rpx;" @tap="detail(item.orderId)">
+		<view class="orders-page__list d-flex flex-column w-100">
+			<view class="orders-item" v-for="(item, index) in orders" :key="index" @tap="detail(item.orderId)">
 				<list-cell :hover="false">
 					<view class="w-100 d-flex align-items-center">
 						<view class="flex-fill d-flex flex-column">
-							<view class="font-size-lg text-color-base" style="margin-bottom: 20rpx;">
+							<view class="font-size-lg text-color-base orders-item__shop">
 								{{ item.shop.name }}
 							</view>
 							<view class="font-size-sm text-color-assist">取餐号：{{ item.numberId }}</view>
@@ -27,9 +27,9 @@
 				</list-cell>
 				<list-cell :hover="false" last>
 					<view class="w-100 d-flex flex-column">
-						<view class="w-100 text-truncate font-size-lg text-color-base" style="margin-bottom: 20rpx;">
-							<view class="flex mb-2" v-for="(good,index) in item.cartInfo" :key="index">  
-								<image :src="good.image" mode="aspectFill" class="image"></image>
+						<view class="w-100 text-truncate font-size-lg text-color-base orders-item__goods">
+							<view class="flex orders-item__goods-row mb-2" v-for="(good,index) in item.cartInfo" :key="index">
+								<image :src="good.image" mode="aspectFill" class="orders-item__thumb"></image>
 								<view class="flex flex-column">
 									<view class="font-size-medium mt-1 text-color-base">{{ good.title }}</view>
 									<view class="font-size-sm mt-1">{{ good.spec }}</view>
@@ -37,20 +37,24 @@
 								</view>
 							</view>
 						</view>
-						<view class="d-flex justify-content-between align-items-center" style="margin-bottom: 30rpx;">
+						<view class="d-flex justify-content-between align-items-center orders-item__meta">
 							<view class="font-size-sm text-color-assist">
 								{{formatDateTime(item.createTime) }}
 							</view>
 							<view class="d-flex font-size-sm text-color-base align-items-center">
-								<view style="margin-right: 10rpx;">共{{ goodsNum(item.cartInfo) }}件商品，实付</view>
+								<view class="orders-item__summary">共{{ goodsNum(item.cartInfo) }}件商品，实付</view>
 								<view class="font-size-lg">￥{{ item.payPrice }}</view>
 							</view>
 						</view>
-						<view class="d-flex align-items-center justify-content-end">
-							<view>
-								<button v-if="item.paid > 0 && item.status < 2 && item.refundStatus == 0" class="left-margin"  plain size="mini" @tap.stop="receive(item)">确认收到餐</button>
-								<button class="left-margin"  plain size="mini" @tap="detail(item.orderId)">订单详情</button>
-							</view>
+						<view class="d-flex align-items-center justify-content-end orders-item__actions">
+							<button
+								v-if="item.paid > 0 && item.status < 2 && item.refundStatus == 0"
+								class="orders-item__btn"
+								plain
+								size="mini"
+								@tap.stop="receive(item)"
+							>确认收到餐</button>
+							<button class="orders-item__btn" plain size="mini" @tap="detail(item.orderId)">订单详情</button>
 						</view>
 					</view>
 				</list-cell>
@@ -161,13 +165,53 @@ const receive  = async(order) => {
 </script>
 
 <style lang="scss" scoped>
-	.left-margin {
-		margin-left: 10rpx;
+$orders-list-padding-x: $spacing-row-base;
+$orders-list-padding-bottom: 0;
+$orders-item-gap: $spacing-row-lg;
+$orders-section-gap: $spacing-row-base;
+$orders-btn-gap: $spacing-row-base;
+$orders-summary-gap: $spacing-row-base;
+$orders-thumb-size: 160rpx;
+$orders-thumb-radius: 8rpx;
+
+.orders-page {
+	--orders-thumb-size: #{$orders-thumb-size};
+
+	&__list {
+		padding: $orders-list-padding-x;
+		padding-bottom: $orders-list-padding-bottom;
 	}
-	.image {
-		width: 160rpx;
-		height: 160rpx;
-		margin-right: 30rpx;
-		border-radius: 8rpx;
+}
+
+.orders-item {
+	margin-bottom: $orders-item-gap;
+
+	&__shop {
+		margin-bottom: $orders-section-gap;
 	}
+
+	&__goods {
+		margin-bottom: $orders-section-gap;
+	}
+
+	&__thumb {
+		flex-shrink: 0;
+		width: var(--orders-thumb-size);
+		height: var(--orders-thumb-size);
+		margin-right: $spacing-row-lg;
+		border-radius: $orders-thumb-radius;
+	}
+
+	&__meta {
+		margin-bottom: $orders-item-gap;
+	}
+
+	&__summary {
+		margin-right: $orders-summary-gap;
+	}
+
+	&__btn + &__btn {
+		margin-left: $orders-btn-gap;
+	}
+}
 </style>

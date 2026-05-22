@@ -6,7 +6,7 @@
 		  left-arrow
 		  @leftClick="$onClickLeft"
 		/>
-		<view class="bg-white p-2">
+		<view class="mine-content">
 			<rich-text :nodes="content"></rich-text>
 		</view>
 	</layout>
@@ -44,5 +44,10 @@ const getContent = async(id) => {
 </script>
 
 <style lang="scss" scoped>
-	
+$mine-content-padding: $spacing-row-base;
+
+.mine-content {
+	padding: $mine-content-padding;
+	background-color: $text-color-white;
+}
 </style>

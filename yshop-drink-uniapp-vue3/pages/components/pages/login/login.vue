@@ -6,49 +6,45 @@
 		  left-arrow
 		  @leftClick="$onClickLeft"
 		/>
-		<view class="wrap">
-		<view class="top"></view>
-		<view class="content">
-			<view class="title">欢迎登录</view>
+		<view class="login-page">
+		<view class="login-page__form">
+			<view class="login-page__title">欢迎登录</view>
 			
-			<input class="u-border-bottom" type="number" v-model="mobile" placeholder="请输入手机号" />
-			<view class="tips">未注册的手机号验证后自动创建账号</view>
+			<input class="login-page__input u-border-bottom" type="number" v-model="mobile" placeholder="请输入手机号" />
+			<view class="login-page__tips">未注册的手机号验证后自动创建账号</view>
 
-			
-			<view style="display: flex;">
-				<view style="width: 50%;">
-					<input style="height: 100rpx;"  class="u-border-bottom" type="number" v-model="captcha" placeholder="请输入验证码" />
+			<view class="login-page__captcha-row">
+				<view class="login-page__captcha-col">
+					<input class="login-page__input login-page__input--captcha u-border-bottom" type="number" v-model="captcha" placeholder="请输入验证码" />
 				</view>
-				<view style="width: 50%;">
-					<button style="height: 100rpx;" @tap="getCaptcha" :style="[captchaStyle]" class="getCaptcha">
+				<view class="login-page__captcha-col">
+					<button
+						class="login-page__btn login-page__btn--captcha"
+						:class="{ 'login-page__btn--active': isCaptchaBtnActive }"
+						@tap="getCaptcha"
+					>
 						{{captchaText}}
 						<uv-code :seconds="seconds" @end="endCaptcha" @start="startCaptcha" ref="uCode" @change="changeCapcha"></uv-code>
-					<!-- 	<u-verification-code :seconds="seconds" @end="endCaptcha" @change="changeCapcha" @start="startCaptcha" ref="uCode" >
-							
-						</u-verification-code> -->
 					</button>
 				</view>
 			</view>
 			
-			<button @tap="submit" style="color:#fff;background-color: #f9ae3d;" type="primary" class="login">登录</button>
+			<button @tap="submit" type="primary" class="login-page__btn login-page__btn--submit login-page__btn--active">登录</button>
 			
 		</view>
-		<view class="buttom">
-			<view class="loginType">
+		<view class="login-page__footer">
+			<view class="login-page__oauth">
 				<!-- #ifdef MP-WEIXIN -->
-				<button type="primary" size="default" class="login-btn" open-type="getPhoneNumber" @getphonenumber="loginForWechatMini">
-				<!-- 	<image src="/static/images/mine/wechat.png"></image> -->
+				<button type="primary" size="default" class="login-page__wechat-btn" open-type="getPhoneNumber" @getphonenumber="loginForWechatMini">
 					手机号快捷登录
 				</button>
 				<!-- #endif -->
 			</view>
-			<view class="hint">
-			<!-- 	<label class="label"> -->
+			<view class="login-page__agreement">
 					<radio value="isChecked" @tap.stop="onChange" />
 					我已经阅读并遵守
-					<text class="link" @tap="serv(29,'用户协议')">《用户协议》</text>与
-						<text class="link"  @tap="serv(30,'隐私政策')">《隐私政策》</text>
-			<!-- 	</label> -->
+					<text class="login-page__link" @tap="serv(29,'用户协议')">《用户协议》</text>与
+						<text class="login-page__link" @tap="serv(30,'隐私政策')">《隐私政策》</text>
 			</view>
 		</view>
 		<uv-toast ref="uToast"></uv-toast>
@@ -83,13 +79,8 @@ const openid = ref(main.openid)
 const uToast = ref()
 const uCode = ref()
 
-const captchaStyle = computed(() => {
-  let style = {};
-  if(mobile.value && captchaText.value == '获取验证码') {
-  	style.color = "#fff";
-  	style.backgroundColor = '#f9ae3d';
-  }
-  return style;
+const isCaptchaBtnActive = computed(() => {
+	return Boolean(mobile.value) && captchaText.value === '获取验证码';
 });
 
 onShow(() => {
@@ -255,101 +246,125 @@ const onChange = () => {
 </script>
 
 <style lang="scss" scoped>
-.wrap {
-	background-color: #ffffff;
-	font-size: 28rpx;
+$login-content-width: 600rpx;
+$login-title-size: 60rpx;
+$login-title-margin-bottom: 100rpx;
+$login-input-height: 100rpx;
+$login-btn-font-size: 30rpx;
+$login-btn-padding-y: 12rpx;
+$login-submit-margin-top: 40rpx;
+$login-oauth-padding: 80rpx;
+$login-wechat-btn-bg: #1aad19;
+$login-wechat-icon-width: 36rpx;
+$login-wechat-icon-height: 30rpx;
+$login-agreement-font-size: 20rpx;
+$login-agreement-padding-y: 20rpx;
+$login-agreement-padding-x: 40rpx;
+
+.login-page {
+	--login-content-width: #{$login-content-width};
+	--login-input-height: #{$login-input-height};
+	--login-btn-font-size: #{$login-btn-font-size};
+
+	background-color: $text-color-white;
+	font-size: $font-size-base;
 	position: relative;
 	height: 100%;
-	.content {
-		width: 600rpx;
-		margin: 0 auto;
 
-		.title {
-			text-align: left;
-			font-size: 60rpx;
-			font-weight: 500;
-			margin-bottom: 100rpx;
-		}
-		input {
-			text-align: left;
-			margin-bottom: 10rpx;
-			padding-bottom: 6rpx;
-		}
-		.tips {
-			color: $uv-info;
-			margin-bottom: 60rpx;
-			margin-top: 8rpx;
-		}
-		.getCaptcha {
-			background-color: rgb(253, 243, 208);
-			color: $uv-tips-color;
-			border: none;
-			font-size: 30rpx;
-			padding: 12rpx 0;
-			
-			&::after {
-				border: none;
-			}
-		}
-		.login {
-			background-color: rgb(253, 243, 208);
-			color: $uv-tips-color;
-			border: none;
-			font-size: 30rpx;
-			padding: 12rpx 0;
-			margin-top: 40rpx;
-			&::after {
-				border: none;
-			}
-		}
-		.alternative {
-			color: $uv-tips-color;
-			display: flex;
-			justify-content: space-between;
-			margin-top: 30rpx;
+	&__form {
+		width: var(--login-content-width);
+		margin: 0 auto;
+	}
+
+	&__title {
+		text-align: left;
+		font-size: $login-title-size;
+		font-weight: 500;
+		margin-bottom: $login-title-margin-bottom;
+	}
+
+	&__input {
+		text-align: left;
+		margin-bottom: 10rpx;
+		padding-bottom: 6rpx;
+
+		&--captcha {
+			height: var(--login-input-height);
 		}
 	}
-	.buttom {
-		//position: absolute;
+
+	&__tips {
+		color: $uv-info;
+		margin: 8rpx 0 60rpx;
+	}
+
+	&__captcha-row {
+		display: flex;
+	}
+
+	&__captcha-col {
+		width: 50%;
+	}
+
+	&__btn {
+		height: var(--login-input-height);
+		border: none;
+		font-size: var(--login-btn-font-size);
+		padding: $login-btn-padding-y 0;
+		background-color: $uv-warning-light;
+		color: $uv-tips-color;
+
+		&::after {
+			border: none;
+		}
+
+		&--active {
+			background-color: $uv-warning;
+			color: $text-color-white;
+		}
+
+		&--submit {
+			margin-top: $login-submit-margin-top;
+		}
+	}
+
+	&__footer {
 		bottom: 0;
-		//display: flex;
-		//flex-direction: column;
-		//align-items: center;
-		//justify-content: center;
-		.loginType {
-			padding: 80rpx;
-			//justify-content:space-between;
-			
-			.login-btn {
-				background-color: #1aad19!important;
-				width: 100%;
-				border-radius: 50rem !important;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				padding: 10rpx 0;
-				text-align: center;
-				image {
-					width: 36rpx;
-					height: 30rpx;
-					margin-right: 10rpx;
-					vertical-align: middle;
-				}
-			}
+	}
+
+	&__oauth {
+		padding: $login-oauth-padding;
+	}
+
+	&__wechat-btn {
+		width: 100%;
+		border-radius: 50rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 10rpx 0;
+		text-align: center;
+		background-color: $login-wechat-btn-bg !important;
+
+		image {
+			width: $login-wechat-icon-width;
+			height: $login-wechat-icon-height;
+			margin-right: 10rpx;
+			vertical-align: middle;
 		}
-		
-		.hint {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			padding: 20rpx 40rpx;
-			font-size: 20rpx;
-			color: $uv-tips-color;
-			
-			.link {
-				color: $uv-warning;
-			}
-		}
+	}
+
+	&__agreement {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: $login-agreement-padding-y $login-agreement-padding-x;
+		font-size: $login-agreement-font-size;
+		color: $uv-tips-color;
+	}
+
+	&__link {
+		color: $uv-warning;
 	}
 }
 </style>

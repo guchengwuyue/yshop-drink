@@ -111,12 +111,4 @@ const auth = async(code) => {
 
 <style lang="scss">
 @import '~@/static/style/app.scss';
-//@import 'static/iconfont/iconfont.scss';
-//@import url('./static/style/style.less');
-@import 'static/style/yshop.css';
-
-// /*每个页面公共css */
-// page {
-//   background-color: #f5f5f5;
-// }
 </style>

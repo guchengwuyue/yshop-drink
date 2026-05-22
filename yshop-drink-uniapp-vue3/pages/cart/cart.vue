@@ -5,40 +5,40 @@
 	  left-arrow
 	  @leftClick="$onClickLeft"
 	/>
-	<view  class="cart-popup">
-		 <view class="top flex justify-between">
+	<view class="cart-page">
+		 <view class="cart-page__header flex justify-between">
 		   <text>已点{{ getCartGoodsNumber }}份</text>
 		   <text @tap="handleCartClear">清空</text>
 		 </view>
-		 <scroll-view class="cart-list" scroll-y>
-		  <view class="wrapper">
+		 <scroll-view class="cart-page__list" scroll-y>
+		  <view class="cart-page__list-inner">
 		   <uv-empty mode="car" v-if="cart.length == 0"></uv-empty>
-		   <view class="item" v-for="(item, index) in cart" :key="index">
-			<view class="left">
-			 <view class="name">{{ item.name }}</view>
-			 <view class="props">{{ item.valueStr }}</view>
+		   <view class="cart-item" v-for="(item, index) in cart" :key="index">
+			<view class="cart-item__info">
+			 <view class="cart-item__name">{{ item.name }}</view>
+			 <view class="cart-item__props">{{ item.valueStr }}</view>
 			</view>
-			<view class="center">
+			<view class="cart-item__price">
 			 <text>￥{{ item.price }}</text>
 			</view>
-			<view class="right">
-			 <button type="default" plain size="mini" class="btn" hover-class="none"
+			<view class="cart-item__controls">
+			 <button type="default" plain size="mini" class="cart-item__btn" hover-class="none"
 			  @tap="handleCartItemReduce(index)">
 			  <view class="iconfont iconsami-select"></view>
 			 </button>
-			 <view class="number">{{ item.number }}</view>
-			 <button type="primary" class="btn" size="min" hover-class="none"
+			 <view class="cart-item__qty">{{ item.number }}</view>
+			 <button type="primary" class="cart-item__btn" size="min" hover-class="none"
 			  @tap="handleCartItemAdd(index)">
 			  <view class="iconfont iconadd-select"></view>
 			 </button>
 			</view>
-		   </view>		
+		   </view>
 		  </view>
 		 </scroll-view>
 	 </view>
-	 <view class="fixed-bottom flex justify-between align-center bg-white ">
-	 	<view class="mx-2 ont-weight-light">应付:<text class="text-danger">￥{{ getCartGoodsPrice }}</text></view>
-	 	<view><uv-button type="warning" color="#09b4f1" :customStyle="customStyle" size="large" text="去结算" @click="toPay"></uv-button></view>
+	 <view class="fixed-bottom flex justify-between align-center bg-white">
+	 	<view class="mx-2 font-weight-light">应付:<text class="text-danger">￥{{ getCartGoodsPrice }}</text></view>
+	 	<view><uv-button type="primary" :customStyle="customStyle" size="large" text="去结算" @click="toPay"></uv-button></view>
 	 </view>
 	 <uv-toast ref="uToast"></uv-toast>
 </template>
@@ -150,96 +150,111 @@ const toPay = () => {
 </script>
 
 <style lang="scss" scoped>
-.cart-popup {
-		.top {
-			background-color: $bg-color-primary;
-			//color: $color-primary;
-			color: #5A5B5C;
-			padding: 10rpx 30rpx;
-			font-size: 24rpx;
-			text-align: right;
-		}
-		.cart-list {
-			background-color: #ffffff;
-			width: 100%;
-			overflow: hidden;
-			min-height: 1vh;
-			max-height: 60vh;
-	
-			.wrapper {
-				height: 100%;
-				display: flex;
-				flex-direction: column;
-				padding: 0 30rpx;
-				margin-bottom: 156rpx;
-	
-				.item {
-					display: flex;
-					justify-content: space-between;
-					align-items: center;
-					padding: 30rpx 0;
-					position: relative;
-	
-					&::after {
-						content: ' ';
-						position: absolute;
-						bottom: 0;
-						left: 0;
-						width: 100%;
-						background-color: $border-color;
-						height: 2rpx;
-						transform: scaleY(0.6);
-					}
-	
-					.left {
-						flex: 1;
-						display: flex;
-						flex-direction: column;
-						overflow: hidden;
-						margin-right: 30rpx;
-	
-						.name {
-							font-size: $font-size-sm;
-							color: $text-color-base;
-						}
-						.props {
-							color: $text-color-assist;
-							font-size: 24rpx;
-							overflow: hidden;
-							text-overflow: ellipsis;
-							white-space: nowrap;
-						}
-					}
-	
-					.center {
-						margin-right: 120rpx;
-						font-size: $font-size-base;
-					}
-	
-					.right {
-						display: flex;
-						align-items: center;
-						justify-content: space-between;
-	
-						.btn {
-							width: 46rpx;
-							height: 46rpx;
-							border-radius: 100%;
-							padding: 0;
-							text-align: center;
-							line-height: 46rpx;
-						}
-	
-						.number {
-							font-size: $font-size-base;
-							width: 46rpx;
-							height: 46rpx;
-							text-align: center;
-							line-height: 46rpx;
-						}
-					}
-				}
-			}
-		}
+// 购物车页局部 token（与 uni.scss 全局变量配合）
+$cart-list-max-height: 60vh;
+$cart-list-min-height: 1vh;
+$cart-list-bottom-space: 156rpx;
+$cart-price-offset: 120rpx;
+$cart-control-size: 46rpx;
+$cart-divider-height: 2rpx;
+$cart-header-color: #5a5b5c;
+$cart-gap-sm: 10rpx;
+
+.cart-page {
+	--cart-control-size: #{$cart-control-size};
+	--cart-list-max-height: #{$cart-list-max-height};
+
+	&__header {
+		padding: $cart-gap-sm $spacing-row-lg;
+		font-size: $font-size-sm;
+		text-align: right;
+		color: $cart-header-color;
+		background-color: $bg-color-primary;
 	}
+
+	&__list {
+		width: 100%;
+		overflow: hidden;
+		min-height: $cart-list-min-height;
+		max-height: var(--cart-list-max-height);
+		background-color: $text-color-white;
+	}
+
+	&__list-inner {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		padding: 0 $spacing-row-lg;
+		margin-bottom: $cart-list-bottom-space;
+	}
+
+}
+
+.cart-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: $spacing-row-lg 0;
+	position: relative;
+
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: $cart-divider-height;
+		background-color: $border-color;
+		transform: scaleY(0.6);
+	}
+
+	&__info {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		margin-right: $spacing-row-lg;
+	}
+
+	&__name {
+		font-size: $font-size-sm;
+		color: $text-color-base;
+	}
+
+	&__props {
+		font-size: $font-size-sm;
+		color: $text-color-assist;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	&__price {
+		margin-right: $cart-price-offset;
+		font-size: $font-size-base;
+	}
+
+	&__controls {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	&__btn,
+	&__qty {
+		width: var(--cart-control-size);
+		height: var(--cart-control-size);
+		line-height: var(--cart-control-size);
+		text-align: center;
+	}
+
+	&__btn {
+		padding: 0;
+		border-radius: $border-radius-circle;
+	}
+
+	&__qty {
+		font-size: $font-size-base;
+	}
+}
 </style>

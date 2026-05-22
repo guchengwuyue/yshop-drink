@@ -13,6 +13,7 @@
     "add": "^2.0.6",
     "flyio": "^0.6.14",
     "jweixin-module": "^1.6.0",
+    "openai": "^6.38.0",
     "pinia": "^2.1.6",
     "vant": "^4.6.2",
     "weixin-js-sdk": "^1.6.3",

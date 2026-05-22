@@ -11,14 +11,14 @@
 			<!-- <view>
 				<image :src="shopAd" mode="aspectFill" class="w-100 " style="height: 250rpx;"></image>
 			</view> -->
-			<view style="height: 60rpx;background-color: #FFFFFF;" v-if="store.notice">
+			<view class="notice-bar" v-if="store.notice">
 					<uv-notice-bar  :text="store.notice"></uv-notice-bar>
 			</view>
 		<view class="main">
 			<view class="nav">
 				<view class="header">
-					<view class="mr-1"><image :src="store.image" style="width:80rpx ; height: 80rpx; "></image></view>
-					<view class="left" v-if="orderType == 'takein'" style="">
+					<view class="mr-1"><image :src="store.image" class="store-header-img"></image></view>
+					<view class="left" v-if="orderType == 'takein'">
 						<view class="store-name" @click="selectShop()">
 							<text>{{ store.name }}</text>
 							<view class="iconfont iconarrow-right"></view>
@@ -50,10 +50,10 @@
 		
 			<!-- #ifdef H5 -->
 			<view class="content"
-				:style="{height: 'calc(100vh - 500rpx + '+(store.notice ? '0rpx':'60rpx')+')'}">
+				:style="{height: 'calc(100vh - 300rpx + '+(store.notice ? '0rpx':'60rpx')+')'}">
 				<!-- #endif -->
 				<!-- #ifndef H5 -->
-				<view class="content" :style="{height: 'calc(100vh - 500rpx + '+(store.notice ? '0rpx':'60rpx')+')'}">
+				<view class="content" :style="{height: 'calc(100vh - 350rpx + '+(store.notice ? '0rpx':'60rpx')+')'}">
 					<!-- #endif -->
 					<scroll-view class="menus" :scroll-into-view="menuScrollIntoView" scroll-with-animation scroll-y>
 						<view class="wrapper">
@@ -79,7 +79,7 @@
 									<view class="items">
 										<!-- 商品 begin -->
 										<view class="good" v-for="(good, key) in item.goodsList" :key="key"
-											:class="{'backgroud-grey': good.stock <= 0}">
+											:class="{'background-grey': good.stock <= 0}">
 											<image mode="aspectFill" :src="good.image" class="image"
 												@tap="showGoodDetailModal(item, good)"></image>
 											<view class="right">
@@ -107,7 +107,7 @@
 									</view>
 								</view>
 								<!-- category end -->
-								<view style="height: 110rpx;"></view>
+								<view class="bottom-spacer"></view>
 							</view>
 						</view>
 					</scroll-view>
@@ -226,7 +226,7 @@
 		<!--轻提示-->
 		<view class="loading" v-else>
 			<uv-loading-icon  color="#DA5650" size=40 mode="circle" ></uv-loading-icon>
-			<button type="primary" style="z-index: 3001;position: absolute;top: 650rpx;" @click="init"
+			<button type="primary" class="locate-store-btn" @click="init"
 				v-if="!store.id">定位最近的门店</button>
 		<!-- 	<uv-toast ref="uToast"></uv-toast> -->
 		</view>
@@ -272,7 +272,71 @@ const shopAd = ref('')
 const isCartShow = ref(true)
 const popup = ref()
 
-
+// #region agent log
+const debugLog = (hypothesisId, location, message, data = {}) => {
+	fetch('http://127.0.0.1:7584/ingest/889fdfba-29d4-4509-84ce-3dfa9254da00', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': 'e0348b' },
+		body: JSON.stringify({
+			sessionId: 'e0348b',
+			runId: 'pre-fix',
+			hypothesisId,
+			location,
+			message,
+			data,
+			timestamp: Date.now()
+		})
+	}).catch(() => {})
+}
+const measureMenuLayout = () => {
+	const sys = uni.getSystemInfoSync()
+	const notice = !!store.value?.notice
+	const inlineHeight = `calc(100vh - 500rpx + ${notice ? '0rpx' : '60rpx'})`
+	let platform = 'OTHER'
+	// #ifdef H5
+	platform = 'H5'
+	// #endif
+	// #ifdef MP-WEIXIN
+	platform = 'MP-WEIXIN'
+	// #endif
+	debugLog('H1', 'menu.vue:measureMenuLayout', 'layout context', {
+		platform,
+		windowHeight: sys.windowHeight,
+		screenHeight: sys.screenHeight,
+		statusBarHeight: sys.statusBarHeight,
+		hasNotice: notice,
+		inlineHeight,
+		cssExpectedH5: 'calc(100vh - 212rpx - 188rpx)',
+		cssExpectedDefault: 'calc(100vh - 212rpx)'
+	})
+	const q = uni.createSelectorQuery()
+	q.select('.container').boundingClientRect()
+	q.select('.main').boundingClientRect()
+	q.select('.content').boundingClientRect()
+	q.select('.menus').boundingClientRect()
+	q.select('.goods').boundingClientRect()
+	q.select('.nav').boundingClientRect()
+	q.exec((res) => {
+		const [container, main, content, menus, goods, nav] = res || []
+		debugLog('H3', 'menu.vue:measureMenuLayout', 'parent rects', {
+			containerH: container?.height,
+			mainH: main?.height,
+			navH: nav?.height
+		})
+		debugLog('H1', 'menu.vue:measureMenuLayout', 'content rect', {
+			contentH: content?.height,
+			contentTop: content?.top,
+			windowHeight: sys.windowHeight,
+			heightRatio: content?.height && sys.windowHeight ? (content.height / sys.windowHeight).toFixed(3) : null
+		})
+		debugLog('H5', 'menu.vue:measureMenuLayout', 'scroll columns', {
+			menusH: menus?.height,
+			goodsH: goods?.height,
+			menusGoodsDelta: menus?.height != null && goods?.height != null ? Math.abs(menus.height - goods.height) : null
+		})
+	})
+}
+// #endregion
 
 const newkmUnit = computed(() => (param) =>{
   console.log('param:',param)
@@ -436,6 +500,7 @@ const getShopList = async(res) => {
 			console.log('goods:',mygoods)
 			console.log('goods:',goods.value)
 			loading.value = false;
+			nextTick(() => measureMenuLayout())
 			uni.stopPullDownRefresh();
 		}
 	}
@@ -707,342 +772,393 @@ const toPay = () => {
 </script>
 
 <style lang="scss" scoped>
+// 点餐页局部 token（与 uni.scss 全局变量配合）
+$menu-nav-height: 140rpx;
+$menu-sidebar-width: 200rpx;
+$menu-radius-sm: 8rpx;
+$menu-radius-pill: 38rpx;
+$menu-radius-cart: 48rpx;
+$menu-good-image-size: 160rpx;
+$menu-control-size-sm: 44rpx;
+$menu-control-size: 46rpx;
+$menu-list-bottom-space: 200rpx;
+$menu-cart-height: 96rpx;
+$menu-cart-popup-max-height: 60vh;
+$menu-cart-list-bottom: 156rpx;
+$menu-cart-price-offset: 120rpx;
+$menu-sold-out-bg: #e1e4e4;
+$menu-secondary-color: #5a5b5c;
+$menu-shadow-cart: 0 0 20rpx rgba(0, 0, 0, 0.2);
+$menu-dot-size: 34rpx;
+$menu-badge-size: 36rpx;
+$menu-tag-size: 40rpx;
+$menu-font-menu: 26rpx;
+$menu-gap-sm: 10rpx;
+$menu-gap-base: 20rpx;
+$menu-divider-height: 2rpx;
 
-	/* #ifdef H5 */
-	page {
-		height: auto;
-		min-height: 100%;
+@mixin text-ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+@mixin quantity-control($size) {
+	.btn,
+	.number {
+		width: $size;
+		height: $size;
+		line-height: $size;
+		text-align: center;
 	}
-	/* #endif */
-	
-	.container {
-		overflow: hidden;
-		position: relative;
+
+	.btn {
+		padding: 0;
+		border-radius: $border-radius-circle;
 	}
-	
-	.loading {
+}
+
+@mixin list-divider {
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
 		width: 100%;
-		height: 100%;
+		height: $menu-divider-height;
+		background-color: $border-color;
+		transform: scaleY(0.6);
+	}
+}
+
+/* #ifdef H5 */
+page {
+	height: auto;
+	min-height: 100%;
+}
+/* #endif */
+
+.container {
+	--menu-control-size-sm: #{$menu-control-size-sm};
+	--menu-control-size: #{$menu-control-size};
+	--menu-cart-popup-max-height: #{$menu-cart-popup-max-height};
+
+	overflow: hidden;
+	position: relative;
+}
+
+.loading {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	image {
+		width: 260rpx;
+		height: 260rpx;
+		position: relative;
+		margin-top: -200rpx;
+		/* #ifdef h5 */
+		margin-top: 0;
+		/* #endif */
+	}
+}
+
+.main {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.nav {
+	width: 100%;
+	height: $menu-nav-height;
+	display: flex;
+	flex-direction: column;
+
+	.header {
+		width: 100%;
+		height: $menu-nav-height;
 		display: flex;
 		align-items: center;
-		justify-content: center;
-	
-		image {
-			width: 260rpx;
-			height: 260rpx;
-			position: relative;
-			margin-top: -200rpx;
-			/* #ifdef h5 */
-			margin-top: 0;
-			/* #endif */
-		}
-	}
-	
-	
-	.main {
-		width: 100%;
-		height: 100%;
-		position: relative;
-	}
-	
-	.nav {
-		width: 100%;
-		//height: 212rpx;
-		height: 140rpx;
-		display: flex;
-		flex-direction: column;
-	
-		.header {
-			width: 100%;
+		justify-content: space-between;
+		padding: $spacing-row-base;
+		background-color: $text-color-white;
+
+		.left {
+			flex: 1;
 			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			padding: 20rpx;
-			background-color: #ffffff;
-			height: 140rpx;
-	
-			.left {
-				flex: 1;
-				display: flex;
-				flex-direction: column;
-	
-				.store-name {
-					display: flex;
-					justify-content: flex-start;
-					align-items: center;
-					font-size: $font-size-lg;
-					margin-bottom: 10rpx;
-					.small {
-						font-size: $font-size-sm;
-						color: $text-color-assist;
-					}
-					.iconfont {
-						margin-left: 10rpx;
-						line-height: 100%;
-					}
-				}
-	
-				.store-location {
-					display: flex;
-					justify-content: flex-start;
-					align-items: center;
-					color: $text-color-assist;
-					font-size: $font-size-sm;
-	
-					.iconfont {
-						vertical-align: middle;
-						display: table-cell;
-						color: $color-primary;
-						line-height: 100%;
-					}
-				}
-			}
-	
-			.right {
-				background-color: $bg-color-grey;
-				border-radius: 38rpx;
+			flex-direction: column;
+
+			.store-name {
 				display: flex;
 				align-items: center;
+				justify-content: flex-start;
+				margin-bottom: $menu-gap-sm;
+				font-size: $font-size-lg;
+
+				.small {
+					font-size: $font-size-sm;
+					color: $text-color-assist;
+				}
+
+				.iconfont {
+					margin-left: $menu-gap-sm;
+					line-height: 100%;
+				}
+			}
+
+			.store-location {
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
 				font-size: $font-size-sm;
-				padding: 0 38rpx;
 				color: $text-color-assist;
-	
-				.dinein,
-				.takeout {
-					position: relative;
-					display: flex;
-					align-items: center;
-					&.active {
-						padding: 14rpx 38rpx;
-						color: #ffffff;
-						background-color: $color-primary;
-						//background-color: #5A5B5C;
-						border-radius: 38rpx;
-					}
-				}
-	
-				.takeout {
-					margin-left: 20rpx;
-					height: 100%;
-					flex: 1;
-					padding: 14rpx 0;
-				}
-	
-				.dinein.active {
-					margin-left: -38rpx;
-				}
-	
-				.takeout.active {
-					margin-right: -38rpx;
+
+				.iconfont {
+					display: table-cell;
+					vertical-align: middle;
+					line-height: 100%;
+					color: $color-primary;
 				}
 			}
 		}
 
-	}
-	
-	.content {
-		width: 100%;
-		height: calc(100vh - 212rpx);
-		/* #ifdef H5 */
-		height: calc(100vh - 212rpx - 188rpx);
-		/* #endif */
-		display: flex;
-	
-		.menus {
-			width: 200rpx;
-			height: 100%;
-			overflow: hidden;
+		.right {
+			display: flex;
+			align-items: center;
+			padding: 0 $menu-radius-pill;
+			font-size: $font-size-sm;
+			color: $text-color-assist;
 			background-color: $bg-color-grey;
-	
-			.wrapper {
-				width: 100%;
-				height: 100%;
-	
-				.menu {
-					display: flex;
-					align-items: center;
-					justify-content: flex-start;
-					padding: 30rpx 20rpx;
-					font-size: 26rpx;
-					color: $text-color-assist;
-					position: relative;
-	
-					&.current {
-						background-color: #ffffff;
-						color: $text-color-base;
-					}
-	
-					.dot {
-						position: absolute;
-						width: 34rpx;
-						height: 34rpx;
-						line-height: 34rpx;
-						font-size: 22rpx;
-						background-color: $color-primary;
-						//background-color: #5A5B5C;
-						color: #ffffff;
-						top: 16rpx;
-						right: 10rpx;
-						border-radius: 100%;
-						text-align: center;
-					}
+			border-radius: $menu-radius-pill;
+
+			.dinein,
+			.takeout {
+				position: relative;
+				display: flex;
+				align-items: center;
+
+				&.active {
+					padding: 14rpx $menu-radius-pill;
+					color: $text-color-white;
+					background-color: $color-primary;
+					border-radius: $menu-radius-pill;
 				}
-				.menu:last-child {
-					margin-bottom: 200rpx;
+			}
+
+			.takeout {
+				flex: 1;
+				height: 100%;
+				margin-left: $spacing-row-base;
+				padding: 14rpx 0;
+			}
+
+			.dinein.active {
+				margin-left: -$menu-radius-pill;
+			}
+
+			.takeout.active {
+				margin-right: -$menu-radius-pill;
+			}
+		}
+	}
+}
+	
+.content {
+	width: 100%;
+	height: calc(100vh - 212rpx);
+	/* #ifdef H5 */
+	height: calc(100vh - 212rpx - 188rpx);
+	/* #endif */
+	display: flex;
+
+	.menus {
+		width: $menu-sidebar-width;
+		height: 100%;
+		overflow: hidden;
+		background-color: $bg-color-grey;
+
+		.wrapper {
+			width: 100%;
+			height: 100%;
+
+			.menu {
+				position: relative;
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+				padding: $spacing-row-lg $spacing-row-base;
+				font-size: $menu-font-menu;
+				color: $text-color-assist;
+
+				&.current {
+					color: $text-color-base;
+					background-color: $text-color-white;
+				}
+
+				.dot {
+					position: absolute;
+					top: 16rpx;
+					right: $menu-gap-sm;
+					width: $menu-dot-size;
+					height: $menu-dot-size;
+					font-size: 22rpx;
+					line-height: $menu-dot-size;
+					text-align: center;
+					color: $text-color-white;
+					background-color: $color-primary;
+					border-radius: $border-radius-circle;
+				}
+
+				&:last-child {
+					margin-bottom: $menu-list-bottom-space;
 				}
 			}
 		}
-	
-		.goods {
-			flex: 1;
+	}
+
+	.goods {
+		flex: 1;
+		height: 100%;
+		overflow: hidden;
+		background-color: $text-color-white;
+
+		.wrapper {
+			width: 100%;
 			height: 100%;
-			overflow: hidden;
-			background-color: #ffffff;
-	
-			.wrapper {
-				width: 100%;
-				height: 100%;
-				padding: 20rpx;
-	
-				.ads {
-					height: calc(300 / 550 * 510rpx);
-	
-					image {
-						width: 100%;
-						height: 100%;
-						border-radius: 8rpx;
-					}
-				}
-	
-				.list {
+			padding: $spacing-row-base;
+
+			.ads {
+				height: calc(300 / 550 * 510rpx);
+
+				image {
 					width: 100%;
-					font-size: $font-size-base;
-	
-					.category {
-						width: 100%;
-	
-						.title {
-							padding: 30rpx 0;
-							display: flex;
-							align-items: center;
-							color: $text-color-base;
-	
-							.icon {
-								width: 38rpx;
-								height: 38rpx;
-								margin-left: 10rpx;
-							}
+					height: 100%;
+					border-radius: $menu-radius-sm;
+				}
+			}
+
+			.list {
+				width: 100%;
+				font-size: $font-size-base;
+
+				.category {
+					width: 100%;
+
+					.title {
+						display: flex;
+						align-items: center;
+						padding: $spacing-row-lg 0;
+						color: $text-color-base;
+
+						.icon {
+							width: 38rpx;
+							height: 38rpx;
+							margin-left: $menu-gap-sm;
 						}
 					}
-					.category:last-child {
-						margin-bottom: 200rpx;
+
+					&:last-child {
+						margin-bottom: $menu-list-bottom-space;
 					}
-	
+
 					.items {
 						display: flex;
 						flex-direction: column;
-						padding-bottom: -30rpx;
-	
+
 						.good {
 							display: flex;
 							align-items: center;
-							//margin-bottom: 30rpx;
 							padding: 15rpx 0;
+
 							.image {
-								width: 160rpx;
-								height: 160rpx;
-								margin-right: 20rpx;
-								border-radius: 8rpx;
+								width: $menu-good-image-size;
+								height: $menu-good-image-size;
+								margin-right: $spacing-row-base;
+								border-radius: $menu-radius-sm;
 							}
-	
+
 							.right {
 								flex: 1;
-								height: 160rpx;
-								overflow: hidden;
 								display: flex;
 								flex-direction: column;
 								align-items: flex-start;
 								justify-content: space-between;
+								height: $menu-good-image-size;
 								padding-right: 14rpx;
-	
+								overflow: hidden;
+
 								.name {
-									font-size: $font-size-base;
-									margin-bottom: 10rpx;
 									width: 100%;
-									overflow: hidden;
-									text-overflow: ellipsis;
-									white-space: nowrap;
+									margin-bottom: $menu-gap-sm;
+									font-size: $font-size-base;
+									@include text-ellipsis;
 								}
-	
+
 								.tips {
 									width: 100%;
 									height: 40rpx;
-									line-height: 40rpx;
-									overflow: hidden;
-									text-overflow: ellipsis;
-									white-space: nowrap;
+									margin-bottom: $menu-gap-sm;
 									font-size: $font-size-sm;
+									line-height: 40rpx;
 									color: $text-color-assist;
-									margin-bottom: 10rpx;
+									@include text-ellipsis;
 								}
-	
+
 								.price_and_action {
-									width: 100%;
 									display: flex;
-									justify-content: space-between;
 									align-items: center;
-	
+									justify-content: space-between;
+									width: 100%;
+
 									.price {
 										font-size: $font-size-base;
 										font-weight: 600;
 									}
-	
+
 									.btn-group {
-										display: flex;
-										justify-content: space-between;
-										align-items: center;
 										position: relative;
-	
+										display: flex;
+										align-items: center;
+										justify-content: space-between;
+
 										.btn {
-											padding: 0 20rpx;
 											box-sizing: border-box;
+											height: var(--menu-control-size-sm);
+											padding: 0 $spacing-row-base;
 											font-size: $font-size-sm;
-											height: 44rpx;
-											line-height: 44rpx;
-	
+											line-height: var(--menu-control-size-sm);
+
 											&.property_btn {
 												border-radius: 24rpx;
 											}
-	
+
 											&.add_btn,
 											&.reduce_btn {
+												width: var(--menu-control-size-sm);
 												padding: 0;
-												width: 44rpx;
-												border-radius: 44rpx;
+												border-radius: var(--menu-control-size-sm);
 											}
 										}
-	
+
 										.dot {
 											position: absolute;
-											background-color: #ffffff;
-											border: 1px solid $color-primary;
-											color: $color-primary;
-											font-size: $font-size-sm;
-											width: 36rpx;
-											height: 36rpx;
-											line-height: 36rpx;
-											text-align: center;
-											border-radius: 100%;
-											right: -12rpx;
 											top: -10rpx;
-										}
-	
-										.number {
-											width: 44rpx;
-											height: 44rpx;
-											line-height: 44rpx;
+											right: -12rpx;
+											width: $menu-badge-size;
+											height: $menu-badge-size;
+											font-size: $font-size-sm;
+											line-height: $menu-badge-size;
 											text-align: center;
+											color: $color-primary;
+											background-color: $text-color-white;
+											border: 1px solid $color-primary;
+											border-radius: $border-radius-circle;
 										}
+
+										@include quantity-control(var(--menu-control-size-sm));
 									}
 								}
 							}
@@ -1052,359 +1168,344 @@ const toPay = () => {
 			}
 		}
 	}
+}
 	
-	
-	.good-detail-modal {
-		width: 100%;
-		height: 100%;
+.good-detail-modal {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+
+	.cover {
 		display: flex;
-		flex-direction: column;
-	
-		.cover {
-			height: 20rpx;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-	
-			.btn-group {
-				position: absolute;
-				right: 10rpx;
-				top: 0rpx;
-				display: flex;
-				align-items: center;
-				justify-content: space-around;
-				z-index: 210;
-				 
-				image {
-					width: 80rpx;
-					height: 80rpx;
-				}
-			}
-		}
-	
-		.detail {
-			width: 100%;
-			min-height: 1vh;
-			max-height: calc(90vh - 320rpx - 80rpx - 120rpx);
-			position: relative;
-	
-			.image {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				image {
-					width: 260rpx;
-					height: 260rpx;
-				}
-			}
-			.wrapper {
-				width: 100%;
-				height: 100%;
-				overflow: hidden;
-	
-				.basic {
-					padding: 0 20rpx 30rpx;
-					display: flex;
-					flex-direction: column;
-					.name {
-						font-size: $font-size-base;
-						color: $text-color-base;
-						margin-bottom: 10rpx;
-					}
-					.tips {
-						font-size: $font-size-sm;
-						color: $text-color-grey;
-					}
-				}
-	
-				.properties {
-					width: 100%;
-					border-top: 2rpx solid $bg-color-grey;
-					padding: 10rpx 30rpx 0;
-					display: flex;
-					flex-direction: column;
-	
-					.property {
-						width: 100%;
-						display: flex;
-						flex-direction: column;
-						margin-bottom: 30rpx;
-						padding-bottom: -16rpx;
-	
-						.title {
-							width: 100%;
-							display: flex;
-							justify-content: flex-start;
-							align-items: center;
-							margin-bottom: 20rpx;
-	
-							.name {
-								font-size: 26rpx;
-								color: $text-color-base;
-								margin-right: 20rpx;
-							}
-	
-							.desc {
-								flex: 1;
-								font-size: $font-size-sm;
-								color: $color-primary;
-								overflow: hidden;
-								text-overflow: ellipsis;
-								white-space: nowrap;
-							}
-						}
-	
-						.values {
-							width: 100%;
-							display: flex;
-							flex-wrap: wrap;
-	
-							.value {
-								border-radius: 8rpx;
-								background-color: $bg-color-grey;
-								padding: 16rpx 30rpx;
-								font-size: 26rpx;
-								color: $text-color-assist;
-								margin-right: 16rpx;
-								margin-bottom: 16rpx;
-	
-								&.default {
-									background-color: $color-primary;
-									color: $text-color-white;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	
-		.action {
+		align-items: center;
+		justify-content: center;
+		height: 20rpx;
+
+		.btn-group {
+			position: absolute;
+			top: 0;
+			right: $menu-gap-sm;
+			z-index: 210;
 			display: flex;
 			align-items: center;
-			justify-content: space-between;
-			background-color: $bg-color-grey;
-			height: 120rpx;
-			padding: 0 26rpx;
-	
-			.left {
-				flex: 1;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				margin-right: 20rpx;
-				overflow: hidden;
-	
-				.price {
-					font-size: $font-size-lg;
-					color: $text-color-base;
-				}
-	
-				.props {
-					color: $text-color-assist;
-					font-size: 24rpx;
-					width: 100%;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-				}
+			justify-content: space-around;
+
+			image {
+				width: $img-size-lg;
+				height: $img-size-lg;
 			}
-			.btn-group {
-				display: flex;
-				align-items: center;
-				justify-content: space-around;
-	
-				.number {
-					font-size: $font-size-base;
-					width: 44rpx;
-					height: 44rpx;
-					line-height: 44rpx;
-					text-align: center;
-				}
-	
-				.btn {
-					padding: 0;
-					font-size: $font-size-base;
-					width: 44rpx;
-					height: 44rpx;
-					line-height: 44rpx;
-					border-radius: 100%;
-				}
-			}
-		}
-	
-		.add-to-cart-btn {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			background-color: $color-primary;
-			color: $text-color-white;
-			font-size: $font-size-base;
-			height: 80rpx;
-			border-radius: 0 0 12rpx 12rpx;
 		}
 	}
-	
-	.cart-box {
-		position: fixed;
-		bottom: 30rpx;
-		/* #ifdef H5 */
-		bottom:var(--window-bottom);
-		//bottom: 100rpx;
-		/* #endif */
-		left: 30rpx;
-		right: 30rpx;
-		height: 96rpx;
-		border-radius: 48rpx;
-		box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.2);
-		background-color: #ffffff;
+
+	.detail {
+		position: relative;
+		width: 100%;
+		min-height: 1vh;
+		max-height: calc(90vh - 320rpx - 80rpx - 120rpx);
+
+		.image {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			image {
+				width: 260rpx;
+				height: 260rpx;
+			}
+		}
+
+		.wrapper {
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+
+			.basic {
+				display: flex;
+				flex-direction: column;
+				padding: 0 $spacing-row-base $spacing-row-lg;
+
+				.name {
+					margin-bottom: $menu-gap-sm;
+					font-size: $font-size-base;
+					color: $text-color-base;
+				}
+
+				.tips {
+					font-size: $font-size-sm;
+					color: $text-color-grey;
+				}
+			}
+
+			.properties {
+				display: flex;
+				flex-direction: column;
+				width: 100%;
+				padding: $menu-gap-sm $spacing-row-lg 0;
+				border-top: $menu-divider-height solid $bg-color-grey;
+
+				.property {
+					display: flex;
+					flex-direction: column;
+					width: 100%;
+					margin-bottom: $spacing-row-lg;
+
+					.title {
+						display: flex;
+						align-items: center;
+						justify-content: flex-start;
+						width: 100%;
+						margin-bottom: $spacing-row-base;
+
+						.name {
+							margin-right: $spacing-row-base;
+							font-size: $menu-font-menu;
+							color: $text-color-base;
+						}
+
+						.desc {
+							flex: 1;
+							font-size: $font-size-sm;
+							color: $color-primary;
+							@include text-ellipsis;
+						}
+					}
+
+					.values {
+						display: flex;
+						flex-wrap: wrap;
+						width: 100%;
+
+						.value {
+							margin-right: $spacing-col-base;
+							margin-bottom: $spacing-col-base;
+							padding: $spacing-col-base $spacing-row-lg;
+							font-size: $menu-font-menu;
+							color: $text-color-assist;
+							background-color: $bg-color-grey;
+							border-radius: $menu-radius-sm;
+
+							&.default {
+								color: $text-color-white;
+								background-color: $color-primary;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.action {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		z-index: 9999;
-	
-		.cart-img {
-			width: 96rpx;
-			height: 96rpx;
-			position: relative;
-			margin-top: -48rpx;
-		}
-	
-		.pay-btn {
-			height: 100%;
-			padding: 0 30rpx;
-			color: #ffffff;
-			border-radius: 0 50rpx 50rpx 0;
+		height: 120rpx;
+		padding: 0 26rpx;
+		background-color: $bg-color-grey;
+
+		.left {
+			flex: 1;
 			display: flex;
-			align-items: center;
-			font-size: $font-size-base;
-		}
-	
-		.mark {
-			padding-left: 46rpx;
-			margin-right: 30rpx;
-			position: relative;
-	
-			.tag {
-				//background-color: $color-warning;
-				background-color: #09b4f1;;
-				color: $text-color-white;
-				display: flex;
-				justify-content: center;
-				align-items: center;
+			flex-direction: column;
+			justify-content: center;
+			margin-right: $spacing-row-base;
+			overflow: hidden;
+
+			.price {
+				font-size: $font-size-lg;
+				color: $text-color-base;
+			}
+
+			.props {
+				width: 100%;
 				font-size: $font-size-sm;
-				position: absolute;
-				right: -10rpx;
-				top: -50rpx;
-				border-radius: 100%;
-				padding: 4rpx;
-				width: 40rpx;
-				height: 40rpx;
-				opacity: 0.9;
+				color: $text-color-assist;
+				@include text-ellipsis;
 			}
 		}
-	
-		.price {
-			flex: 1;
-			color: $text-color-base;
+
+		.btn-group {
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
+
+			.btn {
+				font-size: $font-size-base;
+			}
+
+			@include quantity-control(var(--menu-control-size-sm));
 		}
 	}
+
+	.add-to-cart-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 80rpx;
+		font-size: $font-size-base;
+		color: $text-color-white;
+		background-color: $color-primary;
+		border-radius: 0 0 $border-radius-lg $border-radius-lg;
+	}
+}
 	
-	.cart-popup {
-		.top {
-			background-color: $bg-color-primary;
-			//color: $color-primary;
-			color: #5A5B5C;
-			padding: 10rpx 30rpx;
-			font-size: 24rpx;
-			text-align: right;
+.cart-box {
+	position: fixed;
+	bottom: $spacing-row-lg;
+	/* #ifdef H5 */
+	bottom: var(--window-bottom);
+	/* #endif */
+	left: $spacing-row-lg;
+	right: $spacing-row-lg;
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: $menu-cart-height;
+	background-color: $text-color-white;
+	border-radius: $menu-radius-cart;
+	box-shadow: $menu-shadow-cart;
+
+	.cart-img {
+		position: relative;
+		width: $menu-cart-height;
+		height: $menu-cart-height;
+		margin-top: calc(-1 * #{$menu-cart-height} / 2);
+	}
+
+	.pay-btn {
+		display: flex;
+		align-items: center;
+		height: 100%;
+		padding: 0 $spacing-row-lg;
+		font-size: $font-size-base;
+		color: $text-color-white;
+		border-radius: 0 50rpx 50rpx 0;
+	}
+
+	.mark {
+		position: relative;
+		margin-right: $spacing-row-lg;
+		padding-left: 46rpx;
+
+		.tag {
+			position: absolute;
+			top: -50rpx;
+			right: -10rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: $menu-tag-size;
+			height: $menu-tag-size;
+			padding: 4rpx;
+			font-size: $font-size-sm;
+			color: $text-color-white;
+			background-color: $color-primary;
+			border-radius: $border-radius-circle;
+			opacity: 0.9;
 		}
-		.cart-list {
-			background-color: #ffffff;
-			width: 100%;
-			overflow: hidden;
-			min-height: 1vh;
-			max-height: 60vh;
-	
-			.wrapper {
-				height: 100%;
+	}
+
+	.price {
+		flex: 1;
+		color: $text-color-base;
+	}
+}
+
+.cart-popup {
+	.top {
+		padding: $menu-gap-sm $spacing-row-lg;
+		font-size: $font-size-sm;
+		text-align: right;
+		color: $menu-secondary-color;
+		background-color: $bg-color-primary;
+	}
+
+	.cart-list {
+		width: 100%;
+		min-height: 1vh;
+		max-height: var(--menu-cart-popup-max-height);
+		overflow: hidden;
+		background-color: $text-color-white;
+
+		.wrapper {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			padding: 0 $spacing-row-lg;
+			margin-bottom: $menu-cart-list-bottom;
+
+			.item {
+				position: relative;
 				display: flex;
-				flex-direction: column;
-				padding: 0 30rpx;
-				margin-bottom: 156rpx;
-	
-				.item {
+				align-items: center;
+				justify-content: space-between;
+				padding: $spacing-row-lg 0;
+				@include list-divider;
+
+				.left {
+					flex: 1;
 					display: flex;
-					justify-content: space-between;
+					flex-direction: column;
+					margin-right: $spacing-row-lg;
+					overflow: hidden;
+
+					.name {
+						font-size: $font-size-sm;
+						color: $text-color-base;
+					}
+
+					.props {
+						font-size: $font-size-sm;
+						color: $text-color-assist;
+						@include text-ellipsis;
+					}
+				}
+
+				.center {
+					margin-right: $menu-cart-price-offset;
+					font-size: $font-size-base;
+				}
+
+				.right {
+					display: flex;
 					align-items: center;
-					padding: 30rpx 0;
-					position: relative;
-	
-					&::after {
-						content: ' ';
-						position: absolute;
-						bottom: 0;
-						left: 0;
-						width: 100%;
-						background-color: $border-color;
-						height: 2rpx;
-						transform: scaleY(0.6);
-					}
-	
-					.left {
-						flex: 1;
-						display: flex;
-						flex-direction: column;
-						overflow: hidden;
-						margin-right: 30rpx;
-	
-						.name {
-							font-size: $font-size-sm;
-							color: $text-color-base;
-						}
-						.props {
-							color: $text-color-assist;
-							font-size: 24rpx;
-							overflow: hidden;
-							text-overflow: ellipsis;
-							white-space: nowrap;
-						}
-					}
-	
-					.center {
-						margin-right: 120rpx;
+					justify-content: space-between;
+					@include quantity-control(var(--menu-control-size));
+
+					.btn {
 						font-size: $font-size-base;
-					}
-	
-					.right {
-						display: flex;
-						align-items: center;
-						justify-content: space-between;
-	
-						.btn {
-							width: 46rpx;
-							height: 46rpx;
-							border-radius: 100%;
-							padding: 0;
-							text-align: center;
-							line-height: 46rpx;
-						}
-	
-						.number {
-							font-size: $font-size-base;
-							width: 46rpx;
-							height: 46rpx;
-							text-align: center;
-							line-height: 46rpx;
-						}
 					}
 				}
 			}
 		}
 	}
-	
-	.backgroud-grey {
-		background-color: #e1e4e4;
-		padding: 15rpx !important;
-	}
+}
+
+// 页面级工具类
+.notice-bar {
+	height: 60rpx;
+	background-color: $text-color-white;
+}
+
+.store-header-img {
+	width: $img-size-lg;
+	height: $img-size-lg;
+}
+
+.bottom-spacer {
+	height: 110rpx;
+}
+
+.locate-store-btn {
+	position: absolute;
+	top: 650rpx;
+	z-index: 3001;
+}
+
+.background-grey {
+	padding: 15rpx !important;
+	background-color: $menu-sold-out-bg;
+}
 </style>

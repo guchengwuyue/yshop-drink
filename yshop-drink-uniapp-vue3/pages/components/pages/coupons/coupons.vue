@@ -5,85 +5,89 @@
 	  left-arrow
 	  @leftClick="$onClickLeft"
 	/>
-	<view class="container position-relative w-100 h-100 overflow-hidden">
-		<view class="exchange-box">
-			<view class="input-box">
+	<view class="container coupons-page position-relative w-100 h-100 overflow-hidden">
+		<view class="coupons-exchange">
+			<view class="coupons-exchange__input">
 				<uv-search placeholder="请输入兑换码" v-model="exchange_code" @click="exchange"></uv-search>
 			</view>
 		</view>
-		<view class="tabbar">
-			<view class="tab" :class="{active: activeTabIndex == index}" 
-				v-for="(item, index) in tabs" :key="index" @tap="handleTab(index)">
-				<view class="title">{{ item.title }}</view>
+		<view class="coupons-tabbar">
+			<view
+				class="coupons-tab"
+				:class="{ 'coupons-tab--active': activeTabIndex == index }"
+				v-for="(item, index) in tabs"
+				:key="index"
+				@tap="handleTab(index)"
+			>
+				<view class="coupons-tab__title">{{ item.title }}</view>
 			</view>
 		</view>
 		<view class="flex-fill">
-			<scroll-view scroll-y class="coupon-list" @scrolltolower="getCoupons(activeTabIndex)">
-				<view class="wrapper"  v-if="0 === activeTabIndex">
+			<scroll-view scroll-y class="coupons-list" @scrolltolower="getCoupons(activeTabIndex)">
+				<view class="coupons-list__wrapper" v-if="0 === activeTabIndex">
 					<uv-empty v-if="myCoupons.length == 0" mode="list"></uv-empty>
-					<view class="coupon" v-for="(item, index) in myCoupons" :key="index" @tap="openDetailModal(item,index)">
-						<view class="taobao">
-							<view class="ticket">
-								<view class="left">
+					<view class="coupons-item" v-for="(item, index) in myCoupons" :key="index" @tap="openDetailModal(item,index)">
+						<view class="coupons-ticket">
+							<view class="coupons-ticket__body">
+								<view class="coupons-ticket__left">
 									<image
-										class="picture"
+										class="coupons-ticket__picture"
 										:src="item.image"
 										mode="aspectFill"
 									></image>
-									<view class="introduce">
-										<view class="top">
+									<view class="coupons-ticket__intro">
+										<view class="coupons-ticket__value">
 											￥
-											<text class="big">{{item.value}}</text>
+											<text class="coupons-ticket__amount">{{item.value}}</text>
 											<view>
 												满{{item.least}}减{{item.value}}
 											</view>
 										</view>
-										<view class="type">{{ item.title }}</view>
-										<view class="date u-line-1">{{formatDateTime(item.startTime, 'yyyy-MM-dd')}}-{{formatDateTime(item.endTime, 'yyyy-MM-dd')}}</view>
+										<view class="coupons-ticket__type">{{ item.title }}</view>
+										<view class="coupons-ticket__date u-line-1">{{formatDateTime(item.startTime, 'yyyy-MM-dd')}}-{{formatDateTime(item.endTime, 'yyyy-MM-dd')}}</view>
 									</view>
 								</view>
-								<view class="right" @click.stop="" v-if="activeTabIndex == 1">
-									<view class="use immediate-use" :round="true" @tap="receive(item, index)" >立即领取</view>
+								<view class="coupons-ticket__right" @click.stop="" v-if="activeTabIndex == 1">
+									<view class="coupons-ticket__btn coupons-ticket__btn--use immediate-use" :round="true" @tap="receive(item, index)">立即领取</view>
 								</view>
-								<view class="right" @click.stop="" v-if="activeTabIndex == 0">
-									<view v-if="item.status == 0" class="use immediate-use" :round="true" @tap="useCouponWith(item)" >立即使用</view>
-									<view v-else class="used">已使用</view>
+								<view class="coupons-ticket__right" @click.stop="" v-if="activeTabIndex == 0">
+									<view v-if="item.status == 0" class="coupons-ticket__btn coupons-ticket__btn--use immediate-use" :round="true" @tap="useCouponWith(item)">立即使用</view>
+									<view v-else class="coupons-ticket__btn coupons-ticket__btn--used">已使用</view>
 								</view>
 							</view>
 						</view>
 					</view>
 				</view>
-				<view class="wrapper" v-if="1 === activeTabIndex">
+				<view class="coupons-list__wrapper" v-if="1 === activeTabIndex">
 					<uv-empty v-if="notCoupons.length == 0" mode="list"></uv-empty>
-					<view class="coupon" v-for="(item, index) in notCoupons" :key="index" @tap="openDetailModal(item,index)">
-						<view class="taobao">
-							<view class="">
-								<view class="left">
+					<view class="coupons-item" v-for="(item, index) in notCoupons" :key="index" @tap="openDetailModal(item,index)">
+						<view class="coupons-ticket">
+							<view class="coupons-ticket__body">
+								<view class="coupons-ticket__left">
 									<image
-										class="picture"
+										class="coupons-ticket__picture"
 										:src="item.image"
 										mode="aspectFill"
 									></image>
-									<view class="introduce">
-										<view class="top">
+									<view class="coupons-ticket__intro">
+										<view class="coupons-ticket__value">
 											￥
-											<text class="big">{{item.value}}</text>
+											<text class="coupons-ticket__amount">{{item.value}}</text>
 											<view>
 												满{{item.least}}减{{item.value}}
 											</view>
 										</view>
-										<view class="type">{{ item.title }}</view>
-										<view class="date u-line-1">{{formatDateTime(item.startTime, 'yyyy-MM-dd')}}-{{formatDateTime(item.endTime, 'yyyy-MM-dd')}}</view>
+										<view class="coupons-ticket__type">{{ item.title }}</view>
+										<view class="coupons-ticket__date u-line-1">{{formatDateTime(item.startTime, 'yyyy-MM-dd')}}-{{formatDateTime(item.endTime, 'yyyy-MM-dd')}}</view>
 									</view>
 								</view>
-								<view class="right" @click.stop="" v-if="activeTabIndex == 1">
-									<!-- <view class="use immediate-use" :round="true" @tap="receive(item, index)" >立即领取</view> -->
-									<view  class="use immediate-use" :round="true" v-if="item.isReceive == 0" @tap="receive(item, index)" >立即领取</view>
-									<view v-else class="used immediate-use">已领取</view>
+								<view class="coupons-ticket__right" @click.stop="" v-if="activeTabIndex == 1">
+									<view class="coupons-ticket__btn coupons-ticket__btn--use immediate-use" :round="true" v-if="item.isReceive == 0" @tap="receive(item, index)">立即领取</view>
+									<view v-else class="coupons-ticket__btn coupons-ticket__btn--used immediate-use">已领取</view>
 								</view>
-								<view class="right" @click.stop="" v-if="activeTabIndex == 0">
-									<view v-if="item.status == 0" class="use immediate-use" :round="true" @tap="useCouponWith(item)" >立即使用</view>
-									<view v-else class="used">已使用</view>
+								<view class="coupons-ticket__right" @click.stop="" v-if="activeTabIndex == 0">
+									<view v-if="item.status == 0" class="coupons-ticket__btn coupons-ticket__btn--use immediate-use" :round="true" @tap="useCouponWith(item)">立即使用</view>
+									<view v-else class="coupons-ticket__btn coupons-ticket__btn--used">已使用</view>
 								</view>
 							</view>
 						</view>
@@ -269,216 +273,212 @@ const receive = async(coupon,index) => {
 </script>
 
 <style lang="scss" scoped>
+// 优惠券页局部 token（与 uni.scss 全局变量配合）
+$coupons-exchange-height: 100rpx;
+$coupons-exchange-input-width: 70%;
+$coupons-tabbar-height: 80rpx;
+$coupons-tab-indicator-height: 5rpx;
+$coupons-tab-title-padding-y: 15rpx;
+$coupons-list-offset-nav: 120rpx;
+$coupons-list-offset-header: 200rpx;
+$coupons-list-padding-x: $spacing-row-base;
+$coupons-item-gap: $spacing-row-lg;
+$coupons-item-radius: $border-radius-base;
+$coupons-notch-size: 30rpx;
+$coupons-notch-offset: 65rpx;
+$coupons-ticket-radius: 20rpx;
+$coupons-ticket-divider: $border-color-light;
+$coupons-ticket-left-width: 70%;
+$coupons-ticket-right-width: 30%;
+$coupons-ticket-padding: $spacing-row-base;
+$coupons-ticket-right-padding-y: 40rpx;
+$coupons-picture-size: 190rpx;
+$coupons-amount-font-size: 60rpx;
+$coupons-date-font-size: 20rpx;
+$coupons-intro-gap: 10rpx;
+$coupons-btn-radius: 40rpx;
+$coupons-btn-padding-x: 20rpx;
+$coupons-btn-line-height: 40rpx;
+$coupons-btn-margin-left: 20rpx;
+
 /* #ifdef H5 */
 page {
 	height: 100%;
 }
 /* #endif */
 
-.container {
+.coupons-page {
+	--coupons-picture-size: #{$coupons-picture-size};
+	--coupons-list-offset-nav: #{$coupons-list-offset-nav};
+	--coupons-list-offset-header: #{$coupons-list-offset-header};
+
 	display: flex;
 	flex-direction: column;
 }
 
-.exchange-box {
+.coupons-exchange {
 	flex-shrink: 0;
-	height: 100rpx;
-	background-color: #ffffff;
-	 display: flex;
+	display: flex;
 	align-items: center;
 	justify-content: center;
+	height: $coupons-exchange-height;
+	background-color: $text-color-white;
 
-	.input-box {
-		width: 70%;
+	&__input {
+		width: $coupons-exchange-input-width;
 	}
 }
 
-.tabbar {
+.coupons-tabbar {
 	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	width: 100%;
-	height: 80rpx;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	
-	.tab {
-		flex: 1;
-		height: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		font-size: $font-size-base;
-		color: $text-color-base;
-		position: relative;
-		
-		.title {
-			padding: 15rpx 0;
-		}
-		
-		&.active {
-			color: $color-primary;
-			
-			.title {
-				border-bottom: 5rpx solid $color-primary;
-			}
-		}
-	}
+	height: $coupons-tabbar-height;
 }
 
-
-.coupon-list {
-	height: calc(100vh - 120rpx - 200rpx);
-	/* #ifdef H5 */
-	height: calc(100vh - 120rpx - 200rpx - 44px);
-	/* #endif */
-}
-
-.wrapper {
-	padding: 0 20rpx;
+.coupons-tab {
+	flex: 1;
 	display: flex;
 	flex-direction: column;
-	
-	.coupon {
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	font-size: $font-size-base;
+	color: $text-color-base;
+	position: relative;
+
+	&__title {
+		padding: $coupons-tab-title-padding-y 0;
+	}
+
+	&--active {
+		color: $color-primary;
+
+		.coupons-tab__title {
+			border-bottom: $coupons-tab-indicator-height solid $color-primary;
+		}
+	}
+}
+
+.coupons-list {
+	height: calc(100vh - var(--coupons-list-offset-nav) - var(--coupons-list-offset-header));
+
+	/* #ifdef H5 */
+	height: calc(100vh - var(--coupons-list-offset-nav) - var(--coupons-list-offset-header) - 44px);
+	/* #endif */
+
+	&__wrapper {
 		display: flex;
 		flex-direction: column;
-		background-color: #FFFFFF;
-		margin-bottom: 30rpx;
-		//padding: 0 30rpx;
-		border-radius: 6rpx;
-		box-shadow: 0 10rpx 10rpx -10rpx rgba(15, 15, 15, 0.1);
-		position: relative;
-		
-		&::before {
-			content: "";
-			position: absolute;
-			background-color: $bg-color;
-			width: 30rpx;
-			height: 30rpx;
-			bottom: 65rpx;
-			left: -15rpx;
-			border-radius: 100%;
-		}
-		
-		&::after {
-			content: "";
-			position: absolute;
-			background-color: $bg-color;
-			width: 30rpx;
-			height: 30rpx;
-			bottom: 65rpx;
-			right: -15rpx;
-			border-radius: 100%;
-		}
-		
-		.detail {
-			padding: 20rpx 0;
-			position: relative;
-
-		    &::after {
-				content: '';
-				position: absolute;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				border-bottom: 1rpx dashed #c6c6c6;
-				transform: scaleY(0.5);
-			}
-			
-			.coupon-img {
-				width: 150rpx;
-				height: 150rpx;
-				margin-right: 40rpx;
-			}
-		}
+		padding: 0 $coupons-list-padding-x;
 	}
 }
 
-.use-coupon-btn {
-	width: 95%;
-	border-radius: 50rem !important;
+.coupons-item {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	margin-bottom: $coupons-item-gap;
+	background-color: $text-color-white;
+	border-radius: $coupons-item-radius;
+	box-shadow: $box-shadow;
+
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: $coupons-notch-offset;
+		width: $coupons-notch-size;
+		height: $coupons-notch-size;
+		background-color: $bg-color;
+		border-radius: $border-radius-circle;
+	}
+
+	&::before {
+		left: calc(-1 * #{$coupons-notch-size} / 2);
+	}
+
+	&::after {
+		right: calc(-1 * #{$coupons-notch-size} / 2);
+	}
 }
 
+.coupons-ticket {
+	background-color: $text-color-white;
 
-.taobao {
-	background-color: white;
-	.title {
+	&__body {
+		display: flex;
+	}
+
+	&__left {
+		display: flex;
+		width: $coupons-ticket-left-width;
+		padding: $coupons-ticket-padding;
+		background-color: $text-color-white;
+		border-radius: $coupons-ticket-radius;
+		border-right: dashed 2rpx $coupons-ticket-divider;
+	}
+
+	&__picture {
+		flex-shrink: 0;
+		width: var(--coupons-picture-size);
+		height: var(--coupons-picture-size);
+		border-radius: $coupons-ticket-radius;
+	}
+
+	&__intro {
+		margin-left: $coupons-intro-gap;
+		min-width: 0;
+	}
+
+	&__value {
+		font-size: $font-size-base;
+		color: $uv-warning;
+
+		.coupons-ticket__amount {
+			margin-right: $coupons-intro-gap;
+			font-size: $coupons-amount-font-size;
+			font-weight: bold;
+		}
+	}
+
+	&__type {
+		font-size: $font-size-base;
+		color: $uv-info-dark;
+	}
+
+	&__date {
+		margin-top: $coupons-intro-gap;
+		font-size: $coupons-date-font-size;
+		color: $uv-info-dark;
+	}
+
+	&__right {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		margin-bottom: 20rpx;
-		font-size: 30rpx;
-		.left {
-			display: flex;
-			align-items: center;
-		}
+		width: $coupons-ticket-right-width;
+		padding: $coupons-ticket-right-padding-y $coupons-ticket-padding;
+		background-color: $text-color-white;
+		border-radius: $coupons-ticket-radius;
 	}
-	.ticket {
-		display: flex;
-		.left {
-			width: 70%;
-			padding: 20rpx;
-			background-color: white;//rgb(255, 245, 244);
-			border-radius: 20rpx;
-			border-right: dashed 2rpx rgb(224, 215, 211);
-			display: flex;
-			.picture {
-				//width: 172rpx;
-				border-radius: 20rpx;
-				width: 190rpx;
-				height: 190rpx;
-			}
-			.introduce {
-				margin-left: 10rpx;
-				.top{
-					color:$uv-warning;
-					font-size: 28rpx;
-					.big{
-						font-size: 60rpx;
-						font-weight: bold;
-						margin-right: 10rpx;
-					}
-				}
-				.type{
-					font-size: 28rpx;
-					color: $uv-info-dark;
-				}
-				.date{
-					margin-top: 10rpx;
-					font-size: 20rpx;
-					color: $uv-info-dark;
-				}
-			}
+
+	&__btn {
+		height: auto;
+		margin-left: $coupons-btn-margin-left;
+		padding: 0 $coupons-btn-padding-x;
+		font-size: $font-size-sm;
+		line-height: $coupons-btn-line-height;
+		border-radius: $coupons-btn-radius;
+		color: $text-color-white !important;
+
+		&--use {
+			background-color: $uv-warning !important;
 		}
-		.right {
-			width: 30%;
-			padding: 40rpx 20rpx;
-			background-color: white;//rgb(255, 245, 244);
-			border-radius: 20rpx;
-			display: flex;
-			align-items: center;
-			.use {
-				height: auto;
-				padding: 0 20rpx;
-				font-size: 24rpx;
-				border-radius: 40rpx;
-				color: #ffffff!important;
-				background-color: $uv-warning!important;
-				line-height: 40rpx;
-				color: rgb(117, 142, 165);
-				margin-left: 20rpx;
-			}
-			.used {
-				height: auto;
-				padding: 0 20rpx;
-				font-size: 24rpx;
-				border-radius: 40rpx;
-				color: #ffffff!important;
-				background-color: $uv-info-dark!important;
-				line-height: 40rpx;
-				color: rgb(117, 142, 165);
-				margin-left: 20rpx;
-			}
+
+		&--used {
+			background-color: $uv-info-dark !important;
 		}
 	}
 }

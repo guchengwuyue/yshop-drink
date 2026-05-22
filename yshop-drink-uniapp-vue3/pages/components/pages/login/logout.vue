@@ -6,8 +6,8 @@
 		  left-arrow
 		  @leftClick="$onClickLeft"
 		/>
-		<view class="top">
-			<button type="primary" size="default" class="login-btn" @click="logout">
+		<view class="logout-page">
+			<button type="primary" size="default" class="logout-page__btn" @click="logout">
 				确定退出登录
 			</button>
 			<uv-toast ref="uToast"></uv-toast>
@@ -45,12 +45,12 @@ const logout = () => {
 </script>
 
 <style lang="scss" scoped>
-	
-	.top {
-		display: flex; 
-		height: 100%;
+.logout-page {
+	display: flex;
+	height: 100%;
+
+	&__btn {
+		margin: auto;
 	}
-	button{
-		 margin: auto;
-	}
+}
 </style>

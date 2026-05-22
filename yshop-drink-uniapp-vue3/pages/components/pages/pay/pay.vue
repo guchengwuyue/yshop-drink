@@ -5,11 +5,11 @@
 	  left-arrow
 	  @leftClick="$onClickLeft"
 	/>
-	<view class="container position-relative">
-		<view style="margin-bottom: 130rpx;">
-			<view class="section-1">
+	<view class="pay-page container position-relative">
+		<view class="pay-page__content">
+			<view class="pay-page__section">
 				<template v-if="store.distance > 0">
-					<list-cell class="location">
+					<list-cell class="pay-page__cell pay-page__cell--location">
 						<view class="flex-fill d-flex justify-content-between align-items-center">
 							<view class="store-name flex-fill">{{ orderType == 'takeout' ? '外卖配送' : '点餐自取' }}</view>
 							<uv-switch activeColor="#09b4f1" v-model="active" @change="takout">
@@ -25,7 +25,7 @@
 								<view class="font-size-lg text-color-base">
 									{{ address.address + ' ' + address.detail }}
 								</view>
-								<image src="/static/images/navigator-1.png" class="arrow"></image>
+								<image src="/static/images/navigator-1.png" class="pay-page__arrow"></image>
 							</view>
 							<view class="d-flex text-color-assist font-size-sm align-items-center">
 								<view class="mr-10">{{ address.realName }}</view>
@@ -34,24 +34,24 @@
 						</view>
 						<view v-else class="flex-fill d-flex justify-content-between align-items-center">
 							<view class="store-name flex-fill">选择收货地址</view>
-							<image src="/static/images/navigator-1.png" class="arrow"></image>
+							<image src="/static/images/navigator-1.png" class="pay-page__arrow"></image>
 						</view>
 					</list-cell>
 				</template>
 			</view>
 
-			<view class="section-1">
+			<view class="pay-page__section">
 				<template>
-					<list-cell class="location" @click="goToShop">
+					<list-cell class="pay-page__cell pay-page__cell--location" @click="goToShop">
 						<view class="flex-fill d-flex justify-content-between align-items-center">
 							<view class="store-name flex-fill">{{ store.name }}</view>
-							<image src="/static/images/navigator-1.png" class="arrow"></image>
+							<image src="/static/images/navigator-1.png" class="pay-page__arrow"></image>
 						</view>
 					</list-cell>
 				</template>
 
 				<template>
-					<list-cell arrow class="meal-time" v-if="orderType == 'takein'">
+					<list-cell arrow class="pay-page__cell pay-page__cell--meal-time" v-if="orderType == 'takein'">
 						<view class="flex-fill d-flex justify-content-between align-items-center"
 							@click="takeinTIme = !takeinTIme">
 							<view class="title">取餐时间</view>
@@ -63,12 +63,12 @@
 							</view>
 						</view>
 					</list-cell>
-					<list-cell class="contact" last :hover="false" v-if="orderType == 'takein'">
+					<list-cell class="pay-page__cell pay-page__cell--contact" last :hover="false" v-if="orderType == 'takein'">
 						<view class="flex-fill d-flex justify-content-between align-items-center">
 							<view class="title flex-fill">联系电话</view>
 							<view class="time"><input class="text-right" placeholder="请输入手机号码" :value="member.mobile" />
 							</view>
-							<button class="contact-tip font-size-sm">自动填写</button>
+							<button class="pay-page__contact-tip font-size-sm">自动填写</button>
 						</view>
 					</list-cell>
 				</template>
@@ -88,17 +88,17 @@
 				</template>
 			</view>
 			<!-- 购物车列表 begin -->
-			<view class="section-2">
-				<view class="cart d-flex flex-column">
+			<view class="pay-page__section pay-page__section--cart">
+				<view class="pay-page__cart d-flex flex-column">
 					<list-cell last v-for="(item, index) in cart" :key="index">
 						<view class="w-100 d-flex flex-column">
 							<view class="d-flex align-items-center mb-10">
 								<view
 									class="d-flex flex-fill justify-content-between align-items-center text-color-base font-size-lg">
-									<image style="width: 80rpx;height: 80rpx;" mode="aspectFill" :src="item.image">
+									<image class="pay-page__cart-thumb" mode="aspectFill" :src="item.image">
 									</image>
 								</view>
-								<view class="name-and-props overflow-hidden">
+								<view class="pay-page__cart-name overflow-hidden">
 									<view class="text-color-base font-size-lg">{{ item.name }}</view>
 								</view>
 								<view
@@ -134,47 +134,46 @@
 				</list-cell>
 			</view>
 			<!-- 购物车列表 end -->
-			<view class="d-flex align-items-center justify-content-start font-size-sm text-color-warning"
-				style="padding: 20rpx 0;">
+			<view class="pay-page__notice d-flex align-items-center justify-content-start font-size-sm text-color-warning">
 			</view>
 			<!-- 支付方式 begin -->
-			<view class="payment">
+			<view class="pay-page__payment">
 				<list-cell last :hover="false"><text>支付方式</text></list-cell>
 				<list-cell>
-					<view class="d-flex align-items-center justify-content-between w-100 disabled"
+					<view class="pay-page__payment-row pay-page__payment-row--disabled d-flex align-items-center justify-content-between w-100"
 						@click="setPayType('yue')">
-						<view class="iconfont iconbalance line-height-100 payment-icon"></view>
+						<view class="iconfont iconbalance line-height-100 pay-page__payment-icon"></view>
 						<view class="flex-fill">余额支付（余额￥{{ member.nowMoney }}）</view>
 						<view class="font-size-sm" v-if="member.nowMoney == 0">余额不足</view>
-						<view class="iconfont line-height-100 checkbox checked iconradio-button-on" v-if="payType == 'yue'">
+						<view class="iconfont line-height-100 pay-page__checkbox pay-page__checkbox--checked iconradio-button-on" v-if="payType == 'yue'">
 						</view>
-						<view class="iconfont line-height-100 checkbox iconradio-button-off" v-else></view>
+						<view class="iconfont line-height-100 pay-page__checkbox iconradio-button-off" v-else></view>
 					</view>
 				</list-cell>
 				<list-cell last>
-					<view class="d-flex align-items-center justify-content-between w-100" @click="setPayType('weixin')">
-						<view class="iconfont iconwxpay line-height-100 payment-icon" style="color: #7EB73A"></view>
+					<view class="pay-page__payment-row d-flex align-items-center justify-content-between w-100" @click="setPayType('weixin')">
+						<view class="iconfont iconwxpay line-height-100 pay-page__payment-icon pay-page__payment-icon--wechat"></view>
 						<view class="flex-fill">微信支付</view>
-						<view class="iconfont line-height-100 checkbox checked iconradio-button-on" v-if="payType == 'weixin'">
+						<view class="iconfont line-height-100 pay-page__checkbox pay-page__checkbox--checked iconradio-button-on" v-if="payType == 'weixin'">
 						</view>
-						<view class="iconfont line-height-100 checkbox iconradio-button-off" v-else></view>
+						<view class="iconfont line-height-100 pay-page__checkbox iconradio-button-off" v-else></view>
 					</view>
 				</list-cell>
 				<!-- #ifdef H5 -->
 				<list-cell>
-					<view class="d-flex align-items-center justify-content-between w-100" @click="setPayType('alipay')">
-						<view class="iconfont-yshop icon-alipay line-height-100 payment-icon" style="color:#07b4fd" ></view>
+					<view class="pay-page__payment-row d-flex align-items-center justify-content-between w-100" @click="setPayType('alipay')">
+						<view class="iconfont-yshop icon-alipay line-height-100 pay-page__payment-icon pay-page__payment-icon--alipay"></view>
 						<view class="flex-fill">支付宝</view>
-						<view class="iconfont line-height-100 checkbox checked iconradio-button-on" v-if="payType == 'alipay'" ></view>
-						<view class="iconfont line-height-100 checkbox iconradio-button-off" v-else ></view>     
+						<view class="iconfont line-height-100 pay-page__checkbox pay-page__checkbox--checked iconradio-button-on" v-if="payType == 'alipay'" ></view>
+						<view class="iconfont line-height-100 pay-page__checkbox iconradio-button-off" v-else ></view>     
 					</view>
 				</list-cell>
 				<!-- #endif -->
 			</view>
 			<!-- 支付方式 end -->
 			<!-- 备注 begin -->
-			<list-cell  last @click="goToRemark">
-				<view class="d-flex flex-fill align-items-center justify-content-between overflow-hidden" style="margin-bottom: 110rpx;">
+			<list-cell last @click="goToRemark">
+				<view class="pay-page__remark d-flex flex-fill align-items-center justify-content-between overflow-hidden">
 					<view class="flex-shrink-0 mr-20">备注</view>
 					<view class="text-color-primary flex-fill text-truncate text-right">{{ form.remark || '点击填写备注' }}
 					</view>
@@ -183,21 +182,20 @@
 			<!-- 备注 end -->
 		</view>
 		<!-- 付款栏 begin -->
-		<view style="z-index: 1;"
-			class="w-100 pay-box position-fixed fixed-bottom d-flex align-items-center justify-content-between bg-white">
-			<view class="font-size-sm" style="margin-left: 20rpx;">合计：</view>
-			<view class="font-size-lg flex-fill">￥{{ amount }}</view>
-			<view class="bg-primary h-100 d-flex align-items-center just-content-center text-color-white font-size-base"
-				style="padding: 0 60rpx;" @tap="debounce(submit, 500)">付款</view>
+		<view class="pay-page__footer w-100 position-fixed fixed-bottom d-flex align-items-center justify-content-between bg-white">
+			<view class="pay-page__footer-label font-size-sm">合计：</view>
+			<view class="pay-page__footer-amount font-size-lg flex-fill">￥{{ amount }}</view>
+			<view class="pay-page__footer-btn bg-primary h-100 d-flex align-items-center just-content-center text-color-white font-size-base"
+				@tap="debounce(submit, 500)">付款</view>
 		</view>
 		<!-- 付款栏 end -->
 		<modal :show="ensureAddressModalVisible" custom :mask-closable="false" :radius="'0rpx'" width="90%">
-			<view class="modal-content">
+			<view class="pay-page__modal">
 				<view class="d-flex justify-content-end">
-					<image src="/static/images/pay/close.png" style="width: 40rpx; height: 40rpx;"
+					<image src="/static/images/pay/close.png" class="pay-page__modal-close"
 						@tap="ensureAddressModalVisible = false"></image>
 				</view>
-				<view class="d-flex just-content-center align-items-center" style="margin-bottom: 40px;">
+				<view class="pay-page__modal-title d-flex just-content-center align-items-center">
 					<view class="font-size-extra-lg text-color-base">请再次确认下单地址</view>
 				</view>
 				<view
@@ -206,11 +204,11 @@
 					<view>{{ address.phone }}</view>
 				</view>
 				<view class="d-flex font-size-sm text-color-assist align-items-center justify-content-between mb-40">
-					<view style="max-width: 60%;">{{ address.address + address.detail }}</view>
-					<button type="primary" size="mini" plain class="change-address-btn" style="white-space: nowrap;"
+					<view class="pay-page__modal-address">{{ address.address + address.detail }}</view>
+					<button type="primary" size="mini" plain class="pay-page__modal-change-btn"
 						@click="chooseAddress">修改地址</button>
 				</view>
-				<button type="primary" class="pay_btn" @tap="debounce(pay, 500)">确认并付款</button>
+				<button type="primary" class="pay-page__modal-submit" @tap="debounce(pay, 500)">确认并付款</button>
 			</view>
 		</modal>
 		<uv-toast ref="uToast"></uv-toast>
@@ -706,125 +704,166 @@ const aliPay = async(order) => {
 </script>
 
 <style lang="scss" scoped>
-	.container {
-		padding: 30rpx;
+// 支付页局部 token（与 uni.scss 全局变量配合）
+$pay-page-padding: $spacing-row-lg;
+$pay-page-section-gap: $spacing-row-lg;
+$pay-page-content-offset: 130rpx;
+$pay-arrow-size: 50rpx;
+$pay-arrow-offset-right: -10rpx;
+$pay-cart-name-width: 65%;
+$pay-payment-icon-size: 44rpx;
+$pay-checkbox-size: 36rpx;
+$pay-checkbox-gap: 10rpx;
+$pay-payment-gap: 10rpx;
+$pay-footer-height: 100rpx;
+$pay-footer-shadow: 0 0 20rpx rgba($color: #000, $alpha: 0.1);
+$pay-footer-z-index: 1;
+$pay-footer-label-margin: $spacing-row-base;
+$pay-footer-btn-padding-x: 60rpx;
+$pay-remark-margin-bottom: 110rpx;
+$pay-notice-padding-y: $spacing-row-base;
+$pay-wechat-color: #7eb73a;
+$pay-alipay-color: #07b4fd;
+$pay-modal-close-size: 40rpx;
+$pay-modal-title-margin-bottom: 40px;
+$pay-modal-address-max-width: 60%;
+$pay-contact-tip-border-width: 2rpx;
+$pay-contact-tip-padding-y: 6rpx;
+$pay-contact-tip-padding-x: 10rpx;
+$pay-contact-tip-margin-left: 10rpx;
+$pay-modal-btn-radius: 50rem;
+$pay-modal-btn-line-height: 3;
+$pay-modal-change-btn-line-height: 2;
+
+.pay-page {
+	padding: $pay-page-padding;
+	--pay-cart-thumb-size: #{$img-size-lg};
+
+	&__content {
+		margin-bottom: $pay-page-content-offset;
 	}
 
-	.arrow {
-		width: 50rpx;
-		height: 50rpx;
+	&__section {
+		margin-bottom: $pay-page-section-gap;
+
+		&--cart {
+			margin-bottom: 0;
+		}
+	}
+
+	&__arrow {
 		position: relative;
-		margin-right: -10rpx;
+		width: $pay-arrow-size;
+		height: $pay-arrow-size;
+		margin-right: $pay-arrow-offset-right;
 	}
 
-	.location {
+	&__cell--location {
 		.store-name {
 			font-size: $font-size-lg;
 		}
 
 		.iconfont {
-			font-size: 50rpx;
+			font-size: $pay-arrow-size;
 			line-height: 100%;
 			color: $color-primary;
 		}
 	}
 
-	.section-1 {
-		margin-bottom: 30rpx;
-
-		.contact {
-			.contact-tip {
-				margin-left: 10rpx;
-				border: 2rpx solid $color-primary;
-				padding: 6rpx 10rpx;
-				color: $color-primary;
-			}
-		}
+	&__contact-tip {
+		margin-left: $pay-contact-tip-margin-left;
+		padding: $pay-contact-tip-padding-y $pay-contact-tip-padding-x;
+		border: $pay-contact-tip-border-width solid $color-primary;
+		color: $color-primary;
 	}
 
-	.section-2 {
-		.name-and-props {
-			width: 65%;
-		}
+	&__cart-name {
+		width: $pay-cart-name-width;
 	}
 
-	.payment {
-		margin-bottom: 30rpx;
+	&__cart-thumb {
+		flex-shrink: 0;
+		width: var(--pay-cart-thumb-size);
+		height: var(--pay-cart-thumb-size);
+	}
 
-		.disabled {
+	&__notice {
+		padding: $pay-notice-padding-y 0;
+	}
+
+	&__payment {
+		margin-bottom: $pay-page-section-gap;
+	}
+
+	&__payment-row {
+		&--disabled {
 			color: $text-color-grey;
 		}
+	}
 
-		.payment-icon {
-			font-size: 44rpx;
-			margin-right: 10rpx;
+	&__payment-icon {
+		margin-right: $pay-payment-gap;
+		font-size: $pay-payment-icon-size;
+
+		&--wechat {
+			color: $pay-wechat-color;
 		}
 
-		.checkbox {
-			font-size: 36rpx;
-			margin-left: 10rpx;
+		&--alipay {
+			color: $pay-alipay-color;
 		}
+	}
 
-		.checked {
+	&__checkbox {
+		margin-left: $pay-checkbox-gap;
+		font-size: $pay-checkbox-size;
+
+		&--checked {
 			color: $color-primary;
 		}
 	}
 
-	.pay-box {
-		box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.1);
-		height: 100rpx;
+	&__remark {
+		margin-bottom: $pay-remark-margin-bottom;
 	}
 
-	.modal-content {
-		.change-address-btn {
-			line-height: 2;
-			padding: 0 1em;
-		}
-
-		.pay_btn {
-			width: 100%;
-			border-radius: 50rem !important;
-			line-height: 3;
-		}
+	&__footer {
+		z-index: $pay-footer-z-index;
+		height: $pay-footer-height;
+		box-shadow: $pay-footer-shadow;
 	}
 
-	.choice {
-		background-color: $bg-color-grey;
-		border-radius: 38rpx;
-		display: flex;
-		align-items: center;
-		font-size: $font-size-sm;
-		padding: 0 38rpx;
-		color: $text-color-assist;
-
-		.dinein,
-		.takeout {
-			width: 50%;
-			position: relative;
-			display: flex;
-			align-items: center;
-
-			&.active {
-				padding: 14rpx 38rpx;
-				color: #ffffff;
-				background-color: $color-primary;
-				border-radius: 38rpx;
-			}
-		}
-
-		.takeout {
-			margin-left: 20rpx;
-			height: 100%;
-			flex: 1;
-			padding: 14rpx 0;
-		}
-
-		.dinein.active {
-			//margin-left: -38rpx;
-		}
-
-		.takeout.active {
-			//margin-right: -38rpx;
-		}
+	&__footer-label {
+		margin-left: $pay-footer-label-margin;
 	}
+
+	&__footer-btn {
+		padding: 0 $pay-footer-btn-padding-x;
+	}
+
+	&__modal-close {
+		width: $pay-modal-close-size;
+		height: $pay-modal-close-size;
+	}
+
+	&__modal-title {
+		margin-bottom: $pay-modal-title-margin-bottom;
+	}
+
+	&__modal-address {
+		max-width: $pay-modal-address-max-width;
+	}
+
+	&__modal-change-btn {
+		line-height: $pay-modal-change-btn-line-height;
+		padding: 0 1em;
+		white-space: nowrap;
+	}
+
+	&__modal-submit {
+		width: 100%;
+		line-height: $pay-modal-btn-line-height;
+		border-radius: $pay-modal-btn-radius !important;
+	}
+}
 </style>

@@ -5,10 +5,10 @@
 	  left-arrow
 	  @leftClick="$onClickLeft"
 	/>
-	<view class="container" style="padding:20rpx;">
-		<view style="padding-bottom: 100rpx;">
+	<view class="container order-detail-page">
+		<view class="order-detail-page__body">
 			<view class="bg-white">
-				<view class="section">
+				<view class="order-detail-section">
 					<!-- store info begin -->
 					<list-cell :hover="false">
 						<view class="w-100 d-flex align-items-center">
@@ -16,8 +16,8 @@
 								<view class="w-100 font-size-lg text-color-base text-truncate">{{ order.shop.name }}</view>
 							</view>
 							<view class="d-flex justify-content-end align-items-center w-40">
-								<view class="iconfont-yshop icon-mobile"  @click="makePhoneCall(order.shop)" style="font-size: 45rpx;margin-right: 40rpx;"></view>
-								<view class="iconfont-yshop icon-location"  @click="openLocation(order.shop)" style="font-size: 45rpx;"></view>
+								<view class="iconfont-yshop icon-mobile order-detail-page__shop-icon" @click="makePhoneCall(order.shop)"></view>
+								<view class="iconfont-yshop icon-location order-detail-page__shop-icon order-detail-page__shop-icon--last" @click="openLocation(order.shop)"></view>
 							</view>
 						</view>
 					</list-cell>
@@ -25,50 +25,50 @@
 					<list-cell :hover="false" padding="50rpx 30rpx">
 						<view class="w-100 d-flex flex-column">
 							<view class="d-flex align-items-center just-content-center">
-								<view class="sort-num">{{ order.paid == 1 ? order.numberId : '--' }}</view>
+								<view class="order-detail-page__sort-num">{{ order.paid == 1 ? order.numberId : '--' }}</view>
 							</view>
 							<!-- steps begin -->
 							<view class="d-flex just-content-center">
-								<view class="steps d-flex flex-column w-80">
-									<view class="steps__img-column">
-										<view class="steps__img-column-item">
+								<view class="order-detail-steps d-flex flex-column w-80">
+									<view class="order-detail-steps__icons">
+										<view class="order-detail-steps__icon-item">
 											<view class="iconfont-yshop icon-lamp"></view>
 										</view>
-										<view class="steps__img-column-item">
+										<view class="order-detail-steps__icon-item">
 											<view class="iconfont-yshop icon-daojishi" v-if="{active: order.paid == 1 && order.status == 0}"></view>
-											<view class="iconfont-yshop icon-daojishi unactive" v-else></view>
+											<view class="iconfont-yshop icon-daojishi order-detail-steps__icon--inactive" v-else></view>
 										</view>
-										<view class="steps__img-column-item" v-if="order.orderType == 'takeout'">
+										<view class="order-detail-steps__icon-item" v-if="order.orderType == 'takeout'">
 											<view class="iconfont-yshop icon-takeout" v-if="order.status == 1"></view>
-											<view class="iconfont-yshop icon-takeout unactive" v-else></view>
+											<view class="iconfont-yshop icon-takeout order-detail-steps__icon--inactive" v-else></view>
 										</view>
-										<view class="steps__img-column-item" >
+										<view class="order-detail-steps__icon-item">
 											<view class="iconfont-yshop icon-doorbell" v-if="order.status >= 2"></view>
-											<view class="iconfont-yshop icon-doorbell unactive" v-else></view>
+											<view class="iconfont-yshop icon-doorbell order-detail-steps__icon--inactive" v-else></view>
 										</view>
 									</view>
-									<view class="steps__text-column">
-										<view class="steps__text-column-item active">
-											<view class="steps__column-item-line bg-transparent"></view>
-											<view class="steps__text-column-item-text">已下单</view>
-											<view class="steps__column-item-line"></view>
+									<view class="order-detail-steps__labels">
+										<view class="order-detail-steps__label order-detail-steps__label--active">
+											<view class="order-detail-steps__line order-detail-steps__line--transparent"></view>
+											<view class="order-detail-steps__text">已下单</view>
+											<view class="order-detail-steps__line"></view>
 										</view>
-										<view class="steps__text-column-item activ"  :class="{active: order.paid == 1}">
-											<view class="steps__column-item-line"></view>
-											<view class="steps__text-column-item-text">制作中</view>
-											<view class="steps__column-item-line"></view>
+										<view class="order-detail-steps__label" :class="{'order-detail-steps__label--active': order.paid == 1}">
+											<view class="order-detail-steps__line"></view>
+											<view class="order-detail-steps__text">制作中</view>
+											<view class="order-detail-steps__line"></view>
 										</view>
-										<view class="steps__text-column-item" :class="{active: order.status == 1}" v-if="order.orderType == 'takeout'">
-											<view class="steps__column-item-line"></view>
-											<view class="steps__text-column-item-text">配送中</view>
-											<view class="steps__column-item-line bg-transparent"></view>
+										<view class="order-detail-steps__label" :class="{'order-detail-steps__label--active': order.status == 1}" v-if="order.orderType == 'takeout'">
+											<view class="order-detail-steps__line"></view>
+											<view class="order-detail-steps__text">配送中</view>
+											<view class="order-detail-steps__line order-detail-steps__line--transparent"></view>
 										</view>
-										<view class="steps__text-column-item" :class="{active: order.status >= 2}">
-											<view class="steps__column-item-line"></view>
-											<view class="steps__text-column-item-text">
+										<view class="order-detail-steps__label" :class="{'order-detail-steps__label--active': order.status >= 2}">
+											<view class="order-detail-steps__line"></view>
+											<view class="order-detail-steps__text">
 												{{ order.orderType == 'takeout' ? '已送达' : '请取餐' }}
 											</view>
-											<view class="steps__column-item-line bg-transparent"></view>
+											<view class="order-detail-steps__line order-detail-steps__line--transparent"></view>
 										</view>
 									</view>
 								</view>
@@ -78,7 +78,7 @@
 								您前面还有 <text class="text-color-primary mr-10 ml-10">{{order.preNum}}</text> 单待制作
 							</view>
 							<!-- goods begin -->
-							<view class="w-100 d-flex flex-column position-relative mt-30" style="margin-bottom: -40rpx;">
+							<view class="w-100 d-flex flex-column position-relative mt-30 order-detail-page__goods-preview">
 								<view class="w-100 d-flex align-items-center mb-40" v-for="(good, index) in order.products" :key="index">
 									<view class="d-flex flex-column w-60 overflow-hidden">
 										<view class="font-size-lg text-color-base mb-10 text-truncate">{{ good.title }}</view>
@@ -94,12 +94,12 @@
 						</view>
 					</list-cell>
 				</view>
-				<view class="section">
+				<view class="order-detail-section">
 					<!-- goods begin -->
 					<list-cell :hover="false" padding="30rpx 30rpx">
 						<view class="w-100 d-flex flex-column position-relative">
 							<view class="w-100 d-flex align-items-center mb-40" v-for="(good, index) in order.cartInfo" :key="index">
-								<image :src="good.image" mode="aspectFill" class="image"></image>
+								<image :src="good.image" mode="aspectFill" class="order-detail-page__thumb"></image>
 								<view class="d-flex flex-column w-60 overflow-hidden">
 									<view class="font-size-lg text-color-base mb-10 text-truncate">{{ good.title }}</view>
 									<view class="font-size-sm text-color-assist text-truncate">{{ good.spec }}</view>
@@ -115,23 +115,23 @@
 					<!-- payment and amount begin -->
 					<list-cell :hover="false" padding="50rpx 30rpx">
 						<view class="w-100 d-flex flex-column">
-							<view class="pay-cell">
+							<view class="order-detail-pay-cell">
 								<view>支付方式</view>
 								<view class="font-weight-bold">{{ order.statusDto.payType }}</view>
 							</view>
-							<view class="pay-cell">
+							<view class="order-detail-pay-cell">
 								<view>订单金额</view>
 								<view class="font-weight-bold">￥{{ order.totalPrice }}</view>
 							</view>
-							<view class="pay-cell" v-if="order.orderType == 'takeout'">
+							<view class="order-detail-pay-cell" v-if="order.orderType == 'takeout'">
 								<view>配送费</view>
 								<view class="font-weight-bold">￥{{ order.payPostage }}</view>
 							</view>
-							<view class="pay-cell">
+							<view class="order-detail-pay-cell">
 								<view>优惠金额</view>
 								<view class="font-weight-bold">￥{{ order.couponPrice }}</view>
 							</view>
-							<view class="pay-cell">
+							<view class="order-detail-pay-cell">
 								<view>实付金额</view>
 								<view class="font-weight-bold">￥{{ order.payPrice }}</view>
 							</view>
@@ -139,42 +139,42 @@
 					</list-cell>
 					<!-- payment and amount end -->
 				</view>
-				<view class="section">
+				<view class="order-detail-section">
 					<!-- order info begin -->
 					<list-cell :hover="false" padding="50rpx 30rpx">
 						<view class="w-100 d-flex flex-column">
-							<view class="pay-cell">
+							<view class="order-detail-pay-cell">
 								<view>下单时间</view>
 								<view class="font-weight-bold">{{ formatDateTime(order.createTime )}}</view>
 							</view>
-							<view class="pay-cell">
+							<view class="order-detail-pay-cell">
 								<view>下单门店</view>
 								<view class="font-weight-bold">{{ order.shop.name }}</view>
 							</view>
-							<view class="pay-cell">
+							<view class="order-detail-pay-cell">
 								<view>订单号</view>
 								<view class="font-weight-bold">{{ order.id }}</view>
 							</view>
 						</view>
 					</list-cell>
-					<!-- order info end --> 
+					<!-- order info end -->
 				</view>
 				<!-- order other info begin -->
 				<list-cell :hover="false" padding="50rpx 30rpx 20rpx" last>
 					<view class="w-100 d-flex flex-column">
-						<view class="pay-cell">
+						<view class="order-detail-pay-cell">
 							<view>享用方式</view>
 							<view class="font-weight-bold">{{order.orderType == 'takein' ? '自取' : '外卖'}}</view>
 						</view>
-						<view class="pay-cell">
+						<view class="order-detail-pay-cell">
 							<view>取餐时间</view>
 							<view class="font-weight-bold">{{order.getTime ? formatDateTime(order.getTime) : '立即取餐'}}</view>
 						</view>
-						<view class="pay-cell">
+						<view class="order-detail-pay-cell">
 							<view>制作完成时间</view>
 							<view class="font-weight-bold">{{ order.deliveryTime ? formatDateTime(order.deliveryTime) : '无' }}</view>
 						</view>
-						<view class="pay-cell">
+						<view class="order-detail-pay-cell">
 							<view>备注</view>
 							<view class="font-weight-bold">{{ order.remark ? order.remark : '无' }}</view>
 						</view>
@@ -255,158 +255,179 @@ const refund = (order) => {
 </script>
 
 <style lang="scss" scoped>
-	.image {
-		width: 120rpx;
-		height: 120rpx;
-		margin-right: 30rpx;
-		border-radius: 8rpx;
-	}
+$order-detail-padding: $spacing-row-base;
+$order-detail-body-padding-bottom: 100rpx;
+$order-detail-thumb-size: 120rpx;
+$order-detail-thumb-radius: 8rpx;
+$order-detail-pay-cell-gap: 40rpx;
+$order-detail-sort-num-size: 64rpx;
+$order-detail-section-notch: 30rpx;
+$order-detail-section-notch-offset: 15rpx;
+$order-detail-steps-icon-size: 60rpx;
+$order-detail-steps-img-size: 80rpx;
+$order-detail-steps-margin-y: 30rpx;
+$order-detail-steps-label-gap: $spacing-col-sm;
+$order-detail-shop-icon-size: 45rpx;
+$order-detail-shop-icon-gap: 40rpx;
+$order-detail-goods-offset: -40rpx;
+$order-detail-steps-line-height: 2rpx;
 
-
-.pay-cell {
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	font-size: $font-size-base;
-	color: $text-color-base;
-	margin-bottom: 40rpx;
-
-	&:nth-last-child(1) {
-		margin-bottom: 0;
-	}
+@mixin order-detail-section-notch {
+	content: '';
+	position: absolute;
+	bottom: calc(-1 * #{$order-detail-section-notch-offset});
+	z-index: 10;
+	width: $order-detail-section-notch;
+	height: $order-detail-section-notch;
+	background-color: $bg-color;
+	border-radius: $border-radius-circle;
 }
 
-
-
 /* #ifdef H5 */
-	page {
-		min-height: 100%;
-		background-color: $bg-color;
-	}
-	/* #endif */
-	.order-box {
-		padding: 20rpx;
-		/* #ifdef H5 */
-		margin-bottom: 100rpx;
-		/* #endif */
-	}
-	
-	.drinks-img {
-		width: 260rpx;
-		height: 260rpx;
-	}
-	
-	.tips {
-		margin: 60rpx 0 80rpx;
-		line-height: 48rpx;
+page {
+	min-height: 100%;
+	background-color: $bg-color;
+}
+/* #endif */
+
+.order-detail-page {
+	padding: $order-detail-padding;
+	--order-detail-thumb-size: #{$order-detail-thumb-size};
+
+	&__body {
+		padding-bottom: $order-detail-body-padding-bottom;
 	}
 
-	
-	@mixin arch {
-		content: "";
-		position: absolute;
-		background-color: $bg-color;
-		width: 30rpx;
-		height: 30rpx;
-		bottom: -15rpx;
-		z-index: 10;
-		border-radius: 100%;
+	&__thumb {
+		flex-shrink: 0;
+		width: var(--order-detail-thumb-size);
+		height: var(--order-detail-thumb-size);
+		margin-right: $spacing-row-lg;
+		border-radius: $order-detail-thumb-radius;
 	}
-	
-	.section {
-		position: relative;
-		
-		&::before {
-			@include arch;
-			left: -15rpx;
-		}
-		
-		&::after {
-			@include arch;
-			right: -15rpx;
-		}
-	}
-	
-	.pay-cell {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		font-size: $font-size-base;
-		color: $text-color-base;
-		margin-bottom: 40rpx;
 
-		&:nth-last-child(1) {
-			margin-bottom: 0;
-		}
-	}
-	
-	.sort-num {
-		font-size: 64rpx;
+	&__sort-num {
+		font-size: $order-detail-sort-num-size;
 		font-weight: bold;
 		color: $text-color-base;
 		line-height: 2;
 	}
-	
-	.steps__img-column {
-		display: flex;
-		margin: 30rpx 0;
-		
-		.steps__img-column-item {
-			flex: 1;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			
-			image {
-				width: 80rpx;
-				height: 80rpx;
-			}
-			.unactive {
-				color: #919293;
-			}
+
+	&__shop-icon {
+		font-size: $order-detail-shop-icon-size;
+		color: $color-primary;
+
+		&--last {
+			margin-right: 0;
+		}
+
+		&:not(&--last) {
+			margin-right: $order-detail-shop-icon-gap;
 		}
 	}
-	
-	.steps__text-column {
-		display: flex;
-		margin-bottom: 40rpx;
-		
-		.steps__text-column-item {
-			flex: 1;
-			display: inline-flex;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: $font-size-base;
-			color: $text-color-assist;
-			
-			&.active {
-				color: $text-color-base;
-				font-weight: bold;
-				
-				.steps__column-item-line {
-					background-color: $text-color-base;
-				}
-			}
-			
-			.steps__column-item-line{
-				flex: 1;
-				height: 2rpx;
-				background-color: #919293;
-				transform: scaleY(0.5);
-			}
-			
-			.steps__text-column-item-text {
-				margin: 0 8px;
-			}
-		}
+
+	&__goods-preview {
+		margin-bottom: $order-detail-goods-offset;
 	}
-	.icon-lamp, .icon-daojishi, .icon-takeout, .icon-doorbell{
-		font-size: 60rpx;
-	}
+
 	.iconfont-yshop {
-		color: #09b4f1;
+		color: $color-primary;
 	}
+}
+
+.order-detail-section {
+	position: relative;
+
+	&::before {
+		@include order-detail-section-notch;
+		left: calc(-1 * #{$order-detail-section-notch-offset});
+	}
+
+	&::after {
+		@include order-detail-section-notch;
+		right: calc(-1 * #{$order-detail-section-notch-offset});
+	}
+}
+
+.order-detail-pay-cell {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	margin-bottom: $order-detail-pay-cell-gap;
+	font-size: $font-size-base;
+	color: $text-color-base;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.order-detail-steps {
+	&__icons {
+		display: flex;
+		margin: $order-detail-steps-margin-y 0;
+	}
+
+	&__icon-item {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		image {
+			width: $order-detail-steps-img-size;
+			height: $order-detail-steps-img-size;
+		}
+	}
+
+	&__icon--inactive {
+		color: $text-color-assist;
+	}
+
+	&__labels {
+		display: flex;
+		margin-bottom: $order-detail-pay-cell-gap;
+	}
+
+	&__label {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: $font-size-base;
+		color: $text-color-assist;
+
+		&--active {
+			font-weight: bold;
+			color: $text-color-base;
+
+			.order-detail-steps__line {
+				background-color: $text-color-base;
+			}
+		}
+	}
+
+	&__line {
+		flex: 1;
+		height: $order-detail-steps-line-height;
+		background-color: $text-color-assist;
+		transform: scaleY(0.5);
+
+		&--transparent {
+			background-color: transparent;
+		}
+	}
+
+	&__text {
+		margin: 0 $order-detail-steps-label-gap;
+	}
+
+	.icon-lamp,
+	.icon-daojishi,
+	.icon-takeout,
+	.icon-doorbell {
+		font-size: $order-detail-steps-icon-size;
+	}
+}
 </style>

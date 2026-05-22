@@ -6,16 +6,16 @@
 		  left-arrow
 		  @leftClick="$onClickLeft"
 		/>
-		<view class="container">
-			<view style="padding: 0 30rpx;">
+		<view class="container mine-page">
+			<view class="mine-page__user-section">
 				<!-- user box begin -->
-				<view class="d-flex flex-column bg-white user-box">
+				<view class="mine-user d-flex flex-column bg-white">
 
-					<view class="d-flex align-items-center">
-						<view class="avatar rounded-circle">
+					<view class="mine-user__header d-flex align-items-center">
+						<view class="mine-user__avatar rounded-circle">
 							<image :src="isLogin ? member.avatar ? member.avatar : '/static/images/mine/default.png' : '/static/images/mine/default.png'"></image>
 						</view>
-						<view class="d-flex flex-column flex-fill overflow-hidden" style="margin-top: 20rpx;">
+						<view class="mine-user__info d-flex flex-column flex-fill overflow-hidden">
 							<view v-if="isLogin"
 								class="font-size-lg font-weight-bold d-flex justify-content-start align-items-center"
 								@tap="serv({type:'pages',pages:'/pages/components/pages/mine/userinfo'})">
@@ -26,26 +26,26 @@
 						</view>
 					</view>
 					<!-- user grid begin -->
-					<view class="w-100 d-flex align-items-center just-content-center">
-						<view class="user-grid" @tap="serv({type:'pages',pages:'/pages/components/pages/coupons/coupons'})">
+					<view class="mine-user__stats w-100 d-flex align-items-center just-content-center">
+						<view class="mine-user__stat" @tap="serv({type:'pages',pages:'/pages/components/pages/coupons/coupons'})">
 							<view class="value font-size-extra-lg font-weight-bold text-color-base">
 								{{ isLogin ? member.couponCount : 0}}
 							</view>
 							<view class="font-size-sm text-color-assist">优惠券</view>
 						</view>
-						<view class="user-grid"  @tap="serv({type:'pages', pages: '/pages/components/pages/balance/bill?cate=1'})">
+						<view class="mine-user__stat" @tap="serv({type:'pages', pages: '/pages/components/pages/balance/bill?cate=1'})">
 							<view class="value font-size-extra-lg font-weight-bold text-color-base">
 								{{ isLogin ? member.integral : 0 }}
 							</view>
 							<view class="font-size-sm text-color-assist">积分</view>
 						</view>
-						<view class="user-grid">
+						<view class="mine-user__stat">
 							<view class="value font-size-extra-lg font-weight-bold text-color-base">
 								{{ isLogin ? member.nowMoney : 0 }}
 							</view>
 							<view class="font-size-sm text-color-assist">余额</view>
 						</view>
-						<view class="user-grid" @tap="serv({type:'pages', pages: '/pages/components/pages/balance/bill?cate=0'})">
+						<view class="mine-user__stat" @tap="serv({type:'pages', pages: '/pages/components/pages/balance/bill?cate=0'})">
 							<view class="value font-size-extra-lg font-weight-bold text-color-base">
 								{{ isLogin ? member.sumMoney : 0 }}
 							</view>
@@ -58,24 +58,24 @@
 
 			</view>
 			<!-- service box begin -->
-			<view class="service-box">
-				<view class="font-size-lg text-color-base font-weight-bold" style="margin-bottom: 20rpx;">我的服务</view>
+			<view class="mine-service">
+				<view class="mine-service__title font-size-lg text-color-base font-weight-bold">我的服务</view>
 				<view class="u-m-t-20">
 					<uv-cell-group>
 						<block v-for="(item, index) in services" :key='index'>
 							<uv-cell :title="item.name" v-if="item.type == 'contact'" :isLink="true">
 								<template #icon>
-									<image :src="item.image" style="width: 40rpx;height: 40rpx;" class="mr-1"></image>
+									<image :src="item.image" class="mine-service__icon mr-1"></image>
 								</template>
 							</uv-cell>
 							<uv-cell :isLink="true" :title="item.name" v-else-if="item.type == 'call'" v-on:click="makePhoneCall(item.phone)">
 								<template #icon>
-									<image :src="item.image" style="width: 40rpx;height: 40rpx;" class="mr-1"></image>
+									<image :src="item.image" class="mine-service__icon mr-1"></image>
 								</template>
 							</uv-cell>
 							<uv-cell :isLink="true" :title="item.name" v-else @tap="serv(item)">
 								<template #icon>
-									<image :src="item.image" style="width: 40rpx;height: 40rpx;" class="mr-1"></image>
+									<image :src="item.image" class="mine-service__icon mr-1"></image>
 								</template>
 							</uv-cell>
 						</block>
@@ -189,114 +189,104 @@ const serv = (item) => {
 </script>
 
 <style lang="scss" scoped>
-	page {
-		height: auto;
-		min-height: 100%;
+// 个人中心页局部 token（与 uni.scss 全局变量配合）
+$mine-section-padding-x: $spacing-row-lg;
+$mine-user-box-radius: $border-radius-lg;
+$mine-user-box-margin-top: 70rpx;
+$mine-user-box-margin-bottom: $spacing-row-lg;
+$mine-avatar-size: 160rpx;
+$mine-avatar-image-size: 140rpx;
+$mine-avatar-offset-top: -35rpx;
+$mine-avatar-margin-x: 35rpx;
+$mine-avatar-radius: 20rpx;
+$mine-avatar-shadow: 0 0 20rpx rgba(0, 0, 0, 0.2);
+$mine-stat-width: 25%;
+$mine-stat-padding: $spacing-row-lg;
+$mine-stat-value-gap: $spacing-row-base;
+$mine-info-margin-top: $spacing-row-base;
+$mine-service-padding-y: 32rpx;
+$mine-service-padding-bottom: 10rpx;
+$mine-service-icon-size: $img-size-sm;
+$mine-service-title-gap: $spacing-row-base;
+
+/* #ifdef H5 */
+page {
+	height: auto;
+	min-height: 100%;
+}
+/* #endif */
+
+.mine-page {
+	--mine-avatar-size: #{$mine-avatar-size};
+	--mine-avatar-image-size: #{$mine-avatar-image-size};
+	--mine-service-icon-size: #{$mine-service-icon-size};
+
+	&__user-section {
+		padding: 0 $mine-section-padding-x;
+	}
+}
+
+.mine-user {
+	position: relative;
+	margin-top: $mine-user-box-margin-top;
+	margin-bottom: $mine-user-box-margin-bottom;
+	border-radius: $mine-user-box-radius;
+	box-shadow: $box-shadow;
+
+	&__info {
+		margin-top: $mine-info-margin-top;
 	}
 
-
-	.user-box {
+	&__avatar {
 		position: relative;
-		border-radius: 8rpx;
-		margin-bottom: 30rpx;
-		margin-top: 70rpx;
-		box-shadow: $box-shadow;
-	}
-
-	.avatar {
-		position: relative;
-		margin-top: -35rpx;
-		margin-left: 35rpx;
-		margin-right: 35rpx;
-		width: 160rpx;
-		height: 160rpx;
-		border-radius: 20rpx;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background-color: #FFFFFF;
-		box-shadow: 0 0 20rpx rgba($color: #000000, $alpha: 0.2);
+		flex-shrink: 0;
+		width: var(--mine-avatar-size);
+		height: var(--mine-avatar-size);
+		margin-top: $mine-avatar-offset-top;
+		margin-left: $mine-avatar-margin-x;
+		margin-right: $mine-avatar-margin-x;
+		border-radius: $mine-avatar-radius;
+		background-color: $text-color-white;
+		box-shadow: $mine-avatar-shadow;
 
 		image {
-			width: 140rpx;
-			height: 140rpx;
-			border-radius: 100%;
-		}
-
-		.badge {
-			position: absolute;
-			right: -10rpx;
-			bottom: -10rpx;
-			background-color: #FFFFFF;
-			border-radius: 50rem;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			color: $color-warning;
-			font-size: 24rpx;
-			padding: 8rpx 16rpx;
-			box-shadow: 0 0 20rpx rgba($color: #000000, $alpha: 0.2);
-
-			image {
-				width: 30rpx;
-				height: 30rpx;
-			}
+			width: var(--mine-avatar-image-size);
+			height: var(--mine-avatar-image-size);
+			border-radius: $border-radius-circle;
 		}
 	}
 
-
-	.user-grid {
-		width: 25%;
-		padding: 30rpx;
+	&__stat {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		width: $mine-stat-width;
+		padding: $mine-stat-padding;
 
 		.value {
-			margin-bottom: 20rpx;
+			margin-bottom: $mine-stat-value-gap;
 		}
 	}
+}
 
-	
+.mine-service {
+	width: 100%;
+	padding: $mine-service-padding-y $mine-section-padding-x $mine-service-padding-bottom;
+	background-color: $text-color-white;
+	box-shadow: $box-shadow;
 
-	.service-box {
-		width: 100%;
-		background-color: #FFFFFF;
-		padding: 32rpx 30rpx 10rpx;
-		box-shadow: $box-shadow;
-
-		.row {
-			display: flex;
-			flex-wrap: wrap;
-			color: $text-color-assist;
-			font-size: $font-size-sm;
-			padding-bottom: -40rpx;
-
-			.grid {
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				margin-bottom: 40rpx;
-				width: 25%;
-				position: relative;
-
-				image {
-					width: 80rpx;
-					height: 80rpx;
-					margin-bottom: 20rpx;
-				}
-			}
-
-			.opacity-0 {
-				position: absolute;
-				width: 100%;
-				height: 100%;
-				opacity: 0;
-				z-index: 10;
-			}
-
-		}
+	&__title {
+		margin-bottom: $mine-service-title-gap;
 	}
+
+	&__icon {
+		width: var(--mine-service-icon-size);
+		height: var(--mine-service-icon-size);
+		flex-shrink: 0;
+	}
+}
 </style>

@@ -5,38 +5,62 @@
 	  left-arrow
 	  @leftClick="$onClickLeft"
 	/>
-	<view class="container position-relative w-100 h-100 overflow-hidden">
+	<view class="container packages-page position-relative w-100 h-100 overflow-hidden">
 		<uv-empty v-if="coupons.length == 0" mode="coupon"></uv-empty>
-		
-		<scroll-view scroll-y class="coupon-list">
-			<view class="wrapper">
-				<view class="coupon" v-for="(item, index) in coupons" :key="index" @tap="openDetailModal(item, index)">
-					<view class="taobao">
-						<view class="ticket" :style="{border: item.id == coupon_id ? '1rpx solid red':''}">
-							<view class="left">
-								<image class="picture" :src="item.image" mode="aspectFill"></image>
-								<view class="introduce">
-									<view class="top">
+
+		<scroll-view scroll-y class="packages-list">
+			<view class="packages-list__wrapper">
+				<view
+					class="packages-item"
+					v-for="(item, index) in coupons"
+					:key="index"
+					@tap="openDetailModal(item, index)"
+				>
+					<view class="packages-ticket">
+						<view
+							class="packages-ticket__body"
+							:class="{ 'packages-ticket__body--selected': item.id == coupon_id }"
+						>
+							<view class="packages-ticket__left">
+								<image
+									class="packages-ticket__picture"
+									:src="item.image"
+									mode="aspectFill"
+								></image>
+								<view class="packages-ticket__intro">
+									<view class="packages-ticket__value">
 										￥
-										<text class="big">{{ item.value }}</text>
+										<text class="packages-ticket__amount">{{ item.value }}</text>
 										<view>满{{ item.least }}减{{ item.value }}</view>
 									</view>
-									<view class="type">{{ item.title }}</view>
-									<view class="date u-line-1">{{formatDateTime(item.startTime, 'yyyy-MM-dd')}}-{{formatDateTime(item.endTime, 'yyyy-MM-dd')}}</view>
+									<view class="packages-ticket__type">{{ item.title }}</view>
+									<view class="packages-ticket__date u-line-1">
+										{{ formatDateTime(item.startTime, 'yyyy-MM-dd') }}-{{ formatDateTime(item.endTime, 'yyyy-MM-dd') }}
+									</view>
 								</view>
 							</view>
-							<view class="right" @click.stop="" v-if="activeTabIndex == 0">
-								<view v-if="item.id != coupon_id" class="use immediate-use" :round="true" @tap="useCouponWith(item)">立即使用</view>
-								<view v-else class="use immediate-use" :round="true" @tap="cancelCoupon(item)">取消使用</view>
+							<view class="packages-ticket__right" @click.stop="" v-if="activeTabIndex == 0">
+								<view
+									v-if="item.id != coupon_id"
+									class="packages-ticket__btn packages-ticket__btn--use immediate-use"
+									:round="true"
+									@tap="useCouponWith(item)"
+								>立即使用</view>
+								<view
+									v-else
+									class="packages-ticket__btn packages-ticket__btn--use immediate-use"
+									:round="true"
+									@tap="cancelCoupon(item)"
+								>取消使用</view>
 							</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		</scroll-view>
-		
+
 		<modal custom :show="detailModalVisible" @cancel="closeDetailModal" width="90%">
-			<view class="modal-content">
+			<view class="packages-modal">
 				<view class="d-flex font-size-extra-lg text-color-base just-content-center mb-20">{{ coupon.title }}</view>
 				<view class="d-flex font-size-sm text-color-base mb-20">有效期：{{formatDateTime(coupon.startTime, 'yyyy-MM-dd')}}至{{formatDateTime(coupon.endTime, 'yyyy-MM-dd')}}</view>
 				<view class="d-flex font-size-sm text-color-base mb-20">领取时间：{{ coupon.createtime_text }}</view>
@@ -44,7 +68,7 @@
 				<view class="d-flex font-size-sm text-color-base mb-20">适用范围：{{ typeInfo(coupon.type) }}</view>
 				<view class="d-flex font-size-sm text-color-base mb-20">适用店铺：{{ coupon.shopName }}</view>
 				<view class="d-flex align-items-center just-content-center" v-if="activeTabIndex == 0">
-					<button type="primary" @tap="useCoupon" class="use-coupon-btn">立即使用</button>
+					<button type="primary" @tap="useCoupon" class="packages-modal__btn">立即使用</button>
 				</view>
 			</view>
 		</modal>
@@ -176,198 +200,170 @@ const useCoupon = () => {
 </script>
 
 <style lang="scss" scoped>
+// 选券页局部 token（与 uni.scss 全局变量配合）
+$packages-list-offset-nav: 120rpx;
+$packages-list-margin-top: $spacing-row-lg;
+$packages-list-padding-x: $spacing-row-base;
+$packages-item-gap: $spacing-row-lg;
+$packages-item-radius: $border-radius-base;
+$packages-notch-size: 30rpx;
+$packages-notch-offset: 65rpx;
+$packages-ticket-radius: 20rpx;
+$packages-ticket-divider: $border-color-light;
+$packages-ticket-left-width: 70%;
+$packages-ticket-right-width: 30%;
+$packages-ticket-padding: $spacing-row-base;
+$packages-ticket-right-padding-y: 40rpx;
+$packages-picture-size: 190rpx;
+$packages-amount-font-size: 60rpx;
+$packages-date-font-size: 20rpx;
+$packages-intro-gap: 10rpx;
+$packages-btn-radius: 40rpx;
+$packages-btn-padding-x: 20rpx;
+$packages-btn-line-height: 40rpx;
+$packages-btn-margin-left: 20rpx;
+$packages-selected-border-width: 1rpx;
+$packages-modal-btn-width: 95%;
+
 /* #ifdef H5 */
 page {
 	height: 100%;
 }
 /* #endif */
 
-.container {
+.packages-page {
+	--packages-picture-size: #{$packages-picture-size};
+	--packages-list-offset-nav: #{$packages-list-offset-nav};
+
 	display: flex;
 	flex-direction: column;
 }
 
+.packages-list {
+	margin-top: $packages-list-margin-top;
+	height: calc(100vh - var(--packages-list-offset-nav));
 
-.coupon-list {
-	margin-top: 30rpx;
-	height:calc(100vh - 120rpx); 
-	// height: calc(100vh - 120rpx - 200rpx);
 	/* #ifdef H5 */
-	// height: calc(100vh - 120rpx - 200rpx - 44px);
+	height: calc(100vh - var(--packages-list-offset-nav) - 44px);
 	/* #endif */
-}
 
-.wrapper {
-	padding: 0 20rpx;
-	display: flex;
-	flex-direction: column;
-
-	.coupon {
+	&__wrapper {
 		display: flex;
 		flex-direction: column;
-		background-color: #ffffff;
-		margin-bottom: 30rpx;
-		//padding: 0 30rpx;
-		border-radius: 6rpx;
-		box-shadow: 0 10rpx 10rpx -10rpx rgba(15, 15, 15, 0.1);
-		position: relative;
-
-		&::before {
-			content: '';
-			position: absolute;
-			background-color: $bg-color;
-			width: 30rpx;
-			height: 30rpx;
-			bottom: 65rpx;
-			left: -15rpx;
-			border-radius: 100%;
-		}
-
-		&::after {
-			content: '';
-			position: absolute;
-			background-color: $bg-color;
-			width: 30rpx;
-			height: 30rpx;
-			bottom: 65rpx;
-			right: -15rpx;
-			border-radius: 100%;
-		}
-
-		.detail {
-			padding: 20rpx 0;
-			position: relative;
-
-			&::after {
-				content: '';
-				position: absolute;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				border-bottom: 1rpx dashed #c6c6c6;
-				transform: scaleY(0.5);
-			}
-
-			.coupon-img {
-				width: 150rpx;
-				height: 150rpx;
-				margin-right: 40rpx;
-			}
-		}
+		padding: 0 $packages-list-padding-x;
 	}
 }
 
-.use-coupon-btn {
-	width: 95%;
-	border-radius: 50rem !important;
+.packages-item {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	margin-bottom: $packages-item-gap;
+	background-color: $text-color-white;
+	border-radius: $packages-item-radius;
+	box-shadow: $box-shadow;
+
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: $packages-notch-offset;
+		width: $packages-notch-size;
+		height: $packages-notch-size;
+		background-color: $bg-color;
+		border-radius: $border-radius-circle;
+	}
+
+	&::before {
+		left: calc(-1 * #{$packages-notch-size} / 2);
+	}
+
+	&::after {
+		right: calc(-1 * #{$packages-notch-size} / 2);
+	}
 }
 
-.taobao {
-	background-color: white;
-	.title {
+.packages-ticket {
+	background-color: $text-color-white;
+
+	&__body {
+		display: flex;
+
+		&--selected {
+			border: $packages-selected-border-width solid $color-error;
+			border-radius: $packages-ticket-radius;
+		}
+	}
+
+	&__left {
+		display: flex;
+		width: $packages-ticket-left-width;
+		padding: $packages-ticket-padding;
+		background-color: $text-color-white;
+		border-radius: $packages-ticket-radius;
+		border-right: dashed 2rpx $packages-ticket-divider;
+	}
+
+	&__picture {
+		flex-shrink: 0;
+		width: var(--packages-picture-size);
+		height: var(--packages-picture-size);
+		border-radius: $packages-ticket-radius;
+	}
+
+	&__intro {
+		margin-left: $packages-intro-gap;
+		min-width: 0;
+	}
+
+	&__value {
+		font-size: $font-size-base;
+		color: $uv-warning;
+
+		.packages-ticket__amount {
+			margin-right: $packages-intro-gap;
+			font-size: $packages-amount-font-size;
+			font-weight: bold;
+		}
+	}
+
+	&__type {
+		font-size: $font-size-base;
+		color: $uv-info-dark;
+	}
+
+	&__date {
+		margin-top: $packages-intro-gap;
+		font-size: $packages-date-font-size;
+		color: $uv-info-dark;
+	}
+
+	&__right {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		margin-bottom: 20rpx;
-		font-size: 30rpx;
-		.left {
-			display: flex;
-			align-items: center;
-		}
-		.store {
-			font-weight: 500;
-		}
-		.buddha {
-			width: 70rpx;
-			height: 70rpx;
-			border-radius: 10rpx;
-			margin-right: 10rpx;
-		}
-		.entrance {
-			color: $uv-info;
-			border: solid 2rpx $uv-info;
-			line-height: 48rpx;
-			padding: 0 30rpx;
-			background: none;
-			border-radius: 15px;
-		}
+		width: $packages-ticket-right-width;
+		padding: $packages-ticket-right-padding-y $packages-ticket-padding;
+		background-color: $text-color-white;
+		border-radius: $packages-ticket-radius;
 	}
-	.ticket {
-		display: flex;
-		.left {
-			width: 70%;
-			padding: 20rpx;
-			background-color: white; //rgb(255, 245, 244);
-			border-radius: 20rpx;
-			border-right: dashed 2rpx rgb(224, 215, 211);
-			display: flex;
-			.picture {
-				//width: 172rpx;
-				border-radius: 20rpx;
-				width: 190rpx;
-				height: 190rpx;
-			}
-			.introduce {
-				margin-left: 10rpx;
-				.top {
-					color: $uv-warning;
-					font-size: 28rpx;
-					.big {
-						font-size: 60rpx;
-						font-weight: bold;
-						margin-right: 10rpx;
-					}
-				}
-				.type {
-					font-size: 28rpx;
-					color: $uv-info-dark;
-				}
-				.date {
-					margin-top: 10rpx;
-					font-size: 20rpx;
-					color: $uv-info-dark;
-				}
-			}
-		}
-		.right {
-			width: 30%;
-			padding: 40rpx 20rpx;
-			background-color: white; //rgb(255, 245, 244);
-			border-radius: 20rpx;
-			display: flex;
-			align-items: center;
-			.use {
-				height: auto;
-				padding: 0 20rpx;
-				font-size: 24rpx;
-				border-radius: 40rpx;
-				color: #ffffff !important;
-				background-color: $uv-warning !important;
-				line-height: 40rpx;
-				color: rgb(117, 142, 165);
-				margin-left: 20rpx;
-			}
-			.used {
-				height: auto;
-				padding: 0 20rpx;
-				font-size: 24rpx;
-				border-radius: 40rpx;
-				//color: #ffffff!important;
-				//background-color: $u-type-warning!important;
-				line-height: 40rpx;
-				//color: rgb(117, 142, 165);
-				margin-left: 20rpx;
-			}
-		}
-		.right_log {
-			text-align: center;
-			width: 30%;
-			padding: 80rpx 0rpx;
-			background-color: white; //rgb(255, 245, 244);
-			border-radius: 20rpx;
 
-			align-items: center;
+	&__btn {
+		height: auto;
+		margin-left: $packages-btn-margin-left;
+		padding: 0 $packages-btn-padding-x;
+		font-size: $font-size-sm;
+		line-height: $packages-btn-line-height;
+		border-radius: $packages-btn-radius;
+		color: $text-color-white !important;
+
+		&--use {
+			background-color: $uv-warning !important;
 		}
 	}
+}
+
+.packages-modal__btn {
+	width: $packages-modal-btn-width;
+	border-radius: 50rem !important;
 }
 </style>

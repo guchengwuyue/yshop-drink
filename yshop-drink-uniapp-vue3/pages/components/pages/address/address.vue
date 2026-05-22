@@ -5,31 +5,30 @@
 	  left-arrow
 	  @leftClick="$onClickLeft"
 	/>
-	<view class="container">
-		<view class="main">
+	<view class="container address-page">
+		<view class="address-page__main">
 			<uv-empty v-if="addresses.length == 0" mode="address"></uv-empty>
 			<template v-else>
 				<uv-swipe-action>
-					<uv-swipe-action-item class="address-wrapper" :options="swipeOption"
+					<uv-swipe-action-item class="address-page__item" :options="swipeOption"
 						@click="handleSwipeClick(address.id)" v-for="(address, index) in addresses" :key="index">
-						<view class="address" @tap="chooseAddress(address)">
-							<view class="left flex-fill overflow-hidden mr-20">
-								<view class="font-size-lg font-weight-bold text-truncate"
-									style="margin-bottom: 10rpx;white-space:normal;">
+						<view class="address-page__card" @tap="chooseAddress(address)">
+							<view class="flex-fill overflow-hidden mr-20">
+								<view class="address-page__detail font-size-lg font-weight-bold text-truncate">
 									{{ address.address + ' ' + address.detail }}
 								</view>
 								<view class="font-size-sm text-color-assist">
 									{{ address.realName }} {{ address.isDefault ? '默认' : '' }} {{ address.phone }}
 								</view>
 							</view>
-							<image src="/static/images/edit.png" class="edit-icon" @tap.stop="edit(address.id)"></image>
+							<image src="/static/images/edit.png" class="address-page__edit-icon" @tap.stop="edit(address.id)"></image>
 						</view>
 					</uv-swipe-action-item>
 				</uv-swipe-action>
 			</template>
 		</view>
-		<view class="btn-box">
-			<button type="primary" size="default" @tap="add">新增地址</button>
+		<view class="address-page__footer">
+			<button type="primary" size="default" class="rounded-pill address-page__btn" @tap="add">新增地址</button>
 		</view>
 	</view>
 </template>
@@ -54,11 +53,10 @@ const title = ref('我的地址')
 
 const scene = ref('menu')
 const is_choose = ref(false)
-const swipeOption = ref(
-[{
+const swipeOption = ref([{
 	text: '删除',
 	style: {
-		backgroundColor: '#D12E32'
+		backgroundColor: '#D12E32' // $color-error
 	}
 }])
 
@@ -166,65 +164,75 @@ const chooseAddress = async(address) => {
 </script>
 
 <style lang="scss" scoped>
-	.container {
-		width: 100%;
-		height: 100%;
-	}
+$address-padding: $spacing-row-lg;
+$address-item-gap: $spacing-row-lg;
+$address-card-padding-y: 40rpx;
+$address-main-padding-bottom: 100rpx;
+$address-footer-height: 100rpx;
+$address-footer-padding-y: 10rpx;
+$address-btn-height: 80rpx;
+$address-btn-width: 80%;
+$address-edit-icon-size: 50rpx;
+$address-detail-gap: 10rpx;
+$address-footer-shadow: 0 0 20rpx rgba($text-color-assist, 0.1);
 
-	.main {
-		width: 100%;
-		padding: 30rpx;
+.address-page {
+	--address-edit-icon-size: #{$address-edit-icon-size};
+	--address-btn-height: #{$address-btn-height};
+	--address-btn-width: #{$address-btn-width};
+
+	&__main {
 		display: flex;
 		flex-direction: column;
-		padding-bottom: 100rpx;
-
-		.address-wrapper {
-			margin-bottom: 30rpx;
-		}
-
-		.address {
-			width: 100%;
-			padding: 40rpx 30rpx;
-			background-color: #FFFFFF;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-
-			.right {
-				flex: 1;
-				overflow: hidden;
-				display: flex;
-				flex-direction: column;
-			}
-
-			.edit-icon {
-				width: 50rpx;
-				height: 50rpx;
-				flex-shrink: 0;
-			}
-		}
+		width: 100%;
+		padding: $address-padding;
+		padding-bottom: $address-main-padding-bottom;
 	}
 
-	.btn-box {
-		height: 100rpx;
-		background-color: #FFFFFF;
-		box-shadow: 0 0 20rpx rgba($color: $text-color-assist, $alpha: 0.1);
+	&__item {
+		margin-bottom: $address-item-gap;
+	}
+
+	&__card {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		padding: $address-card-padding-y $address-padding;
+		background-color: $text-color-white;
+	}
+
+	&__detail {
+		margin-bottom: $address-detail-gap;
+		white-space: normal;
+	}
+
+	&__edit-icon {
+		flex-shrink: 0;
+		width: var(--address-edit-icon-size);
+		height: var(--address-edit-icon-size);
+	}
+
+	&__footer {
 		position: fixed;
+		right: 0;
 		bottom: 0;
 		left: 0;
-		right: 0;
-		padding: 10rpx 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-
-		button {
-			height: 80rpx;
-			width: 80%;
-			border-radius: 50rem !important;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
+		height: $address-footer-height;
+		padding: $address-footer-padding-y 0;
+		background-color: $text-color-white;
+		box-shadow: $address-footer-shadow;
 	}
+
+	&__btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: var(--address-btn-width);
+		height: var(--address-btn-height);
+	}
+}
 </style>
