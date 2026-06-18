@@ -1,5 +1,5 @@
 // mouse.js
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 import { onReady, onReachBottom } from '@dcloudio/uni-app'
 
 export const usePage = getPage => {
@@ -33,8 +33,6 @@ export const usePage = getPage => {
   const dataList = ref([])
 
   const handleGetDataList = async () => {
-    console.log('--> % handleGetDataList % loading:\n', loading.value)
-    console.log('--> % handleGetDataList % loadend:\n', loadend.value)
     if (loading.value || loadend.value) return
 
     loading.value = true
@@ -47,7 +45,6 @@ export const usePage = getPage => {
       news: news.value,
       isIntegral: isIntegral.value,
     })
-    console.log('--> % handleGetDataList % products:\n', products)
     if (products) {
       if (products.length <= 0) {
         loadend.value = true
@@ -65,13 +62,13 @@ export const usePage = getPage => {
   }
 
   onReady(() => {
-    console.log('onReady')
     // handleGetDataList()
   })
 
   onReachBottom(() => {
-    if (loading.value) return
+    if (loading.value || loadend.value) return
     page.value += 1
+    handleGetDataList()
   })
 
   // 通过返回值暴露所管理的状态

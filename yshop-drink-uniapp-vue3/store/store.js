@@ -92,10 +92,11 @@ export const useMainStore = defineStore('main', {
       return null
     },
     logout() {
-      this.user = null
-      this.address = []
-      this.areaList = []
-      this.selectAddress = null
+      this.member = {}
+      this.cart = []
+      this.token = ''
+      cookie.remove('accessToken')
+      cookie.remove('userinfo')
       navigateTo('/pages/login/login')
     },
   },

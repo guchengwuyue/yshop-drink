@@ -39,3 +39,6 @@ dev-stats.json
 .vscode
 
 .history
+.cursor/
+#忽略openspec目录
+openspec/

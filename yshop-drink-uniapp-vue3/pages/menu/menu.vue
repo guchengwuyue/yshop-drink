@@ -806,14 +806,14 @@ $menu-divider-height: 2rpx;
 @mixin quantity-control($size) {
 	.btn,
 	.number {
-		width: $size;
-		height: $size;
+		//width: $size;
+		//height: $size;
 		line-height: $size;
 		text-align: center;
 	}
 
 	.btn {
-		padding: 0;
+		//padding: 0;
 		border-radius: $border-radius-circle;
 	}
 }

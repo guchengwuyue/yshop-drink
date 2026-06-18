@@ -17,6 +17,7 @@ import { isWeixin } from '@/utils/util'
 import { VUE_APP_API_URL } from '@/config'
 import cookie from '@/utils/cookie'
 import { replace } from '@/utils/router'
+import { logger } from '@/utils/logger'
 
 const fly = new Fly()
 fly.config.baseURL = VUE_APP_API_URL
@@ -51,7 +52,7 @@ const defaultOpt = { login: true }
 
 function baseRequest(options) {
   const token = cookie.get('accessToken')
-   console.log('--> % token % token:\n', token)
+  logger.debug('[api] request token present:', !!token)
 
   options.headers = {
     ...options.headers,
@@ -81,7 +82,7 @@ function baseRequest(options) {
 	 if (res.data.code == 1004004002) {
 		 if(isWeixin()){
 			const url = cookie.get('index_url')
-			console.log('redirect_uri:',url)
+			logger.debug('[api] redirect_uri:', url)
 			//const url = `${location.origin}/h5/#/pages/index/index`
 			location.href = url
 			return
@@ -144,7 +145,7 @@ const request = ['post', 'put', 'patch'].reduce((request, method) => {
    * @returns {AxiosPromise}
    */
   request[method] = (url, data = {}, options = {}) => {
-    console.log(url, data)
+    logger.debug('[api]', method.toUpperCase(), url, data)
     return baseRequest(Object.assign({ url, data, method }, defaultOpt, options))
   }
   return request
