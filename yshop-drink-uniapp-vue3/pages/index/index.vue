@@ -31,12 +31,12 @@
 			<view class="index-content">
 				<view class="flex justify-between index-menu">
 					<view class="flex flex-column align-center index-menu__item" @tap="takein">
-						<view><image src="/static/images/index002.png" mode="aspectFit" class="index-menu__icon"></image></view>
+						<view><image src="/static/images/new003.jpg" mode="aspectFit" class="index-menu__icon"></image></view>
 						<view>自取</view>
 						<view class="font-small text-light-black">下单免排队</view>
 					</view>
 					<view class="flex flex-column align-center index-menu__item" @tap="takeout">
-						<view><image src="/static/images/index003.png" mode="aspectFit" class="index-menu__icon"></image></view>
+						<view><image src="/static/images/new002.jpg" mode="aspectFit" class="index-menu__icon"></image></view>
 						<view>外卖</view>
 						<view class="font-small text-light-black">美食送到家</view>
 					</view>

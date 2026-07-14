@@ -222,11 +222,6 @@
   				"iconPath": "static/images/tabBar/drink.png",
   				"selectedIconPath": "static/images/tabBar/drink-selected.png"
   			}, {
-  				"pagePath": "pages/cart/cart",
-  				"text": "购物车",
-  				"iconPath": "static/images/tabBar/cart.png",
-  				"selectedIconPath": "static/images/tabBar/cart-selected.png"
-  			},{
   				"pagePath": "pages/order/order",
   				"text": "订单",
   				"iconPath": "static/images/tabBar/order.png",
