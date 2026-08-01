@@ -1,152 +1,210 @@
+# 意象点餐 · yshop-drink
 
+在线点餐（堂食扫码 / 外卖 / 自取）系统，支持多门店、SaaS 多租户、桌台扫码点餐。  
+技术栈：Java 17 · Spring Boot 3 · Vue 3 · UniApp（H5 / 微信小程序）
+
+[官网](https://www.yixiang.co/) · [开源协议 MIT](#开源协议)
+
+---
+
+## 目录
+
+- [平台简介](#平台简介)
+- [演示地址](#演示地址)
+- [视频与交流](#视频与交流)
+- [项目结构](#项目结构)
+- [本地快速启动](#本地快速启动)
+- [界面预览](#界面预览)
+- [技术栈](#技术栈)
+- [特别鸣谢](#特别鸣谢)
+- [开源协议](#开源协议)
+
+---
 
 ## 平台简介
 
-意象点餐(扫码点餐)系统，在线点餐(外卖与自取)小程序模式，支持多门店模式，SaaS多租户模式,基础技术Java17，springboot3、vue3、uniapp(vue3)（支持H5、微信小程序）
-采用当前流行技术组合的前后端分离点餐系统： SpringBoot3、Spring Security OAuth2、MybatisPlus、SpringSecurity、jwt、redis、Vue3的前后端分离的系统， 
-包含外卖与自取、商品管理(多规格sku)、店铺管理、云小票打印、图片素材库、订单管理、积分兑换(积分+金额)、充值、优惠券、充值、多门店、微信公众号、商家中心、提前预约、桌面扫码点餐(单人或者多人协同)、收银台(支持扫码枪与扫码盒子收款)、会员卡、桌台点餐、自定义装修等功能，更适合企业或个人二次开发.
+前后端分离的扫码点餐系统，基于 Spring Boot 3、Spring Security OAuth2、MyBatis-Plus、Redis、JWT、Vue 3、UniApp 构建，适合企业或个人二次开发。
 
-官网地址：[https://www.yixiang.co/](https://www.yixiang.co/)
+### 核心功能
 
+| 模块 | 能力 |
+|------|------|
+| 点餐 | 外卖 / 自取、提前预约、桌台扫码（单人 / 多人协同） |
+| 商品 | 多规格 SKU、图片素材库 |
+| 门店 | 多门店、店铺管理、商家中心 |
+| 营销 | 优惠券、积分兑换（积分 + 金额）、充值、会员卡 |
+| 收银 | 收银台（扫码枪 / 扫码盒子）、云小票打印 |
+| 运营 | 订单管理、微信公众号、自定义装修、SaaS 多租户 |
 
+---
 
 ## 演示地址
 
-| 后台登陆：  | https://dc.yixiang.co   账号/密码：admin/admin123  |
-|---|---|
-| 门店登陆： | https://dc.yixiang.co   账号/密码：yixiang001/123456789  |
-|  移动端演示：关注右边公众号点击菜单其他系统体验点餐小程序与点餐H5，其中如果演示使用验证码登陆的点击下验证码默认验证码是9999 | ![输入图片说明](assets/77a93e8c07a913b838a756abadb383b9.png) |
+| 端 | 地址 | 账号 |
+|----|------|------|
+| 后台管理 | https://dc.yixiang.co | `admin` / `admin123` |
+| 门店端 | https://dc.yixiang.co | `yixiang001` / `123456789` |
+| 移动端 | 关注公众号 → 菜单「其他系统」体验小程序 / H5 | 验证码登录默认：`9999` |
 
-## 视频资料
-如果对您有帮助，您可以点右上角 "Star" 支持一下，这样我们才有继续免费下去的动力，谢谢！ QQ交流群 (入群前，请在网页右上角点 "Star" )，群里有视频教程与开发文档哦！！
+<p align="center">
+  <img src="assets/77a93e8c07a913b838a756abadb383b9.png" alt="公众号二维码" width="200" />
+</p>
 
-交流QQ群：544263002
+---
 
-## 项目说明
-    
+## 视频与交流
+
+如果项目对你有帮助，欢迎点右上角 **Star**，这是我们持续免费更新的动力。
+
+- **QQ 交流群**：`544263002`（入群前请先 Star）
+- 群内提供视频教程与开发文档
+
+---
+
+## 项目结构
 
 ```
-    yshop-drink.             Java工程
-    yshop-drink-vue          后台前端vue3工程
-    yshop-drink-uniapp-vue3  移动端uniapp(vue3版本)工程，支持微信小程序、h5
+yshop-drink/                 # Java 后端工程（本仓库）
+yshop-drink-vue              # 后台管理（Vue 3）
+yshop-drink-uniapp-vue3      # 移动端（UniApp Vue3，支持微信小程序 / H5）
 ```
 
+---
 
 ## 本地快速启动
-  ##### 1、环境要求
-   
-    ```
-        jdk17
-        mysql8
-        redis6+
-        node16+
-        maven3.8+
-    
-    ```
-  ##### 2、开发工具
-   
-    ```
-        idea
-        vscode
-        hbuilder
-    
-    ```
- ##### 3、后端启动
 
+### 1. 环境要求
 
--   3.1 请使用idea打开Java工程，自动会安装依赖
--   3.2 创建数据库且导入工程目录下sql/yixiang-drink.sql 文件
--   3.3 找到项目下的yshop-server 的yml,修改数据库相关信息和redis相关信息，如图：
-     ![输入图片说明](assets/image.png)
--   3.4 工程下输入
-    ``` 
-    mvn clean install package '-Dmaven.test.skip=true
-    ```
--   3.5 启动项目，如图
-    ![输入图片说明](assets/1702544439568.jpg)
+| 依赖 | 版本 |
+|------|------|
+| JDK | 17 |
+| MySQL | 8 |
+| Redis | 6+ |
+| Node.js | 16+ |
+| Maven | 3.8+ |
 
-##### 4、后台vue启动
+### 2. 开发工具
 
- - 4.1 vscode 打开vue工程，在目录下输入命令: 
-    ``` 
-    pnpm install
-    ```
- - 4.2 配置api如图
- ![输入图片说明](assets/1702544756749.jpg)
- - 4.3 本地启动:
-    ```
-     npm run dev
-    ```
+- **IDEA** — 后端
+- **VS Code** — 后台前端
+- **HBuilderX** — UniApp 移动端
 
-##### 5 移动端uniapp启动
- 
-  - 5.1 hbuilder导入uniapp项目，
-  - 5.2 配置api
-   ![输入图片说明](assets/WX20231214-171211@2x.png)
-  - 5.3 配置小程序
-   ![输入图片说明](assets/WX20231214-171416@2x.png)
-  - 5.4 运行小程序
-    ![输入图片说明](assets/WX20231214-171514@2x.png)
-  - 5.5 运行h5
-   
-    ![输入图片说明](assets/1702545370856.jpg)
--
+### 3. 后端启动
 
+1. 用 IDEA 打开 Java 工程，等待依赖自动安装  
+2. 创建数据库，导入工程目录下 `sql/yixiang-drink.sql`  
+3. 修改 `yshop-server` 中的 yml，配置数据库与 Redis：
 
+   ![数据库与 Redis 配置](assets/image.png)
 
-## 小程序截图
+4. 在工程根目录执行：
 
-| ![输入图片说明](assets/1000.jpg)| ![输入图片说明](assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260309235851_552_6.png) |
-|---|---|
-| ![输入图片说明](assets/200000.jpg)  |  ![输入图片说明](assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260309235857_557_6.png) |
-| ![输入图片说明](assets/10003.jpg)  | ![输入图片说明](assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260309235856_556_6.png) | 
+   ```bash
+   mvn clean install package -Dmaven.test.skip=true
+   ```
 
-## 后台截图
+5. 启动项目：
 
-| ![输入图片说明](assets/3000.png) | 
-| ![输入图片说明](assets/1230000.png)| 
-|---|---|
-| ![输入图片说明](assets/3001.png)  | 
-| ![输入图片说明](assets/3002.png)  | 
-| ![输入图片说明](assets/3003.png)  | ![输入图片说明](assets/3004.png) |
-![输入图片说明](assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260310000501_559_6.png)
-![输入图片说明](assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260310001028_564_6.png)
-![输入图片说明](assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260310001057_565_6.png)
+   ![启动后端](assets/1702544439568.jpg)
 
+### 4. 后台 Vue 启动
+
+1. 用 VS Code 打开 Vue 工程，安装依赖：
+
+   ```bash
+   pnpm install
+   ```
+
+2. 配置 API 地址：
+
+   ![配置 API](assets/1702544756749.jpg)
+
+3. 本地启动：
+
+   ```bash
+   npm run dev
+   ```
+
+### 5. 移动端 UniApp 启动
+
+1. 用 HBuilderX 导入 UniApp 项目  
+2. 配置 API：
+
+   ![配置 API](assets/WX20231214-171211@2x.png)
+
+3. 配置小程序：
+
+   ![配置小程序](assets/WX20231214-171416@2x.png)
+
+4. 运行微信小程序：
+
+   ![运行小程序](assets/WX20231214-171514@2x.png)
+
+5. 运行 H5：
+
+   ![运行 H5](assets/1702545370856.jpg)
+
+---
+
+## 界面预览
+
+### 小程序截图
+
+| | |
+|:---:|:---:|
+| ![小程序截图 1](assets/1000.jpg) | ![小程序截图 2](assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260309235851_552_6.png) |
+| ![小程序截图 3](assets/200000.jpg) | ![小程序截图 4](assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260309235857_557_6.png) |
+| ![小程序截图 5](assets/10003.jpg) | ![小程序截图 6](assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260309235856_556_6.png) |
+
+### 后台截图
+
+| | |
+|:---:|:---:|
+| ![后台截图 1](assets/3000.png) | ![后台截图 2](assets/1230000.png) |
+| ![后台截图 3](assets/3001.png) | ![后台截图 4](assets/3002.png) |
+| ![后台截图 5](assets/3003.png) | ![后台截图 6](assets/3004.png) |
+
+<p align="center">
+  <img src="assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260310000501_559_6.png" alt="后台截图 7" width="48%" />
+  <img src="assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260310001028_564_6.png" alt="后台截图 8" width="48%" />
+</p>
+
+<p align="center">
+  <img src="assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260310001057_565_6.png" alt="后台截图 9" width="48%" />
+</p>
+
+---
 
 ## 技术栈
-- Spring Boot3
 
-- Spring Security oauth2
+**后端**
 
-- MyBatis
-
-- MyBatisPlus
-
+- Spring Boot 3
+- Spring Security OAuth2
+- MyBatis / MyBatis-Plus
 - Redis
+- Lombok / Hutool
 
-- lombok
+**前端**
 
-- hutool
+- Vue 3
+- Element Plus
+- UniApp（Vue 3）
 
-- Vue3
-
-- Element UI
-
-- uniapp(vue3)
+---
 
 ## 特别鸣谢
 
+- [ruoyi-vue-pro](https://gitee.com/zhijiantianya/ruoyi-vue-pro)
+- [Element Plus](https://element-plus.gitee.io/zh-CN/)
+- [Vue](https://cn.vuejs.org/)
+- [pay-java-parent](https://gitee.com/egzosn/pay-java-parent)
+- [uvui](https://www.uvui.cn/)
+- [UniApp](https://uniapp.dcloud.net.cn/)
 
-- ruoyi-vue-pro:https://gitee.com/zhijiantianya/ruoyi-vue-pro
-- element-plus:https://element-plus.gitee.io/zh-CN/
-- vue:https://cn.vuejs.org/
-- pay-java-parent:https://gitee.com/egzosn/pay-java-parent
-- uvui：https://www.uvui.cn/
-- uniapp:https://uniapp.dcloud.net.cn/
-
+---
 
 ## 开源协议
 
-本项目采用比 Apache 2.0 更宽松的 [MIT License](https://gitee.com/guchengwuyue/yshop-drink/blob/master/LICENSE) 开源协议，个人与企业可 100% 免费使用，不用保留类作者、Copyright 信息。
-
+本项目采用比 Apache 2.0 更宽松的 [MIT License](https://gitee.com/guchengwuyue/yshop-drink/blob/master/LICENSE) 开源协议。  
+个人与企业可 **100% 免费使用**，无需保留类作者、Copyright 信息。
