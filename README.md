@@ -3,7 +3,7 @@
 在线点餐（堂食扫码 / 外卖 / 自取）系统，支持多门店、SaaS 多租户、桌台扫码点餐。  
 技术栈：Java 17 · Spring Boot 3 · Vue 3 · UniApp（H5 / 微信小程序）
 
-[官网](https://www.yixiang.co/) · [开源协议 MIT](#开源协议)
+[官网](https://www.yixiang.co/)
 
 ---
 
