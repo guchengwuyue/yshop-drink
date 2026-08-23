@@ -24,22 +24,18 @@ fly.config.baseURL = VUE_APP_API_URL
 
 fly.interceptors.response.use(
   response => {
-    // console.log(response)
     // 定时刷新access-token
     return response
   },
   error => {
-    if (error.toString() == 'Error: Network Error') {
-      handleLoginFailure()
-      return Promise.reject({ msg: '未登录', toLogin: true })
-    }
     if (error.status == 401) {
       handleLoginFailure()
       return Promise.reject({ msg: '未登录', toLogin: true })
     }
-    if (error.response.data.status == 5109) {
+    const errData = error.response && error.response.data
+    if (errData && errData.status == 5109) {
       uni.showToast({
-        title: error.response.data.msg,
+        title: errData.msg,
         icon: 'none',
         duration: 2000,
       })
@@ -58,12 +54,13 @@ function baseRequest(options) {
     ...options.headers,
   }
 
-  // if (options.login === true) {
-  options.headers = {
-    ...options.headers,
-    Authorization: 'Bearer ' + token,
+  // 尊重 login 选项；有 token 时才附带 Authorization，避免空 Bearer
+  if (options.login !== false && token) {
+    options.headers = {
+      ...options.headers,
+      Authorization: 'Bearer ' + token,
+    }
   }
-  // }
 
   // 结构请求需要的参数
   const { url, params, data, login, ...option } = options
@@ -76,14 +73,11 @@ function baseRequest(options) {
     .then(res => {
      
       const data = res.data || {}
-	   //console.log('res.status:',res)
-    // console.log('res.code:',res.code)
 	 // #ifdef H5
 	 if (res.data.code == 1004004002) {
 		 if(isWeixin()){
 			const url = cookie.get('index_url')
 			logger.debug('[api] redirect_uri:', url)
-			//const url = `${location.origin}/h5/#/pages/index/index`
 			location.href = url
 			return
 		}
@@ -117,17 +111,6 @@ function baseRequest(options) {
 
 
       return Promise.resolve(data.data, res)
-
-      // if ([401, 403].indexOf(data.status) !== -1) {
-      //   handleLoginFailure()
-      //   return Promise.reject({ msg: res.data.msg, res, data, toLogin: true })
-      // } else if (data.status === 200) {
-      //   return Promise.resolve(data, res)
-      // } else if (data.status == 5101) {
-      //   return Promise.reject({ msg: res.data.msg, res, data })
-      // } else {
-      //   return Promise.reject({ msg: res.data.msg, res, data })
-      // }
     })
 }
 

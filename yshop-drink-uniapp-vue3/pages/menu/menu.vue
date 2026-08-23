@@ -272,72 +272,6 @@ const shopAd = ref('')
 const isCartShow = ref(true)
 const popup = ref()
 
-// #region agent log
-const debugLog = (hypothesisId, location, message, data = {}) => {
-	fetch('http://127.0.0.1:7584/ingest/889fdfba-29d4-4509-84ce-3dfa9254da00', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': 'e0348b' },
-		body: JSON.stringify({
-			sessionId: 'e0348b',
-			runId: 'pre-fix',
-			hypothesisId,
-			location,
-			message,
-			data,
-			timestamp: Date.now()
-		})
-	}).catch(() => {})
-}
-const measureMenuLayout = () => {
-	const sys = uni.getSystemInfoSync()
-	const notice = !!store.value?.notice
-	const inlineHeight = `calc(100vh - 500rpx + ${notice ? '0rpx' : '60rpx'})`
-	let platform = 'OTHER'
-	// #ifdef H5
-	platform = 'H5'
-	// #endif
-	// #ifdef MP-WEIXIN
-	platform = 'MP-WEIXIN'
-	// #endif
-	debugLog('H1', 'menu.vue:measureMenuLayout', 'layout context', {
-		platform,
-		windowHeight: sys.windowHeight,
-		screenHeight: sys.screenHeight,
-		statusBarHeight: sys.statusBarHeight,
-		hasNotice: notice,
-		inlineHeight,
-		cssExpectedH5: 'calc(100vh - 212rpx - 188rpx)',
-		cssExpectedDefault: 'calc(100vh - 212rpx)'
-	})
-	const q = uni.createSelectorQuery()
-	q.select('.container').boundingClientRect()
-	q.select('.main').boundingClientRect()
-	q.select('.content').boundingClientRect()
-	q.select('.menus').boundingClientRect()
-	q.select('.goods').boundingClientRect()
-	q.select('.nav').boundingClientRect()
-	q.exec((res) => {
-		const [container, main, content, menus, goods, nav] = res || []
-		debugLog('H3', 'menu.vue:measureMenuLayout', 'parent rects', {
-			containerH: container?.height,
-			mainH: main?.height,
-			navH: nav?.height
-		})
-		debugLog('H1', 'menu.vue:measureMenuLayout', 'content rect', {
-			contentH: content?.height,
-			contentTop: content?.top,
-			windowHeight: sys.windowHeight,
-			heightRatio: content?.height && sys.windowHeight ? (content.height / sys.windowHeight).toFixed(3) : null
-		})
-		debugLog('H5', 'menu.vue:measureMenuLayout', 'scroll columns', {
-			menusH: menus?.height,
-			goodsH: goods?.height,
-			menusGoodsDelta: menus?.height != null && goods?.height != null ? Math.abs(menus.height - goods.height) : null
-		})
-	})
-}
-// #endregion
-
 const newkmUnit = computed(() => (param) =>{
   console.log('param:',param)
   return '10km'
@@ -500,7 +434,6 @@ const getShopList = async(res) => {
 			console.log('goods:',mygoods)
 			console.log('goods:',goods.value)
 			loading.value = false;
-			nextTick(() => measureMenuLayout())
 			uni.stopPullDownRefresh();
 		}
 	}

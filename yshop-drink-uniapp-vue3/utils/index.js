@@ -4,11 +4,8 @@ import router from './router'
 import cookie from './cookie'
 
 export const handleLoginFailure = () => {
-  // router.replace({
-  //   path: '/pages/login/login',
-  // })
   uni.redirectTo({
-    url: '/pages/login/login',
+    url: '/pages/components/pages/login/login',
   })
 }
 

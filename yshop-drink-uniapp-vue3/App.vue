@@ -13,6 +13,8 @@ import { APP_ID } from '@/config'
 
 onLaunch(() => {
 	console.log('App Launch')
+	// 冷启动从本地恢复会话，避免 Pinia 空态导致登录态丢失
+	main.init()
 })
 
 onShow(() => {

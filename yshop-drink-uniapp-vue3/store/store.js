@@ -22,12 +22,9 @@ export const useMainStore = defineStore('main', {
 	mycoupon: {}
   }),
   getters: {
-	  
-    isLogin(state) {//是否登录
-      return Object.keys(state.member).length > 0
-	  //return cookie.get('accessToken') ? true : false
-    }
-	//isLogin: state => Object.keys(state.member).length > 0	//是否登录
+    isLogin(state) {
+      return !!(state.token || cookie.get('accessToken'))
+    },
   },
   actions: {
 	DEL_COUPON() {
@@ -81,15 +78,18 @@ export const useMainStore = defineStore('main', {
       // return getUserInfo()
     },
     setSelectAddress(id) {
-      console.log('--> % setSelectAddress % id:\n', id)
-      this.selectAddress = this.address.filter(item => item.id == id)[0]
+      const list = Array.isArray(this.addresses) ? this.addresses : []
+      this.address = list.find(item => item.id == id) || {}
     },
     init() {
-      let accessToken = cookie.get('accessToken')
+      const accessToken = cookie.get('accessToken')
+      const userinfo = cookie.get('userinfo')
       if (accessToken) {
-        //return getUserInfo()
+        this.token = accessToken
       }
-      return null
+      if (userinfo && typeof userinfo === 'object') {
+        this.member = userinfo
+      }
     },
     logout() {
       this.member = {}
@@ -97,7 +97,7 @@ export const useMainStore = defineStore('main', {
       this.token = ''
       cookie.remove('accessToken')
       cookie.remove('userinfo')
-      navigateTo('/pages/login/login')
+      navigateTo('/pages/components/pages/login/login')
     },
   },
 })

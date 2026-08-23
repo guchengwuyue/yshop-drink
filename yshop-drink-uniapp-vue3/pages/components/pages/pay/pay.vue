@@ -404,7 +404,7 @@ const choiceTime = (value) => {
 	if (minute < 10) {
 		minute = '0' + minute;
 	}
-	defaultTime,value = hour + ':' + minute;
+	defaultTime.value = hour + ':' + minute;
 	takeoutTIme.value = false;
 }
 const cancelTime = (value) => {
@@ -433,7 +433,7 @@ const takout = (value) => {
 			if (coupon.value.type == 1 && orderType.value == 'takeout') {
 				coupon.value = {};
 			}
-			if (coupon.value.type == 2 && orderType.value == 'takeint') {
+			if (coupon.value.type == 2 && orderType.value == 'takein') {
 				coupon.value = {};
 			}
 		}

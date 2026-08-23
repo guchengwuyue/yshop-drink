@@ -4,10 +4,10 @@ import api from './api'
  * shopGetList 
  */
 export function shopGetList(data) {
-  return api.get('/store/list', data, { login: false })
+  return api.get('/store/list', data, { login: true })
 }
 
 
 export function menuAds(data) {
-  return api.get('/ad/list', data, { login: false })
+  return api.get('/ad/list', data, { login: true })
 }
