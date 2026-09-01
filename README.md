@@ -40,11 +40,10 @@
 
 ## 演示地址
 
-| 端 | 地址 | 账号 |
-|----|------|------|
-| 后台管理 | https://dc.yixiang.co | `admin` / `admin123` |
-| 门店端 | https://dc.yixiang.co | `yixiang001` / `123456789` |
-| 移动端 | 关注公众号 → 菜单「其他系统」体验小程序 / H5 | 验证码登录默认：`9999` |
+| 端 | 地址 | 
+|----|------|
+| 演示地址 | https://www.yixiang.co/p/yixiangdiancanxitong.html|
+
 
 <p align="center">
   <img src="assets/77a93e8c07a913b838a756abadb383b9.png" alt="公众号二维码" width="200" />
