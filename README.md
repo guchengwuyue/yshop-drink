@@ -45,10 +45,6 @@
 | 演示地址 | https://www.yixiang.co/p/yixiangdiancanxitong.html|
 
 
-<p align="center">
-  <img src="assets/77a93e8c07a913b838a756abadb383b9.png" alt="公众号二维码" width="200" />
-</p>
-
 ---
 
 ## 视频与交流
