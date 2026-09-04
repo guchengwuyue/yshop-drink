@@ -158,5 +158,32 @@ export function parseQuery() {
   
     return res
   }
-  
+
+/**
+ * 节流：wait 内最多执行一次；尾部补一次保证最后状态更新
+ */
+export function throttle(fn, wait = 100) {
+	let last = 0
+	let timer = null
+	return function (...args) {
+		const now = Date.now()
+		const remaining = wait - (now - last)
+		const run = () => {
+			last = Date.now()
+			fn.apply(this, args)
+		}
+		if (remaining <= 0) {
+			if (timer) {
+				clearTimeout(timer)
+				timer = null
+			}
+			run()
+		} else if (!timer) {
+			timer = setTimeout(() => {
+				timer = null
+				run()
+			}, remaining)
+		}
+	}
+}
 

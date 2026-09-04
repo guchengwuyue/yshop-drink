@@ -18,7 +18,7 @@
 						<view class="mine-user__info d-flex flex-column flex-fill overflow-hidden">
 							<view v-if="isLogin"
 								class="font-size-lg font-weight-bold d-flex justify-content-start align-items-center"
-								@tap="serv({type:'pages',pages:'/pages/components/pages/mine/userinfo'})">
+								@tap="serv({type:'pages',pages:'/pages-user/mine/userinfo'})">
 								<view class="text-truncate">{{ member.nickname }}</view>
 								<view class="iconfont iconarrow-right line-height-100"></view>
 							</view>
@@ -27,13 +27,13 @@
 					</view>
 					<!-- user grid begin -->
 					<view class="mine-user__stats w-100 d-flex align-items-center just-content-center">
-						<view class="mine-user__stat" @tap="serv({type:'pages',pages:'/pages/components/pages/coupons/coupons'})">
+						<view class="mine-user__stat" @tap="serv({type:'pages',pages:'/pages-user/coupons/coupons'})">
 							<view class="value font-size-extra-lg font-weight-bold text-color-base">
 								{{ isLogin ? member.couponCount : 0}}
 							</view>
 							<view class="font-size-sm text-color-assist">优惠券</view>
 						</view>
-						<view class="mine-user__stat" @tap="serv({type:'pages', pages: '/pages/components/pages/balance/bill?cate=1'})">
+						<view class="mine-user__stat" @tap="serv({type:'pages', pages: '/pages-user/balance/bill?cate=1'})">
 							<view class="value font-size-extra-lg font-weight-bold text-color-base">
 								{{ isLogin ? member.integral : 0 }}
 							</view>
@@ -45,7 +45,7 @@
 							</view>
 							<view class="font-size-sm text-color-assist">余额</view>
 						</view>
-						<view class="mine-user__stat" @tap="serv({type:'pages', pages: '/pages/components/pages/balance/bill?cate=0'})">
+						<view class="mine-user__stat" @tap="serv({type:'pages', pages: '/pages-user/balance/bill?cate=0'})">
 							<view class="value font-size-extra-lg font-weight-bold text-color-base">
 								{{ isLogin ? member.sumMoney : 0 }}
 							</view>
@@ -143,7 +143,7 @@ const makePhoneCall = (phoneNumber) => {
 }
 const login = () => {
 	uni.navigateTo({
-		url: '/pages/components/pages/login/login'
+		url: '/pages-user/login/login'
 	})
 }
 const packages = () => {
@@ -152,7 +152,7 @@ const packages = () => {
 		return
 	}
 	uni.navigateTo({
-		url: '/pages/components/pages/packages/index'
+		url: '/pages-checkout/packages/index'
 	})
 }
 const serv = (item) => {
@@ -173,12 +173,12 @@ const serv = (item) => {
 			break;
 		case 'menu':
 			uni.navigateTo({
-				url: '/pages/components/pages/mine/service?id=' + item.id + '&name=' + item.name
+				url: '/pages-user/mine/service?id=' + item.id + '&name=' + item.name
 			})
 			break;
 		case 'content':
 			uni.navigateTo({
-				url: '/pages/components/pages/mine/content?id=' + item.id + '&name=' + item.name
+				url: '/pages-user/mine/content?id=' + item.id + '&name=' + item.name
 			})
 			break;
 	}

@@ -5,16 +5,16 @@
 	  left-arrow
 	  @leftClick="$onClickLeft"
 	/>
-	<view class="container order-page">
+	<view class="container orders-page">
 		<view class="bg-white">
 			<uv-tabs :list="tabList" :current="current" @change="change" keyName="name" :scrollable="false"></uv-tabs>
 		</view>
-		<view class="order-page__list d-flex flex-column w-100">
-			<view class="order-item" v-for="item in orders" :key="item.orderId">
+		<view class="orders-page__list d-flex flex-column w-100">
+			<view class="orders-item" v-for="item in orders" :key="item.orderId" @tap="detail(item.orderId)">
 				<list-cell :hover="false">
 					<view class="w-100 d-flex align-items-center">
 						<view class="flex-fill d-flex flex-column">
-							<view class="font-size-lg text-color-base order-item__shop">
+							<view class="font-size-lg text-color-base orders-item__shop">
 								{{ item.shop.name }}
 							</view>
 							<view class="font-size-sm text-color-assist">取餐号：{{ item.numberId }}</view>
@@ -27,9 +27,9 @@
 				</list-cell>
 				<list-cell :hover="false" last>
 					<view class="w-100 d-flex flex-column">
-						<view class="w-100 text-truncate font-size-lg text-color-base order-item__goods">
-							<view class="flex order-item__goods-row mb-2" v-for="(good, gIndex) in item.cartInfo" :key="good.id || `${good.title}-${gIndex}`">
-								<image :src="good.image" mode="aspectFill" class="order-item__thumb" lazy-load></image>
+						<view class="w-100 text-truncate font-size-lg text-color-base orders-item__goods">
+							<view class="flex orders-item__goods-row mb-2" v-for="(good, gIndex) in item.cartInfo" :key="good.id || `${good.title}-${gIndex}`">
+								<image :src="good.image" mode="aspectFill" class="orders-item__thumb" lazy-load></image>
 								<view class="flex flex-column">
 									<view class="font-size-medium mt-1 text-color-base">{{ good.title }}</view>
 									<view class="font-size-sm mt-1">{{ good.spec }}</view>
@@ -37,24 +37,24 @@
 								</view>
 							</view>
 						</view>
-						<view class="d-flex justify-content-between align-items-center order-item__meta">
+						<view class="d-flex justify-content-between align-items-center orders-item__meta">
 							<view class="font-size-sm text-color-assist">
 								{{formatDateTime(item.createTime) }}
 							</view>
 							<view class="d-flex font-size-sm text-color-base align-items-center">
-								<view class="order-item__summary">共{{ goodsNum(item.cartInfo) }}件商品，实付</view>
+								<view class="orders-item__summary">共{{ goodsNum(item.cartInfo) }}件商品，实付</view>
 								<view class="font-size-lg">￥{{ item.payPrice }}</view>
 							</view>
 						</view>
-						<view class="d-flex align-items-center justify-content-end order-item__actions">
+						<view class="d-flex align-items-center justify-content-end orders-item__actions">
 							<button
 								v-if="item.paid > 0 && item.status < 2 && item.refundStatus == 0"
-								class="order-item__btn"
+								class="orders-item__btn"
 								plain
 								size="mini"
 								@tap.stop="receive(item)"
 							>确认收到餐</button>
-							<button class="order-item__btn" plain size="mini" @tap="detail(item.orderId)">订单详情</button>
+							<button class="orders-item__btn" plain size="mini" @tap="detail(item.orderId)">订单详情</button>
 						</view>
 					</view>
 				</list-cell>
@@ -127,8 +127,6 @@ onReachBottom(() => {
 
 // tab栏切换
 const change = (e) => {
-	//console.log('e;',e.type)
-	//console.log('e.index;',e.index)
 	type.value = e.type
 	getOrders(true)
 }
@@ -167,54 +165,53 @@ const receive  = async(order) => {
 </script>
 
 <style lang="scss" scoped>
-// 订单页局部 token（与 uni.scss 全局变量配合）
-$order-list-padding-x: $spacing-row-base;
-$order-list-padding-bottom: 0;
-$order-item-gap: $spacing-row-lg;
-$order-section-gap: $spacing-row-base;
-$order-btn-gap: $spacing-row-base;
-$order-summary-gap: $spacing-row-base;
-$order-thumb-size: 160rpx;
-$order-thumb-radius: 8rpx;
+$orders-list-padding-x: $spacing-row-base;
+$orders-list-padding-bottom: 0;
+$orders-item-gap: $spacing-row-lg;
+$orders-section-gap: $spacing-row-base;
+$orders-btn-gap: $spacing-row-base;
+$orders-summary-gap: $spacing-row-base;
+$orders-thumb-size: 160rpx;
+$orders-thumb-radius: 8rpx;
 
-.order-page {
-	--order-thumb-size: #{$order-thumb-size};
+.orders-page {
+	--orders-thumb-size: #{$orders-thumb-size};
 
 	&__list {
-		padding: $order-list-padding-x;
-		padding-bottom: $order-list-padding-bottom;
+		padding: $orders-list-padding-x;
+		padding-bottom: $orders-list-padding-bottom;
 	}
 }
 
-.order-item {
-	margin-bottom: $order-item-gap;
+.orders-item {
+	margin-bottom: $orders-item-gap;
 
 	&__shop {
-		margin-bottom: $order-section-gap;
+		margin-bottom: $orders-section-gap;
 	}
 
 	&__goods {
-		margin-bottom: $order-section-gap;
+		margin-bottom: $orders-section-gap;
 	}
 
 	&__thumb {
 		flex-shrink: 0;
-		width: var(--order-thumb-size);
-		height: var(--order-thumb-size);
+		width: var(--orders-thumb-size);
+		height: var(--orders-thumb-size);
 		margin-right: $spacing-row-lg;
-		border-radius: $order-thumb-radius;
+		border-radius: $orders-thumb-radius;
 	}
 
 	&__meta {
-		margin-bottom: $order-item-gap;
+		margin-bottom: $orders-item-gap;
 	}
 
 	&__summary {
-		margin-right: $order-summary-gap;
+		margin-right: $orders-summary-gap;
 	}
 
 	&__btn + &__btn {
-		margin-left: $order-btn-gap;
+		margin-left: $orders-btn-gap;
 	}
 }
 </style>

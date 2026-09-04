@@ -15,21 +15,27 @@ onLaunch(() => {
 	console.log('App Launch')
 	// 冷启动从本地恢复会话，避免 Pinia 空态导致登录态丢失
 	main.init()
+	// #ifdef MP-WEIXIN
+	// 冷启动静默登录一次；已有 token 则跳过
+	if (!main.isLogin) {
+		wechatMiniLogin()
+	}
+	// #endif
 })
 
 onShow(() => {
     console.log('App Show')
    
-	// 检查用户登录情况
 	// #ifdef H5
 	if(isWeixin()){
 		oAuth()
-		// H5编译的代码
-		// 判断是否是微信浏览器
 	}
 	// #endif
 	// #ifdef MP-WEIXIN
-	wechatMiniLogin();
+	// 仅在 token 失效/未登录时再静默登录，避免每次 onShow 都强制登录
+	if (!main.isLogin) {
+		wechatMiniLogin()
+	}
 	// #endif
 })
 

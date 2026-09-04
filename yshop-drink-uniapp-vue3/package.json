@@ -9,9 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vant/area-data": "^1.5.0",
     "flyio": "^0.6.14",
-    "jweixin-module": "^1.6.0",
     "pinia": "^2.1.6",
     "weixin-js-sdk": "^1.6.3"
   }

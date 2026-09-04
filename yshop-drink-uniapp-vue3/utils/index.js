@@ -5,7 +5,7 @@ import cookie from './cookie'
 
 export const handleLoginFailure = () => {
   uni.redirectTo({
-    url: '/pages/components/pages/login/login',
+    url: '/pages-user/login/login',
   })
 }
 

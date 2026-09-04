@@ -97,7 +97,7 @@ export const useMainStore = defineStore('main', {
       this.token = ''
       cookie.remove('accessToken')
       cookie.remove('userinfo')
-      navigateTo('/pages/components/pages/login/login')
+      navigateTo('/pages-user/login/login')
     },
   },
 })

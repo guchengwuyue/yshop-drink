@@ -58,7 +58,7 @@
 					<scroll-view class="menus" :scroll-into-view="menuScrollIntoView" scroll-with-animation scroll-y>
 						<view class="wrapper">
 							<view class="menu" :id="`menu-${item.id}`" :class="{'current': item.id === currentCateId}"
-								v-for="(item, index) in goods" :key="index" @tap="handleMenuTap(item.id)">
+								v-for="item in goods" :key="item.id" @tap="handleMenuTap(item.id)">
 								<text>{{ item.name }}</text>
 								<view class="dot" v-show="menuCartNum(item.id)">{{ menuCartNum(item.id) }}</view>
 							</view>
@@ -70,17 +70,17 @@
 						<view class="wrapper">
 							<view class="list">
 								<!-- category begin -->
-								<view class="category" v-for="(item, index) in goods" :key="index"
+								<view class="category" v-for="item in goods" :key="item.id"
 									:id="`cate-${item.id}`">
 									<view class="title">
 										<text>{{ item.name }}</text>
-										<image mode="aspectFill" :src="item.icon" class="icon"></image>
+										<image mode="aspectFill" :src="item.icon" class="icon" lazy-load></image>
 									</view>
 									<view class="items">
 										<!-- 商品 begin -->
-										<view class="good" v-for="(good, key) in item.goodsList" :key="key"
+										<view class="good" v-for="good in item.goodsList" :key="good.id"
 											:class="{'background-grey': good.stock <= 0}">
-											<image mode="aspectFill" :src="good.image" class="image"
+											<image mode="aspectFill" :src="good.image" class="image" lazy-load
 												@tap="showGoodDetailModal(item, good)"></image>
 											<view class="right">
 												<text class="name">{{ good.storeName }}</text>
@@ -194,7 +194,7 @@
 					 </view>
 					 <scroll-view class="cart-list" scroll-y>
 					  <view class="wrapper">
-					   <view class="item" v-for="(item, index) in cart" :key="index">
+					   <view class="item" v-for="(item, index) in cart" :key="`${item.id}-${item.valueStr || index}`">
 						<view class="left">
 						 <view class="name">{{ item.name }}</view>
 						 <view class="props">{{ item.valueStr }}</view>
@@ -241,8 +241,8 @@ import {
 } from 'vue'
 import { useMainStore } from '@/store/store'
 import { storeToRefs } from 'pinia'
-import { onLoad,onShow ,onPullDownRefresh,onHide} from '@dcloudio/uni-app'
-import { formatDateTime,kmUnit } from '@/utils/util'
+import { onLoad,onShow ,onPullDownRefresh,onHide,onUnload} from '@dcloudio/uni-app'
+import { formatDateTime,kmUnit,throttle } from '@/utils/util'
 import {
   shopNearby,
   menuGoods
@@ -308,12 +308,12 @@ const spread = computed(() => { //差多少元起送
 	return parseFloat((store.value.min_price - getCartGoodsPrice).toFixed(2))
 })
 
-// 监听自定义事件
-uni.$on('refreshMenu', () => {
-	// 在这里执行onLoad逻辑
+// 监听自定义事件（需与 $off 使用同一引用）
+const refreshMenuHandler = () => {
 	console.log('refreshMenu1:',store.value.id)
 	init()
-})
+}
+uni.$on('refreshMenu', refreshMenuHandler)
 
 onPullDownRefresh(() => {
 	init()
@@ -331,6 +331,9 @@ onShow(() => {
 	refreshCart()
 	shopAd.value = uni.getStorageSync('shopAd')
 })
+onUnload(() => {
+	uni.$off('refreshMenu', refreshMenuHandler)
+})
 
 const openCartShow = () =>{
 	isCartShow.value = false
@@ -345,7 +348,7 @@ const in_array = (search, array) => {
 }
 const selectShop = () => {
 	uni.navigateTo({
-		url: '/pages/components/pages/shop/shop'
+		url: '/pages-checkout/shop/shop'
 	})
 }
 const uToast = ref()
@@ -473,7 +476,7 @@ const takout = (force = false) => {
 
 	if (!isLogin.value) {
 		uni.navigateTo({
-			url: '/pages/components/pages/login/login'
+			url: '/pages-user/login/login'
 		})
 		return
 	} 
@@ -485,7 +488,7 @@ const takein = (force = false) => {
 
 	if (!isLogin.value) {
 		uni.navigateTo({
-			url: '/pages/components/pages/login/login'
+			url: '/pages-user/login/login'
 		})
 		return
 	} 
@@ -499,11 +502,10 @@ const handleMenuTap = (id) => { //点击菜单项事件
 	currentCateId.value = id
 	nextTick(() => cateScrollTop.value = goods.value.find(item => item.id == id).top)
 }
-const handleGoodsScroll = ({ detail }) => { //商品列表滚动事件
+const handleGoodsScroll = throttle(({ detail }) => { //商品列表滚动事件（节流，减轻分类联动开销）
 	if (!sizeCalcState.value) {
 		calcSize()
 	}
-	console.log('scrollTop:',detail)
 	const {
 		scrollTop
 	} = detail
@@ -511,7 +513,7 @@ const handleGoodsScroll = ({ detail }) => { //商品列表滚动事件
 	if (tabs.length > 0) {
 		currentCateId.value = tabs[0].id
 	}
-}
+}, 100)
 const calcSize = () => {
 	let h = 10
 	let view = uni.createSelectorQuery().select('#ads')
@@ -671,7 +673,7 @@ const toPay = () => {
 
 	if (!isLogin.value) {
 		uni.navigateTo({
-			url: '/pages/components/pages/login/login'
+			url: '/pages-user/login/login'
 		})
 		return
 	} else {
@@ -695,7 +697,7 @@ const toPay = () => {
 		uni.setStorageSync('cart', JSON.parse(JSON.stringify(cart.value)))
 
 		uni.navigateTo({
-			url: '/pages/components/pages/pay/pay'
+			url: '/pages-checkout/pay/pay'
 		})
 	}
 
