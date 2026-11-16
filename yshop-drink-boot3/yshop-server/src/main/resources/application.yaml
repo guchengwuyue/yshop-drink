@@ -16,9 +16,7 @@ spring:
       max-request-size: 32MB # 设置总上传的文件大小
   mvc:
     pathmatch:
-      matching-strategy: ANT_PATH_MATCHER # 解决 SpringFox 与 SpringBoot 2.6.x 不兼容的问题，参见 SpringFoxHandlerProviderBeanPostProcessor 类
-#    throw-exception-if-no-handler-found: true # 404 错误时抛出异常，方便统一处理
-#    static-path-pattern: /static/** # 静态资源路径; 注意：如果不配置，则 throw-exception-if-no-handler-found 不生效！！！ TODO yshop：不能配置，会导致 swagger 不生效
+      matching-strategy: ANT_PATH_MATCHER # 兼容部分路径匹配场景；项目文档栈为 springdoc/knife4j
 
   # Jackson 配置项
   jackson:
@@ -49,17 +47,6 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
-
-# 工作流 Flowable 配置
-#flowable:
-#  # 1. false: 默认值，Flowable 启动时，对比数据库表中保存的版本，如果不匹配。将抛出异常
-#  # 2. true: 启动时会对数据库中所有表进行更新操作，如果表存在，不做处理，反之，自动创建表
-#  # 3. create_drop: 启动时自动创建表，关闭时自动删除表
-#  # 4. drop_create: 启动时，删除旧表，再创建新表
-#  database-schema-update: true # 设置为 false，可通过 https://github.com/flowable/flowable-sql 初始化
-#  db-history-used: true # flowable6 默认 true 生成信息表，无需手动设置
-#  check-process-definitions: false # 设置为 false，禁用 /resources/processes 自动部署 BPMN XML 流程
-#  history-level: audit # full：保存历史数据的最高级别，可保存全部流程相关细节，包括流程流转各节点参数
 
 # MyBatis Plus 的配置项
 mybatis-plus:
@@ -101,8 +88,7 @@ easy-trans:
 
 aj:
   captcha:
-    jigsaw: classpath:images/jigsaw # 滑动验证，底图路径，不配置将使用默认图片；以 classpath: 开头，取 resource 目录下路径
-    pic-click: classpath:images/pic-click # 滑动验证，底图路径，不配置将使用默认图片；以 classpath: 开头，取 resource 目录下路径
+    # 不配置 jigsaw/pic-click 时使用组件自带默认底图
     cache-type: redis # 缓存 local/redis...
     cache-number: 1000 # local 缓存的阈值,达到这个值，清除缓存
     timing-clear: 180 # local定时清除过期缓存(单位秒),设置为0代表不执行
@@ -115,32 +101,6 @@ aj:
     req-get-minute-limit: 30 # get 接口一分钟内请求数限制
     req-check-minute-limit: 60 # check 接口一分钟内请求数限制
     req-verify-minute-limit: 60 # verify 接口一分钟内请求数限制
-
---- #################### 消息队列相关 ####################
-
-# rocketmq 配置项，对应 RocketMQProperties 配置类
-rocketmq:
-  # Producer 配置项
-  producer:
-    group: ${spring.application.name}_PRODUCER # 生产者分组
-
-spring:
-  # Kafka 配置项，对应 KafkaProperties 配置类
-  kafka:
-    # Kafka Producer 配置项
-    producer:
-      acks: 1 # 0-不应答。1-leader 应答。all-所有 leader 和 follower 应答。
-      retries: 3 # 发送失败时，重试发送的次数
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer # 消息的 value 的序列化
-    # Kafka Consumer 配置项
-    consumer:
-      auto-offset-reset: earliest # 设置消费者分组最初的消费进度为 earliest 。可参考博客 https://blog.csdn.net/lishuangzhe7047/article/details/74530417 理解
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: '*'
-    # Kafka Consumer Listener 监听器配置
-    listener:
-      missing-topics-fatal: false # 消费监听接口监听的主题不存在时，默认会报错。所以通过设置为 false ，解决报错
 
 --- #################### yshop相关配置 ####################
 
@@ -159,15 +119,6 @@ yshop:
     enable: true # websocket的开关
     path: /infra/ws # 路径
     sender-type: local # 消息发送的类型，可选值为 local、redis、rocketmq、kafka、rabbitmq
-    sender-rocketmq:
-      topic: ${spring.application.name}-websocket # 消息发送的 RocketMQ Topic
-      consumer-group: ${spring.application.name}-websocket-consumer # 消息发送的 RocketMQ Consumer Group
-    sender-rabbitmq:
-      exchange: ${spring.application.name}-websocket-exchange # 消息发送的 RabbitMQ Exchange
-      queue: ${spring.application.name}-websocket-queue # 消息发送的 RabbitMQ Queue
-    sender-kafka:
-      topic: ${spring.application.name}-websocket # 消息发送的 Kafka Topic
-      consumer-group: ${spring.application.name}-websocket-consumer # 消息发送的 Kafka Consumer Group
   swagger:
     title: yshop意象点餐系统
     description: 提供管理后台、用户 App 的所有功能
@@ -192,7 +143,6 @@ yshop:
       - /admin-api/infra/file/*/get/** # 获取图片，和租户无关
       - /admin-api/system/sms/callback/* # 短信回调接口，无法带上租户编号
       - /admin-api/pay/notify/** # 支付回调通知，不携带租户编号
-      - /jmreport/* # 积木报表，无法携带租户编号
       - /admin-api/mp/open/** # 微信公众号开放平台，微信回调接口，无法携带租户编号
       - /admin-api/file/qrcode/** # 二维码不需要
       - /app-api/order/notify/* # 支付回调通知，不携带租户编号
@@ -235,24 +185,5 @@ yshop:
     send-maximum-quantity-per-day: 10
     begin-code: 9999 # 这里配置 9999 的原因是，测试方便。
     end-code: 9999 # 这里配置 9999 的原因是，测试方便。
-  trade:
-    order:
-      app-id: 1 # 商户编号
-      pay-expire-time: 2h # 支付的过期时间
-      receive-expire-time: 14d # 收货的过期时间
-      comment-expire-time: 7d # 评论的过期时间
-    express:
-      client: kd_niao
-      kd-niao:
-        api-key: cb022f1e-48f1-4c4a-a723-9001ac9676b8
-        business-id: 1809751
-      kd100:
-        key: pLXUGAwK5305
-        customer: E77DF18BE109F454A5CD319E44BF5177
 
 debug: false
-
-# 积木报表配置
-jeecg:
-  jmreport:
-    saas-mode: tenant
